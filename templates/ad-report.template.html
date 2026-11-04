@@ -1,0 +1,3479 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>__REPORT_TITLE__</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  @font-face{font-family:'ReportNum';src:url(data:font/woff;base64,d09GRgABAAAAAAjcAA0AAAAACrAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABPUy8yAAABoAAAAE0AAABgaO2DrGNtYXAAAAI0AAAARwAAAFZBwuC5Z2x5ZgAAAqAAAATqAAAGPmgUsmZoZWFkAAABMAAAADYAAAA2Lb0ibGhoZWEAAAFoAAAAIAAAACQIMwQmaG10eAAAAfAAAABEAAAARCf6AWFrZXJuAAAHjAAAAFAAAABsAPAA9mxvY2EAAAJ8AAAAJAAAACQM2A6obWF4cAAAAYgAAAAYAAAAIAAcAEpuYW1lAAAH3AAAAKEAAAEiEwgulXBvc3QAAAiAAAAAFAAAACD/qQAtdmhlYQAACJQAAAAiAAAAJASREb12bXR4AAAIuAAAACMAAAAkBe4AigABAAAAAQAAFdL5cl8PPPUAAwOEAAAAAOLX7UUAAAAA5w3yD//t/2QE0wM0AAAABwACAAAAAAAAeJxjYGRgYC7478PAwPLx/9v/11kuMzAyoAJBALGBB2B4nGNgZGBgEGTwZOBiAAEQDwUAAAoiAGd4nGNgZl7J3MLAysDA5Mkkw8DA4AahGa0ZohhDGFABIwMDAxOME+od7sfgwKCisJJp038fhgXMBQxboGoYmJSY9jAwMCgwMAAAu18KfQAAAAHCAFQCWP/7AlgAawJY//8CWP/9Alj/7QJYAAYCWAAHAlgACwJY//8CWAACARIAHQESAB8BgwAyAoQAGATxAB4DpwABeJwtx7sNQFAAQNHjPYX4RWEABZ2IVmsYuxnHBEZ5QlT3XARE9KLsa25HqRAEk8U2nClhNFt/S9d9yJTq99Dq1BrVA3OyCpYAAAAAYgCNAJwAxgDwAQsBNgFzAYgB0QIOAiQCPwJMApACxgMfeJx9VF1sFFUUPvcO3QGLQLud3dKfaaezP+wsbNu5e2e22+n+Fdrlx1KqNe22VG1LJbJQflSK1aiRlGZLrTSwD8QHRSiNyouIiF2Db6YvEiMxBniAEH0gMUar6QN0xsxugYZEJ3POTM65957vft/JgafgOeNDdICpBAZYyAc7lIMbvFALDRAHyBMKBIYjlBUpcXOEEk6kIkeom8t5kv0S6l7Mi49iIiWU4Qhr/qqEogP6XVR+M80nEhrPJ/g0P5ROa1pCS/C8ltY667W0pqXD4XR3uLyfObpweteuuPeKXCTFBwb2aXxC4QU+zKuVFT0V4Vd5gecFfqGbl3he4gEb9405vBPPwmooBbC5XNSvKES22bgii0VUFOp3iVUWrshGrqe2b091dIy1tIx1BCKRQCAcDjzdfvbgwbPtOX+6f+/eftMAwR4ANI0zkAcgiAUiFdD05RHUgKVJAGQYAFjDs7AWQBCo82EV1v2oNMsKWFv4Da1YV0ZqPZuKR6RTL2w/EqvZNIHWHp53qiVOd1VVe3gzeTFSNxB+D5CxYMxhFWegBABy4KtcbtVmI7JC/aJIVYEKHItu7Iwd693yAW3yvOxXI6+1HtV/RX+fRJN7WkK7I86q8bIKj2PzkYnJ1z8BZPwOgN/FGVgF4OREKlBEkCkk4TB3UR9D0e/0Gx9dSKZSqWF0We8bHj4FgMBizOHofyFxiaJV4ASWoC/HYyN9W07QuGfAr0aiO2Yc6Cv97vJaNDPUF00uYnE616FTk4OAgTXm8PN4FkrBbZ778OBFuexslkALq5DCJZqhqcFo/M1tJz/rnkoG9zgb6TOxbusyS6yXDQarq7U6gjJqf7Q5Gbx4/vDnnSXFI46G4OrKDfpVWfLKfo8km/fJB8DNOAPLARAjWkVOLBBw84Pv/5o9gzXctPANdu9DDABjGMYc7szq6oTaJbc3UapLOot1ZdHl+FiKF7vlbaOJztGtsq+56c0dbW81xecJkbyEeGk4TP2hkB+1tymxPkr7YkpbqdIR6pLlrlCHcl1yiB6P6JB0WuuRamokTy0ABmzM4R2PWXusBpEVVVEfgnuCtfOfdp/bG3zFuZG0RBNFbF5jb2OWx/r6OtkXDFbj2S+mc3yJAbXQ6ctxqF81GZMliZislRvz8A9cM9mzmSWIbFYXu8Mhny8U3rAiVF1TX19THTLXVhj92bWrAJRc94tqFhe5oq20aoO+0ooG37X6Gvt67+SZfFmoqTd3yagYtaFzwAAgTqCoTb+Nzo2PAwPFxihOMn4QwAVeAIeF5UTqyjahnfqwqQYlnNk0bo7HnMNOLVwh9bs5nBw6sH/LManB1e+P9zUOH9o/3BqIb216KaYPBgI3ydtDawaTy6SKVIkjb6JAenZj+xur9iXza8fc+ZNrpLZG3XqocL1+wSnYBgHygAdY9hPOwEpYA0VQDGXmNGAYkSFWq/kiSuwsJXYnJ6gqJ6rMiZljx2d+uXR88uP3T0zdv/RD2b35Euas/kfln3cqUUbfiDN6NfpRl9DP+tc9Pake80n19Ji1kHGHmcK3YDVYoRw2QB1A4RPTDCERAfUvqgz/M+smugjpCgazHu/WmW/RA/0dyWqzWdEtM1iXS1ntdqtpyKv0RiJ9itIbjfZSNL1gw/f0262tbo/Hrfse5SK9yqgZMu1fybiFeQAAeJwdxMENwjAQADC3R0SrJOIm6AB9MRbTdhAEI6AgxQ9jwcvi4Smcijp+ijZPxV0Km2q3afM+LlUR2rxbx1sX46u7jY+0Cqk6pOb4A8ABDd54nIXMvWoCURRF4c+oERsfINXFItgoRkQQu9glECT4h50EGUXJyGgKX8LniG8pDLeYIhBOsw5774WalbJSpY4WkUuaWpEfNLxFLhtYRq4UOlVPrpEfBb/GUkcXmZ3E1llwE/R09fQFE1PPJtaONjIHqcRFMBS8Olj7svdpI/GT/5kXHd38RmbeLXwY/WFpGxYc8zw72Ul9CwXLP8s7xC0lugAAAHicY2BmAIP/yxh0ISxUAAArAAHWeJxjYBRgYDz0z46BgTntfx2DBLMfAwMDIwMyYAQAdFsEYgAAeJxjTvs/6f/L/9/AGAQh7JeMjxkfM/L+r/v/7f81ABrUHGkA) format('woff');}
+  :root{
+    color-scheme: light;
+    --bg:#FFFFFF;
+    --surface:#FFFFFF;
+    --surface-2:#EEF3EF;
+    --border:#D5DDD7;
+    --ink:#16211B;
+    --ink-muted:#55635A;
+    --ink-faint:#86938A;
+    --accent:#00805D;
+    --accent-ink:#00583F;
+    --accent-soft:#E2F2EC;
+    --series-2:#0072B2;
+    --series-2-soft:#E1EEF7;
+    --series-3:#8C4FA8;
+    --series-3-soft:#F1E7F4;
+    --warn:#A8650A;
+    --warn-soft:#FAF0DA;
+    --critical:#AE4A18;
+    --critical-soft:#FAE7DC;
+    /* 매체 색: 쌓은 막대에서 이웃해도 색약 기준으로 구분되는 순서 (순서를 바꾸면 다시 검증할 것) */
+    --ch-naver:#1BAF7A;
+    --ch-gfa:#EDA100;
+    --ch-google:#2A78D6;
+    --ch-meta:#EB6834;
+    /* 맨 위 결론 띠와 주의 칸. 나머지 화면은 카드, 그림자 없이 조용하게 둔다 */
+    --hero-bg:#00583F;
+    --hero-ink:#FFFFFF;
+    --hero-sub:#BCE3D3;
+    --marker:#FFE66B;
+    --shadow:none;
+    --radius:6px;
+    --fs-mult: 1.1;
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --bg:#0E1F1A;
+    --surface:#13281F;
+    --surface-2:#1A3329;
+    --border:#2C463B;
+    --ink:#E9F0EB;
+    --ink-muted:#A7B8AD;
+    --ink-faint:#7A8F83;
+    --accent:#4CC9A0;
+    --accent-ink:#9BE6CB;
+    --accent-soft:#1A3A2F;
+    --series-2:#5CA7DE;
+    --series-2-soft:#122A3B;
+    --series-3:#C08FD6;
+    --series-3-soft:#2E1F35;
+    --warn:#E0A73F;
+    --warn-soft:#332711;
+    --critical:#E28259;
+    --critical-soft:#3A2015;
+    --ch-naver:#199E70;
+    --ch-gfa:#C98500;
+    --ch-google:#3987E5;
+    --ch-meta:#D95926;
+    --hero-bg:#0F5240;
+    --hero-sub:#A5D9C6;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Pretendard','Malgun Gothic','Apple SD Gothic Neo',sans-serif;
+    font-size:calc(14px * var(--fs-mult));
+    line-height:1.55;
+    word-break:keep-all;   /* 한글이 단어 중간에서 끊기지 않게 */
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--wrap-w,1180px);margin:0 auto;padding:0 24px 80px;}
+
+  /* 스크롤하면 제목은 올라가고 매체 탭과 메뉴만 위에 남는다 */
+  .sticky-head{position:sticky;top:0;z-index:40;background:var(--bg);padding:8px 40px 8px 0;border-bottom:1px solid var(--border);margin-bottom:24px;}
+  h1,h2,h3{text-wrap:balance;margin:0;}
+  .num{font-variant-numeric:tabular-nums;}
+
+  header.top{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;padding:34px 0 16px;}
+  header.top h1{font-size:calc(28px * var(--fs-mult));font-weight:800;letter-spacing:-.02em;line-height:1.25;color:var(--ink);}
+  header.top .meta{color:var(--ink-muted);font-size:calc(13.5px * var(--fs-mult));margin-top:6px;}
+  header.top .meta b{color:var(--ink);font-weight:600;}
+  header.top .header-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
+  header.top .brand-logo{height:44px;width:auto;object-fit:contain;-ms-interpolation-mode:bicubic;image-rendering:-webkit-optimize-contrast;}
+  header.top .brand-logo[hidden]{display:none;}
+  header.top .genstamp{color:var(--ink-faint);font-size:calc(12px * var(--fs-mult));text-align:right;}
+
+  nav.jump{display:flex;gap:2px 4px;flex-wrap:wrap;margin-left:-8px;}
+  nav.jump[hidden]{display:none;}
+  nav.jump a{font-size:calc(13px * var(--fs-mult));font-weight:500;color:var(--ink-muted);text-decoration:none;padding:4px 8px;border-radius:4px;}
+  nav.jump a[hidden]{display:none;}
+  nav.jump a:hover{color:var(--accent-ink);background:var(--surface-2);}
+
+  /* 매체 탭: 드롭다운에 숨기면 다른 매체가 있는 줄 모르고 지나치기 쉬워서 항상 펼쳐 둔다 */
+  .eyebrow-select{margin-bottom:6px;}
+  .eyebrow-select[hidden]{display:none;}
+  .eyebrow-menu{display:flex;flex-wrap:wrap;gap:4px;}
+  .eyebrow-menu button{
+    font-family:inherit;font-size:calc(14px * var(--fs-mult));font-weight:600;color:var(--ink-muted);
+    background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 14px;cursor:pointer;
+  }
+  .eyebrow-menu button:hover{color:var(--accent-ink);border-color:var(--accent);}
+  .eyebrow-menu button:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
+  .eyebrow-menu button.active{color:var(--bg);background:var(--accent);border-color:var(--accent);}
+  @media print{ .eyebrow-menu button:not(.active){display:none;} }
+
+  section{margin-bottom:52px;scroll-margin-top:calc(var(--sticky-h, 190px) + 12px);}
+  /* 섹션 안의 소제목으로 바로 가는 메뉴(GFA 캠페인별 등)도 고정 머리말에 가려지지 않게 한다 */
+  .sub-anchor{scroll-margin-top:calc(var(--sticky-h, 190px) + 12px);}
+  section h2{font-size:calc(19px * var(--fs-mult));font-weight:800;letter-spacing:-.01em;margin-bottom:4px;display:flex;align-items:center;gap:8px;}
+  section .section-sub{color:var(--ink-muted);font-size:calc(12.5px * var(--fs-mult));margin-bottom:16px;}
+  .sub-h{font-size:calc(19px * var(--fs-mult));font-weight:800;letter-spacing:-.01em;color:var(--ink);margin:0 0 10px;}
+
+  .warning-banner{background:var(--marker);border-radius:var(--radius);padding:12px 16px;font-size:calc(13px * var(--fs-mult));color:#16211B;}
+
+  .badge{
+    display:inline-flex;align-items:center;gap:4px;font-size:calc(11px * var(--fs-mult));font-weight:600;
+    padding:2px 8px;border-radius:999px;line-height:1.6;white-space:nowrap;
+  }
+  .badge.warn{background:var(--warn-soft);color:var(--warn);}
+  .badge.good{background:var(--accent-soft);color:var(--accent-ink);}
+  .badge.info{background:var(--series-2-soft);color:var(--series-2);}
+
+  /* 요약: 결론 숫자 셋은 띠로 크게, 나머지는 그 아래 한 줄로 */
+  .kpi-hero{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:8px 28px;background:var(--hero-bg);color:var(--hero-ink);border-radius:10px;padding:22px 28px 24px;}
+  .kpi-hero .label{font-size:calc(13.5px * var(--fs-mult));font-weight:500;color:var(--hero-sub);margin-bottom:2px;}
+  .kpi-hero .value{font-family:'ReportNum','Pretendard','Malgun Gothic',sans-serif;font-size:calc(36px * var(--fs-mult));line-height:1.2;}
+  .kpi-hero .value small{font-family:'Pretendard','Malgun Gothic',sans-serif;font-size:calc(15px * var(--fs-mult));font-weight:600;color:var(--hero-sub);margin-left:3px;}
+  .kpi-hero .value-2{font-size:calc(13px * var(--fs-mult));color:var(--hero-sub);margin-top:2px;}
+  .kpi-strip{display:flex;flex-wrap:wrap;gap:10px 0;padding:14px 0 0;}
+  .kpi-strip .kpi-tile{flex:1 1 130px;padding-right:16px;}
+  .kpi-strip .label{font-size:calc(12px * var(--fs-mult));color:var(--ink-muted);}
+  .kpi-strip .value{font-size:calc(18px * var(--fs-mult));font-weight:700;color:var(--ink);}
+  .kpi-strip .value small{font-size:calc(12px * var(--fs-mult));font-weight:600;color:var(--ink-faint);margin-left:2px;}
+  .kpi-strip .value-2{font-size:calc(12px * var(--fs-mult));color:var(--ink-muted);}
+  @media screen and (max-width:760px){ .kpi-hero{grid-auto-flow:row;} }
+
+  /* Insight callout */
+  .insights{background:var(--surface-2);border-radius:var(--radius);padding:16px 20px;margin-top:16px;}
+  .insights h3{font-size:calc(13px * var(--fs-mult));color:var(--ink-muted);font-weight:600;margin-bottom:10px;}
+  .insights-hint{font-weight:400;color:var(--ink-faint);font-size:calc(11px * var(--fs-mult));}
+  .insights ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px;}
+  .insights li{padding-left:18px;padding-right:26px;position:relative;font-size:calc(13.5px * var(--fs-mult));border-radius:6px;}
+  .insights li::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:2px;background:var(--accent);}
+  .insights li b{font-weight:700;color:var(--ink);}
+  .insights li .insight-text{outline:none;border-radius:4px;}
+  .insights li .insight-text:hover{background:var(--surface-2);}
+  .insights li .insight-text:focus{background:var(--accent-soft);box-shadow:0 0 0 2px var(--accent-soft);}
+  .insights li .insight-del{
+    position:absolute;right:0;top:2px;width:18px;height:18px;line-height:16px;text-align:center;
+    border-radius:50%;color:var(--ink-faint);cursor:pointer;font-size:calc(13px * var(--fs-mult));
+    opacity:0;transition:opacity .15s;
+  }
+  .insights li:hover .insight-del{opacity:1;}
+  .insights li .insight-del:hover{background:var(--critical-soft);color:var(--critical);}
+  .insight-add-btn{
+    margin-top:12px;padding:6px 12px;border:1px dashed var(--border);border-radius:999px;
+    background:transparent;color:var(--ink-muted);font-size:calc(12px * var(--fs-mult));
+    font-family:inherit;cursor:pointer;
+  }
+  .insight-add-btn:hover{border-color:var(--accent);color:var(--accent-ink);}
+  /* 광고주 발송용 파일('광고주 발송용 저장'으로 만든 파일): 수정 기능을 모두 숨긴다 */
+  html.client-mode .insights-hint, html.client-mode .insight-add-btn, html.client-mode .insight-del,
+  html.client-mode .edit-only, html.client-mode .col-panel, html.client-mode .cost-input-btn{ display:none !important; }
+
+  /* 비교: 같은 항목이 한 줄에 놓여 옆으로 바로 견줄 수 있다. best = 그 줄에서 가장 좋은 값 */
+  .compare-grid{display:grid;overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);}
+  .compare-card{min-width:0;border-left:1px solid var(--border);}
+  .compare-card.lab{border-left:none;}
+  .compare-card .ctype{display:flex;align-items:center;justify-content:center;gap:7px;height:40px;padding:0 14px;background:var(--surface-2);white-space:nowrap;}
+  .compare-card .dot{width:10px;height:10px;border-radius:3px;flex:none;}
+  .compare-card .ctype-name{font-weight:700;font-size:calc(14px * var(--fs-mult));overflow:hidden;text-overflow:ellipsis;}
+  .compare-row{display:flex;justify-content:center;align-items:center;height:35px;padding:0 14px;border-top:1px solid var(--surface-2);white-space:nowrap;}
+  .compare-card.lab .compare-row{justify-content:flex-start;}
+  .compare-row .k{color:var(--ink-muted);font-size:calc(12.5px * var(--fs-mult));}
+    /* 값은 칸 가운데(머리글 이름과 같은 줄)에 둔다. 오른쪽에 붙이면 비교할 매체가 둘뿐일 때 칸 왼쪽이 크게 비어 보였다 (2026-11-04 사용자) */
+  .compare-row .v{font-weight:500;font-size:calc(13.5px * var(--fs-mult));padding:2px 10px;border-radius:999px;}
+  /* 줄마다 가장 좋은 값: 굵기만 다르면 다른 값과 잘 구분되지 않아 초록 바탕을 깐다 */
+  .compare-row .v.best{font-weight:800;color:var(--accent-ink);background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--accent);}
+  .compare-row .v.zero{font-weight:400;color:var(--ink-faint);}
+  /* 비용이 0원인 캠페인 유형(브랜드검색 등)의 광고비 직접 입력 버튼 */
+  .cost-input-btn{margin:8px 14px 10px;width:calc(100% - 28px);padding:6px 12px;border:1px dashed var(--border);border-radius:999px;background:transparent;
+    color:var(--ink-muted);font-size:calc(12px * var(--fs-mult));font-family:inherit;cursor:pointer;}
+  .cost-input-btn:hover{border-color:var(--accent);color:var(--accent-ink);}
+  @media print{ .cost-input-btn{display:none;} }
+
+  /* Bar list chart */
+  .barlist{display:flex;flex-direction:column;gap:9px;}
+  .barlist .row{display:grid;grid-template-columns:150px 1fr 92px;align-items:center;gap:10px;}
+  .barlist .row .rlabel{font-size:calc(12.5px * var(--fs-mult));color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .barlist .track{background:var(--surface-2);border-radius:4px;height:12px;position:relative;overflow:hidden;}
+  .barlist .fill{position:absolute;left:0;top:0;height:100%;border-radius:4px;cursor:default;}
+  .barlist .rvalue{font-size:calc(12.5px * var(--fs-mult));text-align:right;color:var(--ink-muted);}
+  /* 상품명처럼 라벨이 긴 경우: 라벨을 잘라내지 않고 여러 줄로 온전히 보여준다 (막대는 좀 짧아져도 됨) */
+  .barlist.barlist-wide .row{grid-template-columns:280px 1fr 92px;align-items:start;}
+  .barlist.barlist-wide .row .rlabel{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.35;word-break:keep-all;}
+  .barlist.barlist-wide .track{margin-top:4px;}
+
+  /* Table */
+  /* 표 상자는 불투명 배경과 will-change로 별도 레이어에 올린다. 그러지 않으면 마우스가 표 위에 있는 채로 스크롤할 때
+     줄 강조가 바뀔 때마다 브라우저가 화면을 넓게 다시 그려서 스크롤이 끊긴다 (ver 1.030에서 고쳤다가 2.0에서 빠져 다시 넣음) */
+  .table-scroll{overflow-x:auto;overflow-y:auto;max-height:720px;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);background:var(--surface);will-change:transform;}
+  /* 컬럼 폭은 스크립트가 글자 폭을 계산해 colgroup에 넣는다 (화면 배치로 재지 않아서 빠르다) */
+  table{border-collapse:collapse;width:100%;min-width:760px;table-layout:fixed;background:var(--surface);}
+  /* 머리글은 칸마다가 아니라 줄 전체를 한 번에 고정한다 (칸마다 고정하면 고정 요소가 100개를 넘어 스크롤이 무거워진다) */
+  thead{position:sticky;top:0;z-index:2;}
+  thead th{
+    position:relative;background:var(--surface-2);text-align:right;font-size:calc(11.5px * var(--fs-mult));
+    color:var(--ink-muted);font-weight:600;padding:10px 12px;white-space:nowrap;
+    border-bottom:1px solid var(--border);cursor:pointer;user-select:none;
+  }
+  thead th:first-child, thead th.txt{text-align:left;}
+  thead th .sort-arrow{opacity:.35;margin-left:3px;font-size:calc(10px * var(--fs-mult));}
+  .col-resize-handle{
+    position:absolute;top:0;right:0;bottom:0;width:8px;cursor:col-resize;
+    border-right:2px solid transparent;
+  }
+  .col-resize-handle:hover, body.col-resizing .col-resize-handle{border-right-color:var(--accent);}
+  body.col-resizing{cursor:col-resize;user-select:none;}
+  thead th.sorted .sort-arrow{opacity:1;color:var(--accent);}
+  thead th.drop-target{box-shadow:inset 0 0 0 2px var(--accent);}
+  tbody td{padding:9px 12px;font-size:calc(13px * var(--fs-mult));text-align:right;border-bottom:1px solid var(--surface-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  tbody td.txt{text-align:left;color:var(--ink);}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr.row-hover td{background:var(--surface-2);}
+  /* 행이 많은 표는 보이는 줄만 그리고, 나머지 줄 자리는 이 빈 줄의 높이로 채운다 */
+  tbody tr.vspace td{padding:0;border:none;background:transparent;}
+  .muted{color:var(--ink-faint);}
+  /* 0은 흐리게: 전환이 난 줄이 눈에 들어오게 한다 */
+  td.zero{color:var(--ink-faint);}
+
+  /* Hourly chart */
+  .hourly-chart{
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:20px 20px 12px;box-shadow:var(--shadow);
+  }
+  .hourly-bars{display:flex;align-items:flex-end;gap:4px;height:190px;position:relative;}
+  .hourly-bars .col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;position:relative;cursor:default;}
+  .hourly-bars .bar{width:100%;max-width:20px;background:var(--accent);border-radius:3px 3px 1px 1px;opacity:.85;transition:opacity .1s;}
+  .hourly-bars .col:hover .bar{opacity:1;}
+  .hourly-bars .conv-dot{width:7px;height:7px;border-radius:50%;background:var(--series-2);margin-bottom:4px;box-shadow:0 0 0 2px var(--surface);}
+  .hourly-labels{display:flex;gap:4px;margin-top:6px;}
+  .hourly-labels span{flex:1;text-align:center;font-size:calc(9.5px * var(--fs-mult));color:var(--ink-faint);}
+  .hourly-legend{display:flex;gap:16px;margin-top:14px;padding-top:12px;border-top:1px solid var(--surface-2);font-size:calc(12px * var(--fs-mult));color:var(--ink-muted);}
+  .hourly-legend span{display:inline-flex;align-items:center;gap:6px;}
+  .swatch{width:9px;height:9px;border-radius:2px;display:inline-block;}
+  .swatch.dot{border-radius:50%;}
+
+  /* 일별 성과: 비용과 전환을 두 줄의 쌓은 막대로 나란히 본다 */
+  .daily-ctl{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:12px;}
+  .daily-ctl label{display:inline-flex;align-items:center;gap:6px;font-size:calc(12.5px * var(--fs-mult));color:var(--ink-muted);}
+  .daily-ctl select{
+    font-family:inherit;font-size:calc(13px * var(--fs-mult));color:var(--ink);background:var(--surface);
+    border:1px solid var(--border);border-radius:8px;padding:6px 10px;max-width:340px;
+  }
+  .stack-title{font-size:calc(12px * var(--fs-mult));font-weight:600;color:var(--ink-muted);margin-bottom:6px;}
+  .stack-bars{display:flex;align-items:flex-end;gap:4px;position:relative;}
+  .stack-bars.cost{height:200px;}
+  .stack-title.ct{display:flex;align-items:center;gap:16px;}
+  .ct-i{display:inline-flex;align-items:center;gap:6px;}
+  .ct-i .ln{display:inline-block;width:14px;border-top:2.5px solid var(--ln,var(--series-3));border-radius:2px;}
+  /* 전환수 꺾은선: 비용 막대 위에 겹쳐 그린다 (마우스는 아래 막대로 통과) */
+  .convline{position:absolute;inset:0;pointer-events:none;}
+  .convline svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}
+  .convline polyline{fill:none;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;}
+  .convline .ln{stroke:var(--ln,var(--series-3));stroke-width:2.5;}
+  .convline .pk{position:absolute;transform:translateX(-50%);padding:0 5px;border-radius:4px;background:var(--surface);color:var(--ln,var(--series-3));font-size:calc(10.5px * var(--fs-mult));font-weight:700;white-space:nowrap;box-shadow:0 0 0 1px var(--ln,var(--series-3));}
+  .stack-bars .col{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;cursor:default;}
+  .stack-bars .peak{font-size:calc(10.5px * var(--fs-mult));font-weight:600;color:var(--ink-muted);margin-bottom:2px;white-space:nowrap;}
+  .stack{width:100%;max-width:20px;display:flex;flex-direction:column;gap:2px;border-radius:4px 4px 0 0;overflow:hidden;}
+  .stack i{display:block;min-height:1px;}
+
+  /* 매체별 비교: 비용 비중, 전환 비중 원형 그래프와 매체별 숫자 */
+  .share-chart{
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:20px;box-shadow:var(--shadow);margin-bottom:16px;
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(400px,1.25fr);gap:14px;align-items:center;
+  }
+  .donut{text-align:center;min-width:0;}
+  .donut-title{font-weight:700;font-size:calc(14.5px * var(--fs-mult));}
+  .donut-note{font-size:calc(11.5px * var(--fs-mult));color:var(--ink-faint);min-height:1.5em;}
+  .donut-box{position:relative;max-width:300px;margin:0 auto;}
+  .donut-box svg{display:block;width:100%;height:auto;overflow:visible;}   /* 바깥쪽 비중 글자가 잘리지 않게 */
+  .donut-box text{font-size:calc(15px * var(--fs-mult));font-weight:700;fill:var(--ink);}
+  .donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;}
+  .donut-center span{font-size:calc(11.5px * var(--fs-mult));color:var(--ink-muted);}
+  .donut-center b{font-size:calc(16px * var(--fs-mult));font-weight:700;color:var(--ink);}
+  .share-row{display:grid;grid-template-columns:minmax(0,1fr) 104px 76px 88px;align-items:center;gap:8px;padding:11px 0;border-top:1px solid var(--surface-2);}
+  .share-row.head{padding:0 0 8px;border-top:none;font-size:calc(11.5px * var(--fs-mult));color:var(--ink-muted);text-align:right;}
+  .share-name{display:flex;align-items:center;gap:8px;font-weight:700;font-size:calc(13.5px * var(--fs-mult));}
+  .share-name .dot{width:10px;height:10px;border-radius:3px;flex:none;}
+  .share-cell{text-align:right;font-size:calc(12px * var(--fs-mult));color:var(--ink-muted);}
+  .share-cell b{display:block;font-size:calc(14.5px * var(--fs-mult));font-weight:700;color:var(--ink);}
+  @media screen and (max-width:1040px){ .share-chart{grid-template-columns:repeat(2,minmax(0,1fr));} .share-list{grid-column:1 / -1;} }
+  @media screen and (max-width:640px){ .share-chart{grid-template-columns:minmax(0,1fr);} }
+
+  .footnote{
+    margin-top:32px;padding-top:16px;border-top:1px solid var(--border);
+    color:var(--ink-faint);font-size:calc(11.5px * var(--fs-mult));line-height:1.7;
+  }
+  .footnote b{color:var(--ink-muted);}
+
+  /* tooltip */
+  #tooltip{
+    position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);
+    font-size:calc(12px * var(--fs-mult));padding:8px 10px;border-radius:8px;box-shadow:var(--shadow);
+    z-index:50;max-width:240px;line-height:1.6;transform:translate(-50%,-100%);margin-top:-10px;
+  }
+  #tooltip.hidden{display:none;}
+  #tooltip .t-title{font-weight:700;margin-bottom:2px;}
+
+  /* 화면 오른쪽 아래 조정 버튼: 표시 항목 / 글씨 크기 / 폭 크기를 네모 상자 세 개로 세로로 쌓는다 */
+  .ctl-stack{position:fixed;right:18px;bottom:18px;z-index:60;display:flex;flex-direction:column;gap:6px;}
+  .font-size-ctl{
+    display:flex;align-items:center;justify-content:space-between;gap:2px;
+    background:var(--surface);border:1px solid var(--border);border-radius:6px;
+    box-shadow:var(--shadow);padding:3px;
+  }
+  .font-size-ctl button{
+    height:28px;padding:0 8px;border:none;border-radius:4px;background:transparent;white-space:nowrap;
+    color:var(--ink-muted);font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;
+  }
+  .font-size-ctl button:hover{background:var(--surface-2);color:var(--ink);}
+  .font-size-ctl span{font-size:11px;color:var(--ink-faint);width:38px;text-align:center;font-variant-numeric:tabular-nums;}
+  .font-size-ctl button.wide{flex:1;}
+  .font-size-ctl span{cursor:text;border-radius:4px;line-height:24px;}
+  .font-size-ctl span:hover{background:var(--surface-2);color:var(--ink);}
+  .font-size-ctl span input{
+    width:100%;height:24px;padding:0;border:1px solid var(--accent);border-radius:4px;background:var(--surface);
+    color:var(--ink);font-family:inherit;font-size:11px;text-align:center;outline:none;
+  }
+  /* 상단 고정 영역 접기 버튼: 펼쳐져 있으면 영역의 오른쪽 아래(∧), 접혀 있으면 화면 맨 위 오른쪽(∨)에 고정된다 */
+  #headBtn{
+    position:absolute;right:0;bottom:6px;display:inline-flex;align-items:center;justify-content:center;
+    width:28px;height:28px;padding:0;border:1px solid var(--border);border-radius:6px;background:var(--surface);
+    color:var(--ink-muted);cursor:pointer;
+  }
+  #headBtn:hover{background:var(--surface-2);color:var(--ink);}
+  body.head-hidden .sticky-head{height:0;padding:0;border-bottom:none;}
+  body.head-hidden .sticky-head > .eyebrow-select, body.head-hidden .sticky-head > nav{display:none !important;}
+  body.head-hidden #headBtn{bottom:auto;top:6px;}
+  /* 표 오른쪽 위의 엑셀 내려받기 버튼 (윗줄 내용과 겹치지 않게 한 줄을 따로 차지한다) */
+  .tbl-export{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin:0 0 6px;}
+  .col-restore-list{display:flex;flex-wrap:wrap;gap:6px;margin-right:auto;}
+  .col-restore{border:1px dashed var(--border);background:transparent;color:var(--ink-muted);border-radius:999px;padding:3px 10px;font:inherit;font-size:calc(11.5px * var(--fs-mult));cursor:pointer;}
+  .col-restore:hover{border-color:var(--accent);color:var(--accent-ink);}
+  .tbl-export button{
+    display:inline-flex;align-items:center;justify-content:center;
+    box-sizing:border-box;flex:0 0 28px;min-width:28px;width:28px;height:28px;padding:0;
+    border:1px solid var(--border);border-radius:6px;background:var(--surface);
+    color:var(--ink-muted);cursor:pointer;
+  }
+  .tbl-export button:hover{background:var(--surface-2);color:var(--ink);}
+  .col-panel{
+    position:fixed;right:18px;bottom:186px;z-index:60;width:220px;
+    background:var(--surface);border:1px solid var(--border);border-radius:12px;
+    box-shadow:var(--shadow);padding:12px 14px;font-size:13px;color:var(--ink);
+  }
+  .col-panel-title{font-weight:700;margin-bottom:6px;}
+  .col-panel label{display:flex;align-items:center;gap:8px;padding:3px 0;cursor:pointer;}
+  .col-panel-hint{margin:8px 0;color:var(--ink-faint);font-size:11px;line-height:1.5;}
+  .col-panel button{
+    width:100%;padding:7px 0;border:1px solid var(--border);border-radius:8px;
+    background:var(--surface-2);color:var(--ink);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;
+  }
+
+  /* ---------- A4 인쇄 ---------- */
+  @media print{
+    /* 여백을 0으로 두면 브라우저가 머리글·바닥글(날짜, 제목, 주소, 쪽 번호)을 찍을 자리가 없어 찍지 않는다.
+       종이 여백은 body 안쪽 여백으로 주고, 쪽마다 반복되게 한다(box-decoration-break). */
+    @page{ size:A4 landscape; margin:0; }
+    body{ padding:12mm; -webkit-box-decoration-break:clone; box-decoration-break:clone; }
+
+    /* 화면이 다크모드여도 인쇄는 항상 밝은 배경으로 (잉크 절약 + 가독성) */
+    :root, :root[data-theme]{
+      color-scheme: light;
+      --bg:#FFFFFF; --surface:#FFFFFF; --surface-2:#EEF3EF; --border:#D5DDD7;
+      --ink:#16211B; --ink-muted:#55635A; --ink-faint:#86938A;
+      --hero-bg:#00583F; --hero-sub:#BCE3D3;
+      --accent:#00805D; --accent-ink:#00583F; --accent-soft:#E2F2EC;
+      --series-2:#0072B2; --series-2-soft:#E1EEF7;
+      --series-3:#8C4FA8; --series-3-soft:#F1E7F4;
+      --warn:#A8650A; --warn-soft:#FAF0DA;
+      --critical:#AE4A18; --critical-soft:#FAE7DC;
+      --ch-naver:#1BAF7A; --ch-gfa:#EDA100; --ch-google:#2A78D6; --ch-meta:#EB6834;
+    }
+
+    *{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+
+    /* 화면과 같은 구성으로 찍는다: 화면 기본 폭(1180px)으로 배치한 뒤 종이 폭(A4 가로 297mm - 여백 24mm = 약 1032px)에 맞게 줄인다.
+       그래서 인쇄용으로 글씨, 차트 크기를 따로 줄이지 않는다 (2026-11-03 사용자: "인쇄도 html 화면과 같은 구성으로") */
+    .wrap{ max-width:none; width:1180px; padding:0; zoom:0.874; }
+
+    .sticky-head{ position:static; border-bottom:none; padding:0; margin-bottom:8px; }
+    #headBtn{ display:none; }
+    nav.jump{ display:none; }
+    .font-size-ctl, .col-panel, .tbl-export{ display:none; }
+    .insights-hint, .insight-add-btn, .insight-del{ display:none; }
+    #tooltip{ display:none !important; }
+
+    header.top .brand-logo{ height:40px; }
+
+    section{ margin-bottom:16px; }
+    /* 제목과 설명만 쪽 끝에 남고 내용이 다음 쪽으로 넘어가지 않게 */
+    section h2, section > .section-sub{ page-break-after:avoid; break-after:avoid; }
+
+    .kpi-grid,.compare-card,.insights,.warning-banner,.hourly-chart,.share-chart,.compare-grid{
+      page-break-inside:avoid; box-shadow:none;
+    }
+    /* 화면에서는 옆으로 넘치면 스크롤되는 상자라, 인쇄할 때는 스크롤 막대 없이 다 보이게 */
+    .compare-grid{ overflow:visible; }
+
+    .table-scroll{ overflow-x:visible; overflow-y:visible; max-height:none; box-shadow:none; border-width:1px; will-change:auto; }
+    table{ min-width:0; width:100%; table-layout:auto; }
+    thead{ display:table-header-group; }
+    tr{ page-break-inside:avoid; }
+    thead th{ position:static; padding:5px 6px; white-space:normal; }
+    tbody td{ padding:4px 6px; white-space:normal; word-break:keep-all; }
+    thead th .sort-arrow{ display:none; }
+    .col-resize-handle{ display:none; }
+
+    .barlist .row{ page-break-inside:avoid; }
+
+    a[href]{ color:inherit; text-decoration:none; }
+  }
+  /* 다크모드 켜기/끄기 (오른쪽 위, 2.035). 고른 값은 이 브라우저에 기억해 모든 보고서에 같이 쓴다. 고른 적이 없으면 윈도우 설정을 따른다.
+     색은 모두 CSS 변수라 html의 data-theme만 바꾸면 차트까지 바로 바뀐다 (다시 그리지 않는다) */
+  .theme-toggle{display:inline-flex;align-items:center;gap:7px;height:26px;padding:0 10px 0 6px;border:1px solid var(--border);border-radius:999px;
+    background:var(--surface);color:var(--ink-muted);font-family:inherit;font-size:12px;font-weight:600;line-height:1;cursor:pointer;}
+  .theme-toggle:hover{color:var(--ink);}
+  .theme-toggle .sw{position:relative;flex:none;width:26px;height:14px;border-radius:999px;background:var(--border);transition:background .15s;}
+  .theme-toggle .sw::after{content:'';position:absolute;left:2px;top:2px;width:10px;height:10px;border-radius:50%;background:#fff;transition:transform .15s;}
+  .theme-toggle[aria-pressed="true"] .sw{background:var(--accent);}
+  .theme-toggle[aria-pressed="true"] .sw::after{transform:translateX(12px);}
+  @media print{ .theme-toggle{display:none;} }
+</style>
+<script>
+// 다크모드: 오른쪽 위 버튼으로 고른 값(이 브라우저에 기억)을 쓰고, 고른 적이 없으면 윈도우 설정을 따른다. 화면을 그리기 전에 정해서 깜빡이지 않게 한다
+(function(){
+  var t = null;
+  try { t = localStorage.getItem('reportTheme'); } catch (e) {}
+  if (t !== 'dark' && t !== 'light') t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <h1 id="report-heading">__REPORT_TITLE__</h1>
+      <div class="meta">보고 기간 : <b id="period-label">-</b></div>
+    </div>
+    <div class="header-right">
+      <button id="themeBtn" class="theme-toggle" type="button" aria-pressed="false"><span class="sw"></span>다크모드</button>
+      <img class="brand-logo" id="brand-logo" src="__LOGO_DATA_URI__" alt="로고" hidden>
+      <div class="genstamp" id="author-line" hidden>작성자 : <span id="author-info">-</span></div>
+    </div>
+  </header>
+
+  <div class="sticky-head">
+    <button id="headBtn" type="button"></button>
+    <div class="eyebrow-select" id="eyebrowSelect" hidden>
+      <div class="eyebrow-menu" id="eyebrowMenu" role="tablist"></div>
+    </div>
+    <nav class="jump" id="naver-jump">
+      <a href="#summary">요약</a>
+      <a href="#compare" id="nav-compare">캠페인 유형 비교</a>
+      <a href="#campaign" id="nav-campaign" hidden>캠페인별</a>
+      <a href="#conv-type" id="nav-conv-type" hidden>전환 유형</a>
+      <a href="#nv-daily" id="nav-nv-daily" hidden>일별</a>
+      <a href="#placement" id="nav-placement">지면, 매체별</a>
+      <a href="#keywords2" id="nav-keywords2"><span><span class="kw-dim2">키워드</span>별</span></a>
+      <a href="#keywords" id="nav-keywords"><span><span class="kw-dim">검색어</span>별</span></a>
+      <a href="#hourly" id="nav-hourly">시간대별</a>
+      <a href="#region" id="nav-region">지역별</a>
+      <a href="#dow" id="nav-dow" hidden>요일, 기기별</a>
+      <a href="#gfa" id="nav-gfa" hidden>GFA 요약</a>
+      <a href="#gfa-campaign" id="nav-gfa-campaign" hidden>GFA 캠페인별</a>
+      <a href="#gfa-product-block" id="nav-gfa-product" hidden>GFA 상품별</a>
+      <a href="#gfa-daily-block" id="nav-gfa-daily" hidden>GFA 일별</a>
+      <a href="#gfa-segment" id="nav-gfa-segment" hidden>GFA 연령, 성별</a>
+    </nav>
+
+    <nav class="jump" id="all-jump" hidden>
+      <a href="#all-summary">요약</a>
+      <a href="#all-media">매체별 비교</a>
+      <a href="#all-campaign">캠페인별</a>
+      <a href="#all-daily">일별</a>
+      <a href="#all-conv">전환 구성</a>
+    </nav>
+
+    <nav class="jump" id="google-jump" hidden>
+      <a href="#google-summary">요약</a>
+      <a href="#google-campaign">캠페인별</a>
+      <a href="#google-daily">일별</a>
+    </nav>
+
+    <nav class="jump" id="meta-jump" hidden>
+      <a href="#meta-summary">요약</a>
+      <a href="#meta-campaign">캠페인별</a>
+      <a href="#meta-daily">일별</a>
+    </nav>
+
+    <nav class="jump" id="gm-jump" hidden>
+      <a href="#gm-summary">요약</a>
+      <a href="#gm-compare" id="gm-nav-compare">캠페인 유형 비교</a>
+      <a href="#gm-product" id="gm-nav-product">상품별 성과</a>
+      <a href="#gm-keywords" id="gm-nav-keywords">키워드</a>
+    </nav>
+
+    <nav class="jump" id="auction-jump" hidden>
+      <a href="#au-summary">요약</a>
+      <a href="#au-compare" id="au-nav-compare">광고상품 비교</a>
+      <a href="#au-product" id="au-nav-product">상품별 성과</a>
+      <a href="#au-keywords" id="au-nav-keywords">키워드</a>
+    </nav>
+
+    <nav class="jump" id="st-jump" hidden>
+      <a href="#st-summary">요약</a>
+      <a href="#st-compare" id="st-nav-compare">광고상품 비교</a>
+    </nav>
+
+    <nav class="jump" id="oh-jump" hidden>
+      <a href="#oh-summary">요약</a>
+      <a href="#oh-campaign">캠페인별</a>
+      <a href="#oh-daily">일별</a>
+      <a href="#oh-category">카테고리별</a>
+      <a href="#oh-product-all">상품별</a>
+      <a href="#oh-product">상품별 캠페인</a>
+      <a href="#oh-keywords">검색어별</a>
+    </nav>
+  </div>
+
+  <div id="panel-all" hidden>
+    <section id="all-summary">
+      <h2>전체 매체 통합 요약</h2>
+      <div class="section-sub" id="all-summary-sub"></div>
+      <div class="warning-banner" id="all-warning" hidden style="margin-bottom:16px;"></div>
+      <div class="kpi-grid" id="all-kpi-grid"></div>
+      <div class="insights">
+        <h3>이번 기간 눈에 띄는 포인트 <span class="insights-hint">(문구를 클릭해 수정하거나 지울 수 있습니다)</span></h3>
+        <ul id="all-insights-list"></ul>
+        <button id="allInsightAddBtn" class="insight-add-btn" type="button">+ 문구 추가</button>
+      </div>
+    </section>
+
+    <section id="all-media">
+      <h2>매체별 비교</h2>
+      <div class="section-sub" id="all-media-sub">비용이 어디로 나가고 전환이 어디서 나오는지 비교 (원형은 전체 대비 비중)</div>
+      <div class="share-chart" id="all-share"></div>
+      <div class="compare-grid" id="all-compare-grid"></div>
+    </section>
+
+    <section id="all-campaign">
+      <h2>캠페인별 성과</h2>
+      <div class="section-sub" id="all-campaign-sub">전체 매체 캠페인을 비용이 많은 순서로 정리 (막대는 상위 10개, 표는 전체)</div>
+      <div id="all-campaign-body"></div>
+    </section>
+
+    <section id="all-daily">
+      <h2>일별 성과</h2>
+      <div class="section-sub">매체나 캠페인을 고르면 그 일별 성과만 봅니다</div>
+      <div id="all-daily-body"></div>
+    </section>
+
+    <section id="all-conv">
+      <h2>전환 구성</h2>
+      <div class="section-sub">매체별 전환을 유형까지 나눠서 정리</div>
+      <div class="barlist barlist-wide" id="all-conv-chart"></div>
+    </section>
+  </div><!-- /panel-all -->
+
+  <div id="panel-google" hidden></div>
+  <div id="panel-meta" hidden></div>
+
+  <div id="panel-naver">
+  <section id="summary">
+    <h2>전체 요약</h2>
+    <div class="section-sub" id="summary-sub">해당 기간 전체 캠페인 합계</div>
+    <div class="kpi-grid" id="kpi-grid"></div>
+    <div class="insights">
+      <h3>이번 기간 눈에 띄는 포인트 <span class="insights-hint">(문구를 클릭해 수정하거나 지울 수 있습니다)</span></h3>
+      <ul id="insights-list"></ul>
+      <button id="insightAddBtn" class="insight-add-btn" type="button">+ 문구 추가</button>
+    </div>
+  </section>
+
+  <section id="compare">
+    <h2>캠페인 유형 비교</h2>
+    <div class="section-sub" id="compare-sub">같은 기간 성과 비교</div>
+    <div class="compare-grid" id="compare-grid"></div>
+  </section>
+
+  <section id="campaign" hidden>
+    <h2>캠페인별 성과</h2>
+    <div class="section-sub">비용이 많은 순서로 정리</div>
+    <div id="campaign-body"></div>
+  </section>
+
+  <section id="conv-type" hidden>
+    <h2>전환 유형별 성과</h2>
+    <div class="section-sub">전환이 어떤 유형으로, 어떤 키워드에서 나왔는지 정리 (전환유형 보고서 기준)</div>
+    <div class="barlist barlist-wide" id="conv-type-chart" style="margin-bottom:20px;"></div>
+    <div class="table-scroll">
+      <table id="conv-detail-table">
+        <thead><tr>
+          <th class="txt" data-key="type">전환 유형</th>
+          <th class="txt" data-key="campaignType">캠페인유형</th>
+          <th class="txt" data-key="campaign">캠페인</th>
+          <th class="txt" data-key="adGroup">광고그룹</th>
+          <th class="txt" data-key="keyword">키워드</th>
+          <th class="txt" data-key="device">기기</th>
+          <th data-key="conversions">전환수</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="nv-daily" hidden>
+    <h2>일별 성과</h2>
+    <div class="section-sub">캠페인을 고르면 그 일별 성과만 봅니다</div>
+    <div id="nv-daily-body"></div>
+  </section>
+
+  <section id="placement">
+    <h2>지면, 매체별 성과</h2>
+    <div class="section-sub">같은 지면을 합친 비용 순서입니다. 표에는 캠페인, 광고그룹별 <span id="placement-count">0</span>줄이 있습니다.</div>
+    <div class="barlist" id="placement-chart" style="margin-bottom:20px;"></div>
+    <div class="table-scroll">
+      <table id="placement-table">
+        <thead><tr>
+          <th class="txt" data-key="campaignType">캠페인유형</th>
+          <th class="txt" data-key="campaign">캠페인</th>
+          <th class="txt" data-key="adGroup">광고그룹</th>
+          <th class="txt" data-key="media">매체</th>
+          <th data-key="impressions">노출수</th>
+          <th data-key="clicks">클릭수</th>
+          <th data-key="ctr">CTR</th>
+          <th data-key="cpc">CPC</th>
+          <th data-key="cost">총비용</th>
+          <th data-key="conversions">전환수</th>
+          <th data-key="revenue">전환매출액</th>
+          <th data-key="roas">ROAS</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="keywords2">
+    <h2><span><span class="kw-dim2">검색어</span>별 성과</span></h2>
+    <div class="section-sub">노출이 1회 이상인 <span class="kw-dim2">검색어</span> <span id="kw2-clicked">0개</span>, 비용순 (전체 <span id="kw2-total">0</span>개 <span class="kw-dim2">검색어</span> 중)</div>
+    <div class="table-scroll">
+      <table id="keyword-table2">
+        <thead><tr>
+          <th class="txt" data-key="campaignType">캠페인유형</th>
+          <th class="txt" data-key="campaign">캠페인</th>
+          <th class="txt" data-key="adGroup">광고그룹</th>
+          <th class="txt" data-key="keyword"><span class="kw-dim2">검색어</span></th>
+          <th data-key="impressions">노출수</th>
+          <th data-key="clicks">클릭수</th>
+          <th data-key="ctr">CTR</th>
+          <th data-key="cpc">CPC</th>
+          <th data-key="cost">총비용</th>
+          <th data-key="conversions">전환수</th>
+          <th data-key="revenue">전환매출액</th>
+          <th data-key="roas">ROAS</th>
+          <th class="txt" data-metric="conversions">상태</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="keywords">
+    <h2><span><span class="kw-dim">검색어</span>별 성과</span></h2>
+    <div class="section-sub">노출이 1회 이상인 <span class="kw-dim">검색어</span> <span id="kw-clicked">0개</span>, 비용순 (전체 <span id="kw-total">0</span>개 <span class="kw-dim">검색어</span> 중)</div>
+    <div class="table-scroll">
+      <table id="keyword-table">
+        <thead><tr>
+          <th class="txt" data-key="campaignType">캠페인유형</th>
+          <th class="txt" data-key="campaign">캠페인</th>
+          <th class="txt" data-key="adGroup">광고그룹</th>
+          <th class="txt" data-key="keyword"><span class="kw-dim">검색어</span></th>
+          <th data-key="impressions">노출수</th>
+          <th data-key="clicks">클릭수</th>
+          <th data-key="ctr">CTR</th>
+          <th data-key="cpc">CPC</th>
+          <th data-key="cost">총비용</th>
+          <th data-key="conversions">전환수</th>
+          <th data-key="revenue">전환매출액</th>
+          <th data-key="roas">ROAS</th>
+          <th class="txt" data-metric="conversions">상태</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="hourly">
+    <h2>시간대별 트렌드</h2>
+    <div class="section-sub">24시간 광고비와 전환수</div>
+    <div class="hourly-chart">
+      <div class="hourly-bars" id="hourly-bars"></div>
+      <div class="hourly-labels" id="hourly-labels"></div>
+    </div>
+  </section>
+
+  <section id="region">
+    <h2>지역별 성과</h2>
+    <div class="section-sub"><span class="badge info">파워링크 전용</span> 쇼핑검색 캠페인은 지역 데이터가 제공되지 않아 제외됨</div>
+    <div class="barlist" id="region-chart" style="margin-bottom:20px;"></div>
+    <div class="table-scroll">
+      <table id="region-table">
+        <thead><tr>
+          <th class="txt" data-key="region">지역</th>
+          <th data-key="impressions">노출수</th>
+          <th data-key="clicks">클릭수</th>
+          <th data-key="ctr">CTR</th>
+          <th data-key="cpc">평균CPC</th>
+          <th data-key="cost">총비용</th>
+          <th data-key="conversions">전환수</th>
+          <th data-key="revenue">전환매출액</th>
+          <th data-key="roas">ROAS</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="dow" hidden>
+    <h2>요일, 일자, 기기별 성과</h2>
+    <div class="section-sub" id="dow-sub"></div>
+
+    <h3 class="sub-h">기기별 비교</h3>
+    <div class="compare-grid" id="device-grid" style="margin-bottom:24px;"></div>
+
+    <h3 class="sub-h">일자별 추이</h3>
+    <div class="hourly-chart" style="margin-bottom:24px;">
+      <div class="hourly-bars" id="date-bars"></div>
+      <div class="hourly-labels" id="date-labels"></div>
+    </div>
+
+    <h3 class="sub-h">요일별 패턴</h3>
+    <div class="hourly-chart" style="margin-bottom:24px;">
+      <div class="hourly-bars" id="weekday-bars"></div>
+      <div class="hourly-labels" id="weekday-labels"></div>
+    </div>
+  </section>
+
+  <section id="gfa" hidden>
+    <h2>GFA 성과</h2>
+    <div class="section-sub" id="gfa-sub"></div>
+    <div class="warning-banner" id="gfa-warning" hidden style="margin-bottom:16px;"></div>
+    <div class="kpi-grid" id="gfa-kpi-grid" style="margin-bottom:24px;"></div>
+
+    <h3 class="sub-h sub-anchor" id="gfa-campaign">GFA 캠페인별 성과</h3>
+    <div class="table-scroll" style="margin-bottom:24px;">
+      <table id="gfa-campaign-table">
+        <thead><tr>
+          <th class="txt" data-key="campaign">캠페인</th>
+          <th class="txt" data-key="objective">목적</th>
+          <th data-key="impressions">노출수</th>
+          <th data-key="clicks">클릭수</th>
+          <th data-key="ctr">CTR</th>
+          <th data-key="cpc">CPC</th>
+          <th data-key="cost">총비용</th>
+          <th data-key="conversions">전환수</th>
+          <th data-key="revenue">전환매출액</th>
+          <th data-key="roas">ROAS</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div id="gfa-product-block" class="sub-anchor" hidden>
+      <h3 class="sub-h">GFA 상품별 성과</h3>
+      <div class="section-sub">구매완료 전환이 1건 이상 발생한 상품 <span id="gfa-product-shown">0</span>개, 전환매출액순 (전체 <span id="gfa-product-count">0</span>개 상품 중)</div>
+      <div class="table-scroll" style="margin-bottom:24px;">
+        <table id="gfa-product-table">
+          <thead><tr>
+            <th class="txt" data-key="product">상품명</th>
+            <th class="txt" data-key="campaign">캠페인</th>
+            <th data-key="impressions">노출수</th>
+            <th data-key="clicks">클릭수</th>
+            <th data-key="ctr">CTR</th>
+            <th data-key="cpc">CPC</th>
+            <th data-key="cost">총비용</th>
+            <th data-key="conversions">전환수</th>
+            <th data-key="revenue">전환매출액</th>
+            <th data-key="roas">ROAS</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="gfa-daily-block" class="sub-anchor">
+      <h3 class="sub-h">GFA 일별 추이</h3>
+      <div class="hourly-chart" style="margin-bottom:24px;">
+        <div class="hourly-bars" id="gfa-daily-bars"></div>
+        <div class="hourly-labels" id="gfa-daily-labels"></div>
+      </div>
+    </div>
+
+    <div id="gfa-segment-block">
+      <h3 class="sub-h sub-anchor" id="gfa-segment">GFA 연령, 성별 성과 (전체 <span id="gfa-segment-count">0</span>개 구간)</h3>
+      <div class="barlist" id="gfa-segment-chart" style="margin-bottom:20px;"></div>
+      <div class="table-scroll">
+        <table id="gfa-segment-table">
+          <thead><tr>
+            <th class="txt" data-key="segment">연령, 성별</th>
+            <th data-key="impressions">노출수</th>
+            <th data-key="clicks">클릭수</th>
+            <th data-key="ctr">CTR</th>
+            <th data-key="cpc">CPC</th>
+            <th data-key="cost">총비용</th>
+            <th data-key="conversions">전환수</th>
+            <th data-key="revenue">전환매출액</th>
+            <th data-key="roas">ROAS</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  </div><!-- /panel-naver -->
+
+  <div id="panel-gmarket" hidden>
+    <section id="gm-summary">
+      <h2>전체 요약</h2>
+      <div class="section-sub" id="gm-summary-sub">해당 기간 상품별 리포트 합계</div>
+      <div class="kpi-grid" id="gm-kpi-grid"></div>
+      <div class="insights">
+        <h3>이번 기간 눈에 띄는 포인트 <span class="insights-hint">(문구를 클릭해 수정하거나 지울 수 있습니다)</span></h3>
+        <ul id="gm-insights-list"></ul>
+        <button id="gmInsightAddBtn" class="insight-add-btn" type="button">+ 문구 추가</button>
+      </div>
+    </section>
+
+    <section id="gm-compare">
+      <h2>캠페인 유형 비교</h2>
+      <div class="section-sub" id="gm-compare-sub">같은 기간 성과 비교</div>
+      <div class="compare-grid" id="gm-compare-grid"></div>
+    </section>
+
+    <section id="gm-product">
+      <h2>상품별 성과</h2>
+      <div class="section-sub">비용 기준 상위 상품, 전체 <span id="gm-product-count">0</span>개 상품 (표는 스크롤하여 전체 확인 가능)</div>
+      <div class="barlist barlist-wide" id="gm-product-chart" style="margin-bottom:20px;"></div>
+      <div class="table-scroll">
+        <table id="gm-product-table">
+          <thead><tr>
+            <th class="txt" data-key="campaignType">캠페인유형</th>
+            <th class="txt" data-key="adGroup">그룹</th>
+            <th class="txt" data-key="product">상품명</th>
+            <th data-key="impressions">노출수</th>
+            <th data-key="clicks">클릭수</th>
+            <th data-key="ctr">CTR</th>
+            <th data-key="cpc">CPC</th>
+            <th data-key="cost">광고비용</th>
+            <th data-key="conversions">전환수</th>
+            <th data-key="revenue">전환매출액</th>
+            <th data-key="roas">ROAS</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="gm-keywords">
+      <h2>인기 키워드 TOP 20</h2>
+      <div class="section-sub">비용 기준 상위 20개 키워드 (전체 <span id="gm-kw-total">0</span>개 키워드 중)</div>
+      <div class="table-scroll">
+        <table id="gm-keyword-table">
+          <thead><tr>
+            <th class="txt" data-key="keyword">키워드</th>
+            <th data-key="impressions">노출수</th>
+            <th data-key="clicks">클릭수</th>
+            <th data-key="ctr">CTR</th>
+            <th data-key="cpc">CPC</th>
+            <th data-key="cost">광고비용</th>
+            <th data-key="conversions">전환수</th>
+            <th data-key="revenue">전환매출액</th>
+            <th data-key="roas">ROAS</th>
+            <th class="txt" data-metric="conversions">상태</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </div><!-- /panel-gmarket -->
+
+  <div id="panel-auction" hidden>
+    <section id="au-summary">
+      <h2>전체 요약</h2>
+      <div class="section-sub" id="au-summary-sub">AI매출업, 파워클릭 합계</div>
+      <div class="warning-banner" id="au-impression-warning" hidden style="margin-bottom:16px;">⚠️ AI매출업 리포트는 노출수를 제공하지 않아, 위 노출수·클릭률은 파워클릭 데이터만 반영된 값입니다.</div>
+      <div class="kpi-grid" id="au-kpi-grid"></div>
+      <div class="insights">
+        <h3>이번 기간 눈에 띄는 포인트 <span class="insights-hint">(문구를 클릭해 수정하거나 지울 수 있습니다)</span></h3>
+        <ul id="au-insights-list"></ul>
+        <button id="auInsightAddBtn" class="insight-add-btn" type="button">+ 문구 추가</button>
+      </div>
+    </section>
+
+    <section id="au-compare">
+      <h2>광고상품 비교</h2>
+      <div class="section-sub" id="au-compare-sub"></div>
+      <div class="compare-grid" id="au-compare-grid"></div>
+    </section>
+
+    <section id="au-product">
+      <h2>상품별 성과</h2>
+      <div class="section-sub">비용 기준 상위 상품, 전체 <span id="au-product-count">0</span>개 상품 (표는 스크롤하여 전체 확인 가능)</div>
+      <div class="barlist barlist-wide" id="au-product-chart" style="margin-bottom:20px;"></div>
+      <div class="table-scroll">
+        <table id="au-product-table">
+          <thead><tr>
+            <th class="txt" data-key="adType">광고상품</th>
+            <th class="txt" data-key="group">그룹/영역</th>
+            <th class="txt" data-key="product">상품번호</th>
+            <th data-key="impressions">노출수</th>
+            <th data-key="clicks">클릭수</th>
+            <th data-key="ctr">CTR</th>
+            <th data-key="cpc">CPC</th>
+            <th data-key="cost">광고비용</th>
+            <th data-key="conversions">구매수</th>
+            <th data-key="revenue">구매금액</th>
+            <th data-key="roas">ROAS</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="au-keywords">
+      <h2>인기 키워드 TOP 20 <span class="badge info">파워클릭</span></h2>
+      <div class="section-sub">비용 기준 상위 20개 키워드 (전체 <span id="au-kw-total">0</span>개 키워드 중)</div>
+      <div class="table-scroll">
+        <table id="au-keyword-table">
+          <thead><tr>
+            <th class="txt" data-key="keyword">키워드</th>
+            <th data-key="impressions">노출수</th>
+            <th data-key="clicks">클릭수</th>
+            <th data-key="ctr">CTR</th>
+            <th data-key="cpc">CPC</th>
+            <th data-key="cost">광고비용</th>
+            <th data-key="conversions">구매수</th>
+            <th data-key="revenue">구매금액</th>
+            <th data-key="roas">ROAS</th>
+            <th class="txt" data-metric="conversions">상태</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </div><!-- /panel-auction -->
+
+  <div id="panel-elevenst" hidden>
+    <section id="st-summary">
+      <h2>전체 요약</h2>
+      <div class="section-sub" id="st-summary-sub">광고상품별 리포트 합계</div>
+      <div class="kpi-grid" id="st-kpi-grid"></div>
+      <div class="insights">
+        <h3>이번 기간 눈에 띄는 포인트 <span class="insights-hint">(문구를 클릭해 수정하거나 지울 수 있습니다)</span></h3>
+        <ul id="st-insights-list"></ul>
+        <button id="stInsightAddBtn" class="insight-add-btn" type="button">+ 문구 추가</button>
+      </div>
+    </section>
+
+    <section id="st-compare">
+      <h2>광고상품 비교</h2>
+      <div class="section-sub" id="st-compare-sub">같은 기간 성과 비교</div>
+      <div class="compare-grid" id="st-compare-grid"></div>
+    </section>
+
+    <!-- 광고상품(직접캠페인 / AI캠페인 등)마다 일별 성과 섹션을 스크립트에서 하나씩 만든다 -->
+    <div id="st-daily-list"></div>
+  </div><!-- /panel-elevenst -->
+
+  <div id="panel-ohouse" hidden>
+    <section id="oh-summary">
+      <h2>전체 요약</h2>
+      <div class="section-sub" id="oh-summary-sub"></div>
+      <div class="kpi-grid" id="oh-kpi-grid"></div>
+      <div class="insights">
+        <h3>이번 기간 눈에 띄는 포인트 <span class="insights-hint">(문구를 클릭해 수정하거나 지울 수 있습니다)</span></h3>
+        <ul id="oh-insights-list"></ul>
+        <button id="ohInsightAddBtn" class="insight-add-btn" type="button">+ 문구 추가</button>
+      </div>
+    </section>
+
+    <section id="oh-campaign">
+      <h2>캠페인별 성과</h2>
+      <div class="section-sub">비용이 많은 순서로 정리 (유형은 입찰 전략)</div>
+      <div id="oh-campaign-body"></div>
+    </section>
+
+    <section id="oh-daily">
+      <h2>일별 성과</h2>
+      <div class="section-sub">캠페인을 고르면 그 일별 성과만 봅니다</div>
+      <div id="oh-daily-body"></div>
+    </section>
+
+    <section id="oh-category">
+      <h2>카테고리별 성과</h2>
+      <div class="section-sub" id="oh-category-sub"></div>
+      <div class="barlist" id="oh-category-chart" style="margin-bottom:20px;"></div>
+      <div class="table-scroll">
+        <table id="oh-category-table">
+          <thead><tr>
+            <th class="txt" data-key="category">카테고리</th>
+            <th data-key="impressions">노출수</th>
+            <th data-key="clicks">클릭수</th>
+            <th data-key="ctr">CTR</th>
+            <th data-key="cpc">CPC</th>
+            <th data-key="cost">총비용</th>
+            <th data-key="conversions">전환수</th>
+            <th data-key="revenue">전환매출액</th>
+            <th data-key="roas">ROAS</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="oh-product-all">
+      <h2>상품별 성과</h2>
+      <div class="section-sub" id="oh-product-all-sub"></div>
+      <div class="barlist barlist-wide" id="oh-product-all-chart" style="margin-bottom:20px;"></div>
+      <div class="table-scroll">
+        <table id="oh-product-all-table">
+          <thead><tr>
+            <th class="txt" data-key="product">상품명</th>
+            <th class="txt" data-key="campaignNames">등록 캠페인</th>
+            <th data-key="impressions">노출수</th>
+            <th data-key="clicks">클릭수</th>
+            <th data-key="ctr">CTR</th>
+            <th data-key="cpc">CPC</th>
+            <th data-key="cost">총비용</th>
+            <th data-key="conversions">전환수</th>
+            <th data-key="revenue">전환매출액</th>
+            <th data-key="roas">ROAS</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="oh-product">
+      <h2>상품별 캠페인 성과</h2>
+      <div class="section-sub" id="oh-product-sub"></div>
+      <!-- 두 캠페인 이상에 등록된 상품마다 캠페인끼리 비교하는 표를 스크립트에서 하나씩 만든다 -->
+      <div id="oh-product-compare"></div>
+      <div class="table-scroll">
+        <table id="oh-product-table">
+          <thead><tr>
+            <th class="txt" data-key="product">상품명</th>
+            <th class="txt" data-key="campaign">캠페인</th>
+            <th class="txt" data-key="campaignType">입찰 전략</th>
+            <th data-key="impressions">노출수</th>
+            <th data-key="clicks">클릭수</th>
+            <th data-key="ctr">CTR</th>
+            <th data-key="cpc">CPC</th>
+            <th data-key="cost">총비용</th>
+            <th data-key="conversions">전환수</th>
+            <th data-key="revenue">전환매출액</th>
+            <th data-key="roas">ROAS</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="oh-keywords">
+      <h2>검색어별 성과</h2>
+      <div class="section-sub" id="oh-kw-sub"></div>
+      <div class="table-scroll">
+        <table id="oh-keyword-table">
+          <thead><tr>
+            <th class="txt" data-key="campaign">캠페인</th>
+            <th class="txt" data-key="keyword">검색어</th>
+            <th class="txt" data-key="targeting">타겟팅</th>
+            <th data-key="impressions">노출수</th>
+            <th data-key="clicks">클릭수</th>
+            <th data-key="ctr">CTR</th>
+            <th data-key="cpc">CPC</th>
+            <th data-key="cost">총비용</th>
+            <th data-key="conversions">전환수</th>
+            <th data-key="revenue">전환매출액</th>
+            <th data-key="roas">ROAS</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </div><!-- /panel-ohouse -->
+
+  <div class="footnote" id="footnote"></div>
+</div>
+
+<div id="tooltip" class="hidden"></div>
+
+<div id="colPanel" class="col-panel" hidden>
+  <div class="col-panel-title">표시 항목</div>
+  <div id="colPanelList"></div>
+  <div class="col-panel-hint">체크를 끄면 보고서 전체에서 숨겨지고, 다시 켜면 돌아옵니다. 표의 컬럼 제목을 드래그하면 위치를 바꿀 수 있고, 표 밖으로 끌어내면 그 컬럼이 빠집니다(표 위의 '+ 이름'으로 되돌림). 바꾼 내용은 이 브라우저에 기억되고, 아래 '광고주 발송용 저장'으로 만든 파일에 그대로 들어갑니다.</div>
+</div>
+<div id="fontSizeCtl" class="ctl-stack">
+  <div class="font-size-ctl edit-only">
+    <button id="clientSaveBtn" class="wide" type="button" title="지금 화면 그대로, 문구 수정 · 표시 항목 · 저장 기능을 뺀 파일을 따로 저장합니다 (광고주에게는 이 파일을 보내 주세요)">광고주 발송용 저장</button>
+  </div>
+  <div class="font-size-ctl edit-only">
+    <button id="colBtn" class="wide" title="보고서에 표시할 항목 선택">표시 항목</button>
+  </div>
+  <div class="font-size-ctl">
+    <button id="fsDown" title="글자 작게">가−</button>
+    <span id="fsLabel">110%</span>
+    <button id="fsUp" title="글자 크게">가+</button>
+  </div>
+  <div class="font-size-ctl">
+    <button id="wdDown" title="화면 폭 좁게 (좌우 여백 늘리기)">폭−</button>
+    <span id="wdLabel">1180</span>
+    <button id="wdUp" title="화면 폭 넓게 (좌우 여백 줄이기)">폭+</button>
+  </div>
+</div>
+
+<script id="report-data" type="application/json">__REPORT_DATA_JSON__</script>
+<script id="report-rows" type="application/json">__REPORT_ROWS_JSON__</script>
+<script>
+(function(){
+  'use strict';
+  // '광고주 발송용 저장'은 데이터만 채워진 처음 상태의 문서를 바탕으로 파일을 만든다. 화면을 그리기 전에 보관해 둔다.
+  // 검색어 · 키워드 표 줄 칸(report-rows)은 수십만 줄일 수 있어, 글자를 따로 들고 칸은 비운 채 보관한다(문서를 통째로 다시 글자로 만들지 않게). 저장할 때 다시 넣는다.
+  const ROWS_EL = document.getElementById('report-rows');
+  const ROWS_TEXT = ROWS_EL ? ROWS_EL.textContent : '';
+  if (ROWS_EL) ROWS_EL.textContent = '';
+  const PRISTINE_HTML = '<!DOCTYPE html>' + document.documentElement.outerHTML;
+  const DATA_TEXT = document.getElementById('report-data').textContent;
+  const DATA = JSON.parse(DATA_TEXT);
+  // 네이버 검색어 · 키워드 표 줄은 수십만 개일 수 있어 따로 둔 칸(report-rows)에 있다 (2.036). 2.035 이하 보고서는 report-data 안에 있고 이 칸이 없다.
+  // BASE(파일에 다시 쓸 데이터)에는 넣지 않는다: 광고주 발송용 저장은 report-data만 바꾸고 이 칸은 그대로 둔다.
+  (function(){
+    if (ROWS_TEXT.charAt(0) !== '{') return;
+    const R = JSON.parse(ROWS_TEXT);
+    // 줄은 {cols:[항목 이름], rows:[[값...]]} 모양이다 (항목 이름을 줄마다 되풀이하지 않아 파일이 반쯤 작다). 줄 개체로 펼친다
+    const expand = t => {
+      if (!t || !t.cols) return t;
+      const cols = t.cols, n = cols.length;
+      return t.rows.map(a => { const o = {}; for (let i = 0; i < n; i++) o[cols[i]] = a[i]; return o; });
+    };
+    if (R.topKeywordsByCost) DATA.topKeywordsByCost = expand(R.topKeywordsByCost);
+    if (DATA.keywordTable2 && R.keywordTable2Rows) DATA.keywordTable2.rows = expand(R.keywordTable2Rows);
+  })();
+  let BASE = JSON.parse(DATA_TEXT);   // 파일에 들어 있는 그대로의 데이터 (화면용 DATA는 아래에서 광고비 입력 등으로 바뀐다)
+
+  // ---------- 보고서에서 바꾼 내용 ----------
+  // 표시 항목, 컬럼 순서, 직접 입력한 광고비, 눈에 띄는 포인트 문구는 이 PC의 브라우저에 기억해 둔다(새로 고침하거나 다시 열어도 남게).
+  // '광고주 발송용 저장'을 누르면 그 값이 새 파일 안에 들어가 받은 사람에게도 그대로 보인다.
+  // 예전 '변경 내용 저장'(지금 파일에 덮어쓰기)은 2.035에서 뺐다 (사용자: "그냥 저장 버튼은 쓸모가 없을 것 같다, 최종 저장 버튼만"). 그 전에 저장한 파일은 파일 값 위에 기억해 둔 값을 덮어 보여준다.
+  const EDIT_FIELDS = ['visibleMetrics', 'columnOrder', 'columnRemoved', 'manualCost', 'insights'];
+  // 광고주 발송용 파일은 파일에 저장된 그대로만 보여준다: 수정 기능을 숨기고, 브라우저에 기억해 둔 변경도 읽거나 남기지 않는다
+  const CLIENT = !!DATA.clientMode;
+  if (CLIENT) document.documentElement.classList.add('client-mode');
+  const DRAFT_KEY = 'adReportDraft:' + location.pathname;
+  let DRAFT = {};
+  if (!CLIENT) try { DRAFT = JSON.parse(localStorage.getItem(DRAFT_KEY) || '{}') || {}; } catch (e) {}
+  // 2.005 이하가 따로 기억해 둔 값도 저장 전 변경으로 가져온다
+  if (!CLIENT) [['visibleMetrics', 'adReportCols:'], ['columnOrder', 'adReportColOrder2:'], ['manualCost', 'adReportManualCost:']].forEach(([field, prefix]) => {
+    try {
+      const v = localStorage.getItem(prefix + location.pathname);
+      if (v && !(field in DRAFT)) DRAFT[field] = JSON.parse(v);
+      localStorage.removeItem(prefix + location.pathname);
+    } catch (e) {}
+  });
+  const edited = field => Object.assign({}, DATA[field] || {}, DRAFT[field] || {});   // 파일 값 위에 저장 전 변경을 덮은 값
+  function setDraft(field, patch){
+    DRAFT[field] = Object.assign({}, DRAFT[field] || {}, patch);
+    if (CLIENT) return;   // 광고주 쪽에서 컬럼을 옮긴 것은 그 화면에서만 (저장 안 내 창도 띄우지 않는다)
+    try { localStorage.setItem(DRAFT_KEY, JSON.stringify(DRAFT)); } catch (e) {}
+  }
+
+  // ---------- 광고비 직접 입력 ----------
+  // 브랜드검색/신제품검색처럼 계약금으로 따로 내는 상품은 네이버 데이터에 비용이 0원으로 나온다.
+  // 비용이 0원인 캠페인 유형은 보고서에서 광고비를 입력할 수 있고, 입력한 값은 그 유형과 전체 요약의 비용 · CPC · ROAS에 반영한다.
+  // (지면별 · 검색어별 표의 각 줄에는 나누지 않는다. 계약금은 줄 단위 비용이 아니기 때문)
+  const CHANNELS = DATA.channels || [];   // 네이버 검색광고, GFA, 구글, 메타 (있는 매체만)
+  CHANNELS.forEach(ch => [ch.overview].concat(ch.byCampaign, ch.byDate, ch.campaignDaily).forEach(r => { r.currency = ch.currency; }));
+  const LEAD = !!DATA.leadMode;           // 매출 없이 문의, 신청을 전환으로 받는 광고주
+  const MANUAL_COST = edited('manualCost');
+  const MANUAL_TYPES = [];   // 광고비를 입력할 수 있는 캠페인 유형
+  (DATA.byCampaignType || []).forEach(t => {
+    if (t.cost !== 0) return;
+    MANUAL_TYPES.push(t.type);
+    const m = Math.round(+MANUAL_COST[t.type] || 0);
+    if (m <= 0) return;
+    t.cost = m;
+    t.cpc = t.clicks > 0 ? Math.round(m / t.clicks) : 0;
+    t.roas = Math.round(t.revenue / m * 10000) / 100;
+    t.manualCost = true;
+    if (DATA.overview){
+      const o = DATA.overview;
+      o.cost += m;
+      o.cpc = o.clicks > 0 ? Math.round(o.cost / o.clicks) : 0;
+      o.roas = o.cost > 0 ? Math.round(o.revenue / o.cost * 10000) / 100 : 0;
+    }
+    // 통합 화면과 캠페인별 표도 같은 금액을 쓴다. 그 유형의 캠페인이 하나일 때만 캠페인 줄에도 넣는다.
+    const ch = CHANNELS.find(c => c.key === (t.type === 'GFA' ? 'gfa' : 'naver'));
+    if (ch){
+      ch.overview.cost += m;
+      const same = ch.byCampaign.filter(c => c.campaignType === t.type);
+      if (same.length === 1) same[0].cost = m;
+    }
+  });
+  const $ = id => document.getElementById(id);
+
+  // ---------- 이 PC의 브라우저에 기억해 둔 설정 ----------
+  // 화면 폭은 표 폭을 맞추기 전에 먼저 적용한다 (아래 '화면 폭 조절'과 같은 값).
+  try {
+    const w = parseInt(localStorage.getItem('adReportWidthPx'), 10);
+    if (!isNaN(w)) document.documentElement.style.setProperty('--wrap-w', w ? Math.min(4000, Math.max(800, w)) + 'px' : 'none');
+  } catch (e) {}
+  const SEC = DATA.sections || {};
+  // '표시 항목'은 생성할 때 고른 설정 위에 보고서에서 바꾼 설정을 덮어쓴다. 데이터 자체는 지우지 않는다.
+  const COL_ORDER = edited('columnOrder');
+  const COL_REMOVED = edited('columnRemoved');   // 표 밖으로 끌어내 뺀 컬럼 { 표 id: [원래 위치 번호] }
+  // 통합 보고서를 '키워드' 항목으로 받았으면 검색어 표의 이름을 '키워드'로 바꿔 보여준다.
+  const KW_DIM = DATA.keywordDimension || '검색어';
+  const VISIBLE_METRICS = edited('visibleMetrics');
+  function isMetricVisible(key){
+    if (!(key in VISIBLE_METRICS)) return true;
+    return VISIBLE_METRICS[key] !== false;
+  }
+
+  // ---------- 숫자 서식 ----------
+  const escapeHtml = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const NUM_FMT = new Intl.NumberFormat('ko-KR');   // 한 번 만들어 재사용 (toLocaleString은 부를 때마다 새로 만들어 느리다)
+  const fmtInt = n => NUM_FMT.format(Math.round(n));
+  const fmtWon = n => '₩' + NUM_FMT.format(Math.round(n));
+  const fmtPct = n => n.toFixed(2) + '%';
+  const fmtRoas = n => Math.round(n) + '%';   // ROAS는 소수 첫째 자리에서 반올림해 정수로만 보여준다
+  const isZeroText = t => /^[₩$]?0(\.0+)?[%건]?$/.test(t);
+  const fmtConv = n => NUM_FMT.format(Math.round(n * 100) / 100);   // 구글 전환은 소수로 나온다 (정수는 정수로 보인다)
+  const cvrOf = r => r.clicks > 0 ? r.conversions / r.clicks * 100 : 0;
+  const cpaOf = r => r.conversions > 0 ? r.cost / r.conversions : 0;
+  // 광고비는 보고서 통화 그대로 보여준다. 달러는 환율로 바꾸지 않고, 원화와 더하거나 비교하지도 않는다.
+  const USD_FMT = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const fmtUsd = n => '$' + USD_FMT.format(n);
+  const fmtMoney = (n, cur) => cur === 'USD' ? fmtUsd(n) : fmtWon(n);
+  const fmtCpa = (n, cur) => n > 0 ? fmtMoney(n, cur) : '-';   // 전환이 없거나 비용이 0원이면 계산할 수 없다
+  function formatPeriodWithDays(periodStr){
+    const parse = s => { const m = s.match(/(\d{4})[.\-](\d{2})[.\-](\d{2})/); return m ? Date.UTC(+m[1], +m[2]-1, +m[3]) : null; };
+    const [startRaw, endRaw] = periodStr.split('~').map(s => s.trim());
+    const startMs = parse(startRaw), endMs = parse(endRaw);
+    let label = startRaw + ' ~ ' + endRaw.replace(/\.$/, '');
+    if (startMs !== null && endMs !== null) label += ' (' + (Math.round((endMs - startMs) / 86400000) + 1) + '일)';
+    return label;
+  }
+
+  // ---------- 말풍선 (차트) ----------
+  const tooltip = $('tooltip');
+  function showTip(evt, title, lines){
+    tooltip.innerHTML = '<div class="t-title">'+escapeHtml(title)+'</div>' + lines.map(l=>'<div>'+escapeHtml(l)+'</div>').join('');
+    tooltip.classList.remove('hidden');
+    moveTip(evt);
+  }
+  function moveTip(evt){ tooltip.style.left = evt.clientX + 'px'; tooltip.style.top = evt.clientY + 'px'; }
+  function hideTip(){ tooltip.classList.add('hidden'); }
+
+  // ---------- 공통 화면 조각 ----------
+  function hideSection(navId, sectionId){
+    const nav = $(navId), sec = $(sectionId);
+    if (nav) nav.hidden = true;
+    if (sec) sec.hidden = true;
+  }
+  // 메뉴 링크에 id가 없는 섹션: 섹션과 그 섹션으로 가는 링크를 함께 숨긴다
+  function hideSectionAndLinks(sectionId){
+    const sec = $(sectionId);
+    if (sec) sec.hidden = true;
+    document.querySelectorAll('a[href="#' + sectionId + '"]').forEach(a => { a.hidden = true; });
+  }
+  // KPI 칸: [지표 키, 이름, 값, 단위, 값 아래에 덧붙일 글(없어도 됨)]
+  // 결론이 되는 숫자 셋은 맨 위 띠에 크게 놓고 나머지는 그 아래 한 줄로 둔다. opts.all: 표시 항목과 상관없이 모두, opts.quiet: 띠 없이 한 줄로만
+  const HERO_KEYS = LEAD ? ['cost', 'conversions', 'cpa'] : ['cost', 'revenue', 'roas'];
+  function renderKpis(gridId, items, opts){
+    opts = opts || {};
+    const shown = items.filter(r => opts.all || isMetricVisible(r[0]));
+    const tile = ([, label, val, unit, extra]) => '<div class="kpi-tile"><div class="label">'+label+'</div><div class="value num">'+val+(unit ? '<small>'+unit+'</small>' : '')+'</div>'
+      + (extra ? '<div class="value-2 num">'+escapeHtml(extra)+'</div>' : '') + '</div>';
+    const picked = opts.quiet ? [] : HERO_KEYS.map(k => shown.find(r => r[0] === k)).filter(Boolean);
+    const hero = picked.length >= 2 ? picked : [];
+    $(gridId).innerHTML = (hero.length ? '<div class="kpi-hero">' + hero.map(tile).join('') + '</div>' : '')
+      + '<div class="kpi-strip">' + shown.filter(r => hero.indexOf(r) < 0).map(tile).join('') + '</div>';
+  }
+  function overviewKpis(o, L){
+    L = L || {};
+    const money = n => o.currency === 'USD' ? [fmtUsd(n), ''] : [fmtInt(n), '원'];
+    return [
+      ['impressions', '노출수', fmtInt(o.impressions), ''],
+      ['clicks', '클릭수', fmtInt(o.clicks), ''],
+      ['ctr', '클릭률(CTR)', fmtPct(o.ctr), ''],
+      ['cpc', '평균 CPC', ...money(o.cpc)],
+      ['cost', L.cost || '총비용', ...money(o.cost)],
+      ['conversions', L.conversions || '전환수', fmtConv(o.conversions), '건'],
+      ['cvr', '전환율(CVR)', fmtPct(cvrOf(o)), ''],
+      ['cpa', '전환당 비용(CPA)', ...(cpaOf(o) > 0 ? money(cpaOf(o)) : ['-', ''])],
+      ['revenue', L.revenue || '전환매출액', fmtInt(o.revenue), '원'],
+      ['roas', '광고수익률(ROAS)', fmtRoas(o.roas), ''],
+    ];
+  }
+  // 비교 (캠페인 유형, 기기, 광고상품, 매체): 항목을 가로로 맞춘 표. nameFn: 열 이름, colorFn: 점 색
+  function renderCompareCards(gridId, rows, nameFn, colorFn, L){
+    L = L || {};
+    const grid = $(gridId);
+    const items = [
+      ['impressions', '노출수', r => fmtInt(r.impressions)],
+      ['clicks', '클릭수', r => fmtInt(r.clicks)],
+      ['ctr', 'CTR', r => fmtPct(r.ctr)],
+      ['cost', L.cost || '총비용', r => fmtMoney(r.cost, r.currency)],
+      ['conversions', L.conversions || '전환수', r => fmtConv(r.conversions) + '건'],
+      ['cvr', 'CVR', r => fmtPct(cvrOf(r))],
+      ['cpa', 'CPA', r => fmtCpa(cpaOf(r), r.currency)],
+      ['revenue', L.revenue || '전환매출액', r => fmtWon(r.revenue)],
+      ['roas', 'ROAS', r => fmtRoas(r.roas)]
+    ].filter(m => isMetricVisible(m[0]));
+    // 줄마다 가장 좋은 값. 통화가 섞인 CPA는 견줄 수 없어 뺀다
+    const sameCur = rows.every(r => r.currency === rows[0].currency);
+    const bestOf = {
+      ctr: Math.max(...rows.map(r => r.ctr)),
+      cvr: Math.max(...rows.map(cvrOf)),
+      roas: Math.max(...rows.map(r => r.roas)),
+      cpa: sameCur ? Math.min(...rows.map(cpaOf).filter(v => v > 0)) : 0
+    };
+    const isBest = (key, r) => {
+      if (rows.length < 2 || !(key in bestOf) || !(bestOf[key] > 0) || !isFinite(bestOf[key])) return false;
+      const v = key === 'cvr' ? cvrOf(r) : key === 'cpa' ? cpaOf(r) : r[key];
+      return v === bestOf[key];
+    };
+    grid.style.gridTemplateColumns = 'auto repeat(' + rows.length + ', minmax(112px, 1fr))';
+    grid.innerHTML = '<div class="compare-card lab"><div class="ctype"></div>'
+      + items.map(m => '<div class="compare-row"><span class="k">' + m[1] + '</span></div>').join('') + '</div>'
+      + rows.map((row, i) => '<div class="compare-card" data-i="' + i + '"><div class="ctype"><span class="dot" style="background:' + colorFn(row, i) + '"></span><span class="ctype-name" title="' + escapeHtml(nameFn(row)) + '">' + escapeHtml(nameFn(row)) + '</span></div>'
+        + items.map(m => {
+          const text = m[2](row);
+          return '<div class="compare-row"><span class="v num' + (isZeroText(text) ? ' zero' : isBest(m[0], row) ? ' best' : '') + '">' + text + '</span></div>';
+        }).join('') + '</div>').join('');
+  }
+  const CYCLE_COLORS = ['var(--accent)', 'var(--series-2)', 'var(--series-3)'];
+  const cycleColor = (row, i) => CYCLE_COLORS[i % CYCLE_COLORS.length];
+
+  // 눈에 띄는 포인트: 문구를 고치거나 지우고, 새로 추가할 수 있다
+  function addInsightItem(listEl, html, focus){
+    const li = document.createElement('li');
+    if (CLIENT){ li.innerHTML = '<span class="insight-text">'+html+'</span>'; listEl.appendChild(li); return; }
+    li.innerHTML = '<span class="insight-text" contenteditable="true">'+html+'</span><span class="insight-del" title="이 문구 삭제">×</span>';
+    li.querySelector('.insight-del').addEventListener('click', function(){ li.remove(); });
+    listEl.appendChild(li);
+    if (focus){
+      const span = li.querySelector('.insight-text');
+      span.focus();
+      const range = document.createRange();
+      range.selectNodeContents(span);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+  }
+  // 문구를 고치거나 지우거나 추가하면 그 목록 전체를 바꾼 내용으로 기억한다. 저장된 문구가 있으면 자동으로 만든 문구 대신 그것을 보여준다.
+  function renderInsights(listId, btnId, items){
+    const list = $(listId);
+    const saved = edited('insights')[listId];
+    (Array.isArray(saved) ? saved : items).forEach(t => addInsightItem(list, t, false));
+    if (CLIENT) return;
+    let timer = null;
+    const remember = () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        setDraft('insights', { [listId]: Array.from(list.querySelectorAll('.insight-text')).map(s => s.innerHTML) });
+      }, 300);
+    };
+    list.addEventListener('input', remember);
+    list.addEventListener('click', e => { if (e.target.classList.contains('insight-del')) remember(); });
+    $(btnId).addEventListener('click', function(){ addInsightItem(list, '새 문구를 입력하세요', true); remember(); });
+  }
+  // 여러 매체에 공통인 포인트: ROAS 차이, 광고비 비중
+  function roasGapInsight(types, suffix){
+    const s = types.slice().sort((a,b)=>b.roas-a.roas);
+    if (!isMetricVisible('roas') || s.length < 2 || !(s[s.length-1].roas > 0)) return null;
+    const best = s[0], worst = s[s.length-1];
+    return '<b>'+escapeHtml(best.type)+'</b>'+suffix+'의 ROAS('+fmtRoas(best.roas)+')가 <b>'+escapeHtml(worst.type)+'</b>('+fmtRoas(worst.roas)+')보다 약 <b>'+(best.roas/worst.roas).toFixed(1)+'배</b> 높습니다.';
+  }
+  function topCostShare(types, totalCost){
+    const s = types.slice().sort((a,b)=>b.cost-a.cost);
+    if (!isMetricVisible('cost') || s.length < 2 || !(totalCost > 0)) return null;
+    return { top: s[0], pct: (s[0].cost/totalCost*100).toFixed(1) };
+  }
+
+  // 막대 목록 (지면, 지역, 상품, 연령 · 성별)
+  function renderBarList(container, items, {valueKey, colorFn, formatValue, formatLabel, tipLines}){
+    const max = Math.max(...items.map(i=>i[valueKey]), 1);
+    container.innerHTML = items.map(item => {
+      const label = escapeHtml(formatLabel(item));
+      return '<div class="row"><div class="rlabel" title="'+label+'">'+label+'</div>'
+        + '<div class="track"><div class="fill" style="width:'+(item[valueKey]/max*100).toFixed(1)+'%;background:'+colorFn(item)+'"></div></div>'
+        + '<div class="rvalue num">'+formatValue(item[valueKey])+'</div></div>';
+    }).join('');
+    Array.from(container.querySelectorAll('.fill')).forEach((fill, i) => {
+      const item = items[i];
+      fill.addEventListener('mouseenter', e=>showTip(e, formatLabel(item), tipLines(item)));
+      fill.addEventListener('mousemove', moveTip);
+      fill.addEventListener('mouseleave', hideTip);
+    });
+  }
+  const statTip = (r, convWord, revWord) => LEAD ? [
+    '노출 '+fmtInt(r.impressions)+', 클릭 '+fmtInt(r.clicks)+', CTR '+fmtPct(r.ctr),
+    '비용 '+fmtMoney(r.cost, r.currency)+', 전환 '+fmtConv(r.conversions)+'건',
+    'CVR '+fmtPct(cvrOf(r))+', CPA '+fmtCpa(cpaOf(r), r.currency)
+  ] : [
+    '노출 '+fmtInt(r.impressions)+', 클릭 '+fmtInt(r.clicks)+', CTR '+fmtPct(r.ctr),
+    '비용 '+fmtWon(r.cost)+', '+(convWord || '전환')+' '+r.conversions+'건, '+(revWord || '매출')+' '+fmtWon(r.revenue),
+    'ROAS '+fmtRoas(r.roas)
+  ];
+
+  // 막대 한 줄. 가장 큰 칸에만 숫자를 적고 나머지는 말풍선과 표로 본다.
+  function renderBarRow(el, items, value, fmt, color, tipTitle, tipLines){
+    const peak = Math.max(...items.map(value), 0);
+    el.innerHTML = items.map(h => {
+      const v = value(h);
+      if (!(v > 0)) return '<div class="col"></div>';
+      return '<div class="col">' + (v === peak ? '<span class="peak num">' + fmt(v) + '</span>' : '')
+        + '<div class="stack" style="height:' + Math.max(v / peak * 84, 1.5) + '%"><i style="flex:1;background:' + color + '"></i></div></div>';
+    }).join('');
+    Array.from(el.children).forEach((col, i) => {
+      const h = items[i];
+      col.addEventListener('mouseenter', e => showTip(e, tipTitle(h), tipLines(h)));
+      col.addEventListener('mousemove', moveTip);
+      col.addEventListener('mouseleave', hideTip);
+    });
+  }
+  // 전환수 꺾은선: 비용 막대 위에 겹친다. 칸 가운데(i+.5)/n에 점을 찍고, 가장 큰 점에만 숫자를 적는다.
+  // 차트 제목 줄: [막대 색 네모] 총비용   [선] 전환수 (두 글자 모양은 같고 선만 보라색)
+  const CONV_KEY = '<span class="ct-i"><i class="ln"></i>전환수</span>';
+  const costTitle = (label, color, withConv, style, lineColor) => '<div class="stack-title ct"' + (style || '') + (lineColor ? ' style="--ln:' + lineColor + '"' : '') + '><span class="ct-i">'
+    + (color ? '<i class="swatch" style="background:' + color + '"></i>' : '') + label + '</span>' + (withConv ? CONV_KEY : '') + '</div>';
+  function addConvLine(el, vals, fmt, lineColor){
+    const peak = Math.max(...vals, 0);
+    if (!(peak > 0)) return;
+    const pts = vals.map((v, i) => ({ x: ((i + .5) / vals.length * 100).toFixed(2), y: (4 + v / peak * 60).toFixed(2) }));
+    const poly = pts.map(p => p.x + ',' + (100 - p.y)).join(' ');
+    const k = pts[vals.indexOf(peak)];
+    el.insertAdjacentHTML('beforeend', '<div class="convline"' + (lineColor ? ' style="--ln:' + lineColor + '"' : '') + '><svg viewBox="0 0 100 100" preserveAspectRatio="none">'
+      + '<polyline class="ln" points="' + poly + '"/></svg>'
+      + '<span class="pk num" style="left:' + k.x + '%;bottom:calc(' + k.y + '% + 8px)">' + fmt(peak) + '</span></div>');
+  }
+  // 시간대, 일자, 요일 차트: 비용 막대 위에 전환수 꺾은선을 겹친다
+  function renderTimeChart(barsEl, labelsEl, items, {barColor, labelFn, tipTitleFn, lineColor}){
+    const tip = h => [
+      '노출 '+fmtInt(h.impressions)+', 클릭 '+fmtInt(h.clicks),
+      '비용 '+fmtWon(h.cost),
+      LEAD ? '전환 '+fmtConv(h.conversions)+'건, CPA '+fmtCpa(cpaOf(h)) : '전환 '+fmtConv(h.conversions)+'건, 매출 '+fmtWon(h.revenue)
+    ];
+    const showConv = isMetricVisible('conversions') && items.some(h => h.conversions > 0);
+    barsEl.className = 'stack-bars cost';
+    barsEl.insertAdjacentHTML('beforebegin', costTitle('총비용', barColor, showConv, '', lineColor));
+    renderBarRow(barsEl, items, h => h.cost, fmtWon, barColor, tipTitleFn, tip);
+    if (showConv) addConvLine(barsEl, items.map(h => h.conversions), n => fmtConv(n) + '건', lineColor);
+    labelsEl.innerHTML = items.map(h => '<span>'+escapeHtml(labelFn(h))+'</span>').join('');
+  }
+  const shortDate = d => d.date.replace(/^\d{4}\./,'').replace(/\.$/,'');
+
+  // =====================================================================
+  // 표
+  // 행이 수백 개인 표도 가볍게 보이도록, 표 안에서 지금 보이는 줄(과 위아래 여유분)만 그린다.
+  // 나머지 줄 자리는 빈 줄 하나의 높이로 채워 스크롤 길이는 전체 표와 같다.
+  // 컬럼 폭은 화면을 배치해서 재지 않고, 글자 폭을 계산해서 정한다 (화면 배치를 다시 하지 않아 빠르다).
+  // 정렬 · 컬럼 이동 · 폭 조절 · 엑셀 내려받기 · 인쇄는 전체 줄을 기준으로 한다.
+  // =====================================================================
+  const FAMILY = "Pretendard, 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif";
+  let FS = 1.1;                  // 글자 크기 배율 (글자 크기 조절 값 / 100). 기본 110%
+  const VIRTUAL_MIN_ROWS = 60;   // 이보다 줄이 많은 표만 보이는 줄만 그린다
+  const OVERSCAN = 15;           // 보이는 줄 위아래로 미리 그려 둘 줄 수
+  const moneyCell = (v, r) => r.currency === 'USD' ? fmtUsd(v) : fmtInt(v);
+  const usdCell = v => v > 0 ? fmtUsd(v) : '-';
+  const NUM_CELL = {
+    impressions: fmtInt, clicks: fmtInt, cpc: moneyCell, cost: moneyCell, conversions: fmtConv, revenue: fmtInt,
+    ctr: fmtPct, roas: fmtRoas, cvr: fmtPct, cpa: (v, r) => v > 0 ? moneyCell(v, r) : '-',
+    costUsd: usdCell, cpcUsd: usdCell, cpaUsd: usdCell
+  };
+  const COLLATOR = new Intl.Collator('ko');
+  const TABLES = [];
+  let PRINTING = false;
+  let resizingActive = false;
+
+  const measureCtx = document.createElement('canvas').getContext('2d');
+  const widthCache = new Map();
+  function textWidth(text, font){
+    const k = font + '|' + text;
+    let w = widthCache.get(k);
+    if (w === undefined){ measureCtx.font = font; w = measureCtx.measureText(text).width; widthCache.set(k, w); }
+    return w;
+  }
+
+  // 표 머리글(HTML)에 적힌 컬럼 정보를 읽는다. data-key = 데이터 항목이자 정렬 기준, data-metric = 표시 항목 기준.
+  // opts.muted: 흐린 글씨로 보일 컬럼, opts.cell: 칸 글자를 따로 만드는 컬럼, opts.minW: 최소 폭(px), opts.keepW: 표가 좁아도 이 폭까지는 줄이지 않을 컬럼(px), opts.noRates: CVR, CPA를 붙이지 않을 표, opts.hide: 숨길 컬럼 { 키: 1 }
+  // opts.dims: 줄을 나누는 컬럼(예: 캠페인, 광고그룹, 검색어). 이 중 하나를 표 밖으로 끌어내 빼면 남은 컬럼끼리 줄을 다시 합친다
+  function createTable(tableId, rows, opts){
+    opts = opts || {};
+    const table = $(tableId);
+    const head = table.tHead;
+    // CVR, CPA는 표마다 적지 않고 전환수 컬럼 뒤에 붙인다. 표시 항목에서 끄면 숨겨진다.
+    const convTh = head.rows[0].querySelector('[data-key="conversions"]');
+    if (convTh && !opts.noRates){
+      convTh.insertAdjacentHTML('afterend', '<th data-key="cvr">CVR</th><th data-key="cpa">CPA</th>');
+      rows.forEach(r => { r.cvr = cvrOf(r); r.cpa = cpaOf(r); });
+    }
+    const cols = Array.from(head.rows[0].cells).map((th, i) => {
+      const key = th.dataset.key || null;
+      return {
+        index: i, key: key,
+        metric: th.dataset.metric || key,
+        txt: th.classList.contains('txt'),
+        status: !key && th.dataset.metric === 'conversions',   // 전환 상태 배지 (미전환 / 전환 있음)
+        labelHtml: th.innerHTML,
+        label: th.textContent.replace(/\s+/g, ' ').trim(),
+        muted: !!(opts.muted && opts.muted.indexOf(key) >= 0),
+        cell: opts.cell ? opts.cell[key] : null,
+        minW: (opts.minW && opts.minW[key]) || 0,
+        keepW: (opts.keepW && opts.keepW[key]) || 0
+      };
+    });
+    const all = cols.map(c => c.index);
+    let order = COL_ORDER[tableId];
+    if (!Array.isArray(order) || order.slice().sort((a,b)=>a-b).join() !== all.join()) order = all;
+    const colgroup = document.createElement('colgroup');
+    table.insertBefore(colgroup, head);
+    const t = {
+      id: tableId, table: table, box: table.parentElement, head: head, tbody: table.tBodies[0], colgroup: colgroup,
+      cols: cols, order: order.slice(), rows: rows.slice(), virtual: rows.length > VIRTUAL_MIN_ROWS,
+      sortKey: null, sortDir: -1, shown: [], html: [], natural: null, widths: null, hide: opts.hide || {},
+      rowH: 0, viewH: 0, start: -1, end: -1, raf: 0,
+      dims: opts.dims || null, baseRows: rows.slice(), onRows: opts.onRows || null,
+      removed: Array.isArray(COL_REMOVED[tableId]) ? COL_REMOVED[tableId].filter(i => i >= 0 && i < cols.length) : []
+    };
+    if (t.dims && t.removed.length) t.rows = groupRows(t);
+    TABLES.push(t);
+    buildHead(t);
+    buildRows(t);
+    renderRows(t, true);
+    bindHead(t);
+    if (t.virtual) t.box.addEventListener('scroll', () => scheduleRows(t), {passive: true});
+    return t;
+  }
+  // 뺀 구분 컬럼을 빼고 남은 구분 컬럼 값이 같은 줄끼리 합친다. 비율(CTR, CPC, ROAS, CVR, CPA)은 합계로 다시 계산한다.
+  function groupRows(t){
+    const gone = t.removed.map(i => t.cols[i].key);
+    const dims = t.dims.filter(k => gone.indexOf(k) < 0);
+    if (dims.length === t.dims.length) return t.baseRows.slice();
+    const map = new Map();
+    t.baseRows.forEach(r => {
+      const k = dims.map(d => r[d]).join('\t');
+      let g = map.get(k);
+      if (!g){
+        g = { impressions: 0, clicks: 0, cost: 0, conversions: 0, revenue: 0, currency: r.currency };
+        dims.forEach(d => { g[d] = r[d]; });
+        map.set(k, g);
+      }
+      g.impressions += r.impressions || 0; g.clicks += r.clicks || 0; g.cost += r.cost || 0;
+      g.conversions += r.conversions || 0; g.revenue += r.revenue || 0;
+    });
+    const out = Array.from(map.values());
+    out.forEach(g => {
+      g.conversions = Math.round(g.conversions * 100) / 100;
+      g.ctr = g.impressions > 0 ? Math.round(g.clicks / g.impressions * 10000) / 100 : 0;
+      g.cpc = g.clicks > 0 ? g.cost / g.clicks : 0;
+      g.roas = g.cost > 0 ? Math.round(g.revenue / g.cost * 10000) / 100 : 0;
+      g.cvr = cvrOf(g); g.cpa = cpaOf(g);
+    });
+    return out.sort((a, b) => b.cost - a.cost);
+  }
+  // 컬럼 빼기 / 다시 넣기 (빠진 컬럼은 표 위의 '+ 이름' 버튼으로 되돌린다)
+  function setRemoved(t, removed){
+    t.removed = removed;
+    COL_REMOVED[t.id] = removed.slice();
+    setDraft('columnRemoved', { [t.id]: removed.slice() });
+    if (t.sortKey && removed.some(i => t.cols[i].key === t.sortKey)) t.sortKey = null;
+    if (t.dims){ t.rows = groupRows(t); if (t.sortKey) sortRows(t); }
+    if (t.onRows) t.onRows(t);
+    buildHead(t);
+    buildRows(t);
+    renderRows(t, true);
+    updateRestore(t);
+    fitAll([t]);
+  }
+  function updateRestore(t){
+    if (!t.restoreEl) return;
+    t.restoreEl.innerHTML = '';
+    t.removed.forEach(i => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'col-restore';
+      b.textContent = '+ ' + t.cols[i].label;
+      b.title = '표 밖으로 뺀 컬럼을 다시 넣습니다';
+      b.addEventListener('click', () => setRemoved(t, t.removed.filter(x => x !== i)));
+      t.restoreEl.appendChild(b);
+    });
+  }
+  function buildHead(t){
+    t.shown = t.order.map(i => t.cols[i]).filter(c => (!c.metric || isMetricVisible(c.metric)) && !t.hide[c.key] && t.removed.indexOf(c.index) < 0);
+    t.head.rows[0].innerHTML = t.shown.map(c =>
+      '<th' + (c.txt ? ' class="txt"' : '') + ' data-col="' + c.index + '" draggable="true" title="클릭: 정렬, 드래그: 컬럼 위치 이동">'
+      + c.labelHtml + (c.key ? ' <span class="sort-arrow">▾</span>' : '') + '<span class="col-resize-handle"></span></th>'
+    ).join('');
+    t.colgroup.innerHTML = t.shown.map(() => '<col>').join('');
+    Array.from(t.head.rows[0].cells).forEach(th => {
+      th.classList.toggle('sorted', !!t.sortKey && t.cols[+th.dataset.col].key === t.sortKey);
+    });
+    t.natural = null;
+  }
+  function cellText(c, r){
+    // 클릭이 없는 줄(네이버 검색어 표는 2.036부터 노출만 있는 줄도 싣는다)은 상태를 따지지 않는다
+    if (c.status) return r.clicks === 0 ? '-' : (r.conversions === 0 ? '미전환' : '전환 있음');
+    if (c.cell) return c.cell(r);
+    const v = r[c.key];
+    if (!c.txt && NUM_CELL[c.key]) return NUM_CELL[c.key](v, r);
+    return (v === null || v === undefined) ? '' : String(v);
+  }
+  function cellHtml(c, r){
+    if (c.status && r.clicks === 0) return '<td class="txt muted">-</td>';
+    if (c.status) return r.conversions === 0
+      ? '<td class="txt" title="미전환"><span class="badge warn">미전환</span></td>'
+      : '<td class="txt" title="전환 있음"><span class="badge good">전환 있음</span></td>';
+    const text = cellText(c, r);
+    if (!c.txt) return '<td class="num' + (isZeroText(text) ? ' zero' : '') + '">' + text + '</td>';
+    const e = escapeHtml(text);
+    return '<td class="txt' + (c.muted ? ' muted' : '') + '" title="' + e + '">' + e + '</td>';
+  }
+  // 줄 HTML은 화면에 그릴 때 그 줄만 만들어 둔다 (2.036). 네이버 검색어 표는 노출 1회 이상 줄을 모두 실어 수십만 줄이라,
+  // 처음에 모든 줄을 만들면 30만 줄에서 열 때 1.3초, 정렬할 때마다 또 그만큼 걸렸다.
+  function buildRows(t){ t.html = new Array(t.rows.length); }
+  function rowsHtml(t, start, end){
+    let out = '';
+    for (let i = start; i < end; i++){
+      let h = t.html[i];
+      if (h === undefined){ const r = t.rows[i]; h = t.html[i] = '<tr>' + t.shown.map(c => cellHtml(c, r)).join('') + '</tr>'; }
+      out += h;
+    }
+    return out;
+  }
+  // 보이는 줄을 다시 그린다. 이미 그려 둔 범위 안에서 스크롤하는 동안은 그대로 둔다.
+  function renderRows(t, force){
+    const n = t.html.length;
+    if (!t.virtual || PRINTING){
+      if (force || t.start !== 0 || t.end !== n){ t.tbody.innerHTML = rowsHtml(t, 0, n); t.start = 0; t.end = n; }
+      return;
+    }
+    const h = t.rowH;
+    let start = 0, end = Math.min(n, 40);   // 줄 높이를 재기 전에는 처음 40줄만
+    if (h){
+      const top = t.box.scrollTop;
+      const first = Math.floor(top / h), last = Math.ceil((top + t.viewH) / h);
+      if (!force && t.start >= 0 && (first >= t.start + 3 || t.start === 0) && (last <= t.end - 3 || t.end === n)) return;
+      start = Math.max(0, first - OVERSCAN);
+      end = Math.min(n, last + OVERSCAN);
+    }
+    if (!force && start === t.start && end === t.end) return;
+    t.start = start; t.end = end;
+    const pad = px => '<tr class="vspace"><td colspan="' + t.shown.length + '" style="height:' + px.toFixed(2) + 'px"></td></tr>';
+    t.tbody.innerHTML = (h && start > 0 ? pad(start * h) : '') + rowsHtml(t, start, end) + (h && end < n ? pad((n - end) * h) : '');
+  }
+  function scheduleRows(t){
+    if (t.raf) return;
+    t.raf = requestAnimationFrame(() => { t.raf = 0; renderRows(t, false); });
+  }
+
+  // 폭을 잴 후보 (2.036). 줄이 수십만 개면 모든 칸을 재는 데만 6초가 걸려서(30만 줄 검색어 표), 많을 때는 길어 보이는 것만 잰다.
+  // 글자 칸: 한글 · 한자는 1, 나머지는 0.6으로 어림한 길이가 긴 30개를 실제로 잰다.
+  const WIDTH_ALL_ROWS = 2000;
+  function widthCandidates(t, c){
+    const texts = t.rows.map(r => cellText(c, r));
+    if (texts.length <= WIDTH_ALL_ROWS) return texts;
+    const est = s => { let n = 0; for (let i = 0; i < s.length; i++) n += s.charCodeAt(i) >= 0x1100 ? 1 : 0.6; return n; };
+    const top = [];   // [어림 길이, 글자] 긴 순 30개
+    let floor = -1;
+    texts.forEach(s => {
+      if (s.length <= floor) return;   // 글자 수가 30번째의 어림 길이보다 짧으면 어림 길이도 짧다
+      const e = est(s);
+      if (top.length >= 30 && e <= top[top.length - 1][0]) return;
+      top.push([e, s]); top.sort((a, b) => b[0] - a[0]);
+      if (top.length > 30) top.pop();
+      if (top.length >= 30) floor = top[top.length - 1][0] * 0.6;
+    });
+    return top.map(x => x[1]);
+  }
+  // 숫자 칸: 값이 가장 큰 줄과 가장 작은 줄(음수)이 가장 긴 글자다. 칸 글자를 따로 만드는 컬럼(c.cell)은 모두 본다
+  function numCandidates(t, c){
+    if (t.rows.length <= WIDTH_ALL_ROWS || c.cell || !c.key) return t.rows;
+    let hi = [], lo = null;
+    t.rows.forEach(r => {
+      const v = +r[c.key];
+      if (!(v === v)) return;
+      if (hi.length < 3 || v > hi[hi.length - 1][0]){ hi.push([v, r]); hi.sort((a, b) => b[0] - a[0]); if (hi.length > 3) hi.pop(); }
+      if (!lo || v < lo[0]) lo = [v, r];
+    });
+    return hi.map(x => x[1]).concat(lo ? [lo[1]] : [], t.rows.slice(0, 3));
+  }
+  // 컬럼마다 내용이 다 보이는 폭 (머리글과 모든 줄 중 가장 긴 것. 줄이 많으면 위 후보만)
+  function naturalWidths(t){
+    if (t.natural) return t.natural;
+    const tdFont = '400 ' + (13 * FS) + 'px ' + FAMILY;
+    const thFont = '600 ' + (11.5 * FS) + 'px ' + FAMILY;
+    const arrowFont = '600 ' + (10 * FS) + 'px ' + FAMILY;
+    const badgeFont = '600 ' + (11 * FS) + 'px ' + FAMILY;
+    const PAD = 24;   // 칸 좌우 여백 12px씩
+    t.natural = t.shown.map(c => {
+      let w = textWidth(c.label, thFont) + (c.key ? textWidth(' ', thFont) + 3 + textWidth('▾', arrowFont) : 0);
+      if (c.status){
+        w = Math.max(w, textWidth('전환 있음', badgeFont) + 16);
+      } else if (c.txt){
+        widthCandidates(t, c).forEach(s => { w = Math.max(w, textWidth(s, tdFont)); });
+      } else {
+        // 숫자는 자릿수 폭이 같게 보이므로(tabular-nums) 가장 긴 글자를 '0'으로 바꿔 한 번만 잰다.
+        // 캔버스는 tabular-nums를 모르고 그만큼 좁게 재므로 5%를 더한다 (10자리에서 3px 모자라 8자리 비용이 잘렸다).
+        let longest = '';
+        numCandidates(t, c).forEach(r => { const s = cellText(c, r); if (s.length > longest.length) longest = s; });
+        w = Math.max(w, textWidth(longest.replace(/\d/g, '0'), tdFont) * 1.05);
+      }
+      return Math.ceil(Math.max(w + PAD, c.minW)) + 2;
+    });
+    return t.natural;
+  }
+  // 표 폭을 화면에 맞춘다. 숫자 컬럼은 내용이 다 보이는 폭을 그대로 주고,
+  // 표가 화면보다 넓으면 글자 컬럼(이름 · 키워드 등)만 줄여서 오른쪽 컬럼이 잘리지 않게 한다. 남는 폭은 비례해서 나눈다.
+  function applyWidths(t, avail){
+    const natural = naturalWidths(t);
+    const sum = arr => arr.reduce((a, b) => a + b, 0);
+    const total = sum(natural);
+    let widths;
+    if (total > avail){
+      const MIN = 110;
+      const base = natural.map((w, i) => t.shown[i].keepW ? Math.min(w, t.shown[i].keepW) : w);
+      const shrinkable = t.shown.map((c, i) => (i === 0 || c.txt) && !c.keepW && base[i] > MIN);
+      const big = sum(base.filter((w, i) => shrinkable[i]));
+      const room = avail - (sum(base) - big);
+      widths = big > 0 ? base.map((w, i) => shrinkable[i] ? Math.max(MIN, Math.floor(w * room / big)) : w) : base.slice();
+      // 글자 컬럼이 많아 최소 폭(110px)을 지켜도 넘치면, 글자 컬럼을 60px까지 더 줄여 가로 스크롤이 생기지 않게 한다
+      let over = sum(widths) - avail;
+      const cut = sum(widths.filter((w, i) => shrinkable[i] && w > 60));
+      if (over > 0 && cut > 0){
+        widths = widths.map((w, i) => (shrinkable[i] && w > 60) ? Math.max(60, Math.floor(w - over * w / cut)) : w);
+        over = sum(widths) - avail;
+        for (let i = 0; over > 0 && i < widths.length; i++){ if (shrinkable[i] && widths[i] > 60){ widths[i]--; over--; } }
+      }
+      // 글자 컬럼이 모두 keepW로 묶여 더 줄일 컬럼이 없으면 표가 칸보다 좁아져 오른쪽이 빈다 (오늘의집 검색어 표, 넓은 화면).
+      // 남는 폭은 내용이 잘린 컬럼에 잘린 만큼의 비율로 돌려준다.
+      const spare = avail - sum(widths);
+      const cutW = widths.map((w, i) => Math.max(0, natural[i] - w));
+      const need = sum(cutW);
+      if (spare > 0 && need > 0){
+        widths = widths.map((w, i) => w + Math.floor(Math.min(spare, need) * cutW[i] / need));
+        const left = Math.min(spare, need) - (sum(widths) - (avail - spare));
+        if (left > 0) widths[cutW.indexOf(Math.max.apply(null, cutW))] += left;
+      }
+    } else {
+      widths = natural.map(w => Math.floor(w * avail / total));
+      widths[widths.indexOf(Math.max.apply(null, widths))] += avail - sum(widths);   // 내림으로 남은 몇 px은 가장 넓은 컬럼에
+    }
+    t.widths = widths;
+    const cols = t.colgroup.children;
+    widths.forEach((w, i) => { cols[i].style.width = w + 'px'; });
+    t.table.style.width = sum(widths) + 'px';
+  }
+  // 보이는 표 전부를 한 번에 맞춘다: 폭 읽기 → 폭 쓰기 → 줄 높이 읽기 → 보이는 줄 그리기.
+  // 읽기와 쓰기를 섞지 않아서 화면 배치는 두 번만 일어난다.
+  let fitTimer = null;
+  function fitAll(list){
+    window.clearTimeout(fitTimer);
+    if (PRINTING) return;
+    list = (list || TABLES).filter(t => !t.box.closest('[hidden]'));
+    const sticky = document.querySelector('.sticky-head');
+    const stickyH = sticky ? sticky.offsetHeight : 0;
+    list.forEach(t => { t.avail = t.box.clientWidth; });
+    document.documentElement.style.setProperty('--sticky-h', stickyH + 'px');
+    list.forEach(t => { if (t.avail > 0) applyWidths(t, t.avail); });
+    const virt = list.filter(t => t.virtual && t.avail > 0);
+    virt.forEach(t => {
+      const rs = Array.prototype.filter.call(t.tbody.rows, r => r.className !== 'vspace');
+      if (rs.length >= 2) t.rowH = (rs[rs.length-1].getBoundingClientRect().top - rs[0].getBoundingClientRect().top) / (rs.length - 1);
+      t.viewH = t.box.clientHeight;
+    });
+    virt.forEach(t => renderRows(t, true));
+  }
+  function scheduleFit(){
+    window.clearTimeout(fitTimer);
+    fitTimer = window.setTimeout(function(){ fitAll(); }, 60);
+  }
+  function remeasureAll(){
+    widthCache.clear();   // 같은 글꼴 이름이라도 실제 글꼴이 바뀌었으므로 잰 폭을 버린다
+    TABLES.forEach(t => { t.natural = null; });
+    scheduleFit();
+  }
+
+  function sortTable(t, key){
+    if (t.sortKey === key) t.sortDir = -t.sortDir; else { t.sortKey = key; t.sortDir = -1; }
+    sortRows(t);
+    Array.from(t.head.rows[0].cells).forEach(th => th.classList.toggle('sorted', t.cols[+th.dataset.col].key === key));
+    buildRows(t);
+    renderRows(t, true);
+  }
+  function sortRows(t){
+    const key = t.sortKey, d = t.sortDir;
+    t.rows.sort((a, b) => {
+      const av = a[key], bv = b[key];
+      if (typeof av === 'string') return d * COLLATOR.compare(av, bv);
+      // 원화 줄과 달러 줄은 금액을 견줄 수 없어 통화별로 묶어서 정렬한다
+      if (a.currency !== b.currency && (key === 'cost' || key === 'cpc' || key === 'cpa' || key === 'costShare')) return a.currency === 'USD' ? 1 : -1;
+      // CPA가 없는 줄(전환 0건)은 어느 방향으로 정렬해도 맨 아래에 둔다
+      if (key === 'cpa' && (!av || !bv)) return av ? -1 : (bv ? 1 : 0);
+      return d * ((av || 0) - (bv || 0));
+    });
+  }
+  // 표의 줄을 통째로 바꾼다 (일별 성과에서 매체, 캠페인을 고를 때). 정렬은 유지한다.
+  function setTableRows(t, rows){
+    t.rows = rows.slice();
+    if (t.sortKey) sortRows(t);
+    buildHead(t);
+    buildRows(t);
+    renderRows(t, true);
+    fitAll([t]);
+  }
+  // 컬럼 제목을 표 밖에 놓으면 그 컬럼을 뺀다 (2.032, 사용자: "컬럼을 드래그로 테이블 밖으로 빼면 빠지게"). 광고주 발송용 파일에서는 빼지 않는다.
+  let COL_DRAG = null;
+  document.addEventListener('dragover', e => {
+    if (!COL_DRAG || CLIENT || COL_DRAG.t.box.contains(e.target)) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  });
+  document.addEventListener('drop', e => {
+    if (!COL_DRAG || CLIENT || COL_DRAG.t.box.contains(e.target)) return;
+    e.preventDefault();
+    const t = COL_DRAG.t, col = COL_DRAG.col;
+    COL_DRAG = null;
+    if (t.shown.length <= 1 || t.removed.indexOf(col) >= 0) return;
+    setRemoved(t, t.removed.concat([col]));
+  });
+  function bindHead(t){
+    const head = t.head;
+    let dragCol = null;
+    head.addEventListener('click', e => {
+      if (resizingActive || e.target.closest('.col-resize-handle')) return;
+      const th = e.target.closest('th');
+      if (!th) return;
+      const c = t.cols[+th.dataset.col];
+      if (c.key) sortTable(t, c.key);
+    });
+    // 컬럼 제목을 드래그해서 위치를 바꾼다. 순서는 표마다 원래 위치 번호의 나열로 기억한다.
+    head.addEventListener('dragstart', e => {
+      const th = e.target.closest('th');
+      if (!th) return;
+      dragCol = +th.dataset.col;
+      COL_DRAG = { t: t, col: dragCol };
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', '');
+    });
+    head.addEventListener('dragend', () => {
+      dragCol = null;
+      COL_DRAG = null;
+      head.querySelectorAll('.drop-target').forEach(h => h.classList.remove('drop-target'));
+    });
+    head.addEventListener('dragover', e => {
+      const th = e.target.closest('th');
+      if (dragCol === null || !th || +th.dataset.col === dragCol) return;
+      e.preventDefault();
+      th.classList.add('drop-target');
+    });
+    head.addEventListener('drop', () => { COL_DRAG = null; });   // 표 안에 놓으면 위치만 바꾼다
+    head.addEventListener('dragleave', e => {
+      const th = e.target.closest('th');
+      if (th) th.classList.remove('drop-target');
+    });
+    head.addEventListener('drop', e => {
+      const th = e.target.closest('th');
+      if (dragCol === null || !th || +th.dataset.col === dragCol) return;
+      e.preventDefault();
+      const target = +th.dataset.col;
+      const order = t.order.slice();
+      const before = order.indexOf(dragCol) < order.indexOf(target);
+      order.splice(order.indexOf(dragCol), 1);
+      order.splice(order.indexOf(target) + (before ? 1 : 0), 0, dragCol);
+      dragCol = null;
+      t.order = order;
+      COL_ORDER[t.id] = order;
+      setDraft('columnOrder', { [t.id]: order });
+      buildHead(t);
+      buildRows(t);
+      renderRows(t, true);
+      fitAll([t]);
+    });
+    // 컬럼 오른쪽 끝을 끌어서 폭을 바꾼다
+    head.addEventListener('mousedown', e => {
+      const handle = e.target.closest('.col-resize-handle');
+      if (!handle) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const th = handle.parentElement;
+      const i = Array.prototype.indexOf.call(th.parentElement.children, th);
+      const col = t.colgroup.children[i];
+      const startX = e.clientX;
+      const startWidth = t.widths ? t.widths[i] : th.offsetWidth;
+      const startTableWidth = t.table.offsetWidth;
+      function onMove(e2){
+        const newWidth = Math.max(50, startWidth + e2.clientX - startX);
+        col.style.width = newWidth + 'px';
+        t.table.style.width = (startTableWidth + newWidth - startWidth) + 'px';
+        if (t.widths) t.widths[i] = newWidth;
+      }
+      function onUp(){
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onUp);
+        document.body.classList.remove('col-resizing');
+        window.setTimeout(function(){ resizingActive = false; }, 0);
+      }
+      resizingActive = true;
+      document.body.classList.add('col-resizing');
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onUp);
+    });
+  }
+
+  // =====================================================================
+  // 매체 공통: 캠페인별 표, 일별 성과
+  // 네이버 검색광고, GFA, 구글, 메타가 같은 모양의 데이터(DATA.channels)로 그린다.
+  // =====================================================================
+  const CH_COLOR = { naver: 'var(--ch-naver)', gfa: 'var(--ch-gfa)', google: 'var(--ch-google)', meta: 'var(--ch-meta)', ohouse: 'var(--accent)' };
+  const sumBy = (rows, key) => rows.reduce((s, r) => s + (r[key] || 0), 0);
+  // 여러 줄을 합치고 비율 지표를 합계로 다시 계산한다. 금액은 같은 통화 줄끼리 합칠 때만 뜻이 있다.
+  function totalsOf(rows){
+    const r = { impressions: sumBy(rows, 'impressions'), clicks: sumBy(rows, 'clicks'), cost: sumBy(rows, 'cost'),
+                conversions: Math.round(sumBy(rows, 'conversions') * 100) / 100, revenue: sumBy(rows, 'revenue'),
+                currency: rows.length ? rows[0].currency : 'KRW' };
+    r.ctr = r.impressions > 0 ? Math.round(r.clicks / r.impressions * 10000) / 100 : 0;
+    r.cpc = r.clicks > 0 ? r.cost / r.clicks : 0;
+    r.roas = r.cost > 0 ? Math.round(r.revenue / r.cost * 10000) / 100 : 0;
+    r.cvr = cvrOf(r);
+    r.cpa = cpaOf(r);
+    return r;
+  }
+  // 매체를 통화별로 나눈다 (원화 먼저). totals는 그 통화 매체만의 합계다.
+  function currencyGroups(chs){
+    return ['KRW', 'USD'].map(cur => {
+      const channels = chs.filter(c => c.currency === cur);
+      return { currency: cur, channels: channels, totals: totalsOf(channels.map(c => c.overview)) };
+    }).filter(g => g.channels.length);
+  }
+  const curLabel = cur => cur === 'USD' ? '달러 집행 매체' : '원화 집행 매체';
+  function weekdayOf(date){
+    const m = date.match(/(\d{4})\.(\d{2})\.(\d{2})/);
+    return m ? '일월화수목금토'[new Date(+m[1], +m[2] - 1, +m[3]).getDay()] : '';
+  }
+  // 전환 유형이 둘 이상인 매체 하나를 볼 때만 유형별 컬럼을 붙인다
+  function convTypeCols(channels){
+    if (channels.length !== 1 || channels[0].convTypes.length < 2) return [];
+    return channels[0].convTypes.map((t, i) => ({ key: 'conv_' + i, index: i, label: t.type }));
+  }
+  const convTypeHead = cols => cols.map(c => '<th data-key="' + c.key + '" data-metric="conversions">' + escapeHtml(c.label) + '</th>').join('');
+  function convTypeCells(cols){
+    const cell = {};
+    cols.forEach(c => { cell[c.key] = r => fmtConv(r[c.key] || 0); });
+    return cell;
+  }
+  const legendHtml = channels => channels.length < 2 ? '' : channels.map(ch =>
+    '<span><i class="swatch" style="background:' + CH_COLOR[ch.key] + '"></i>' + escapeHtml(ch.name) + '</span>').join('');
+
+  // 캠페인별: 비용 상위 막대 + 전체 표. 통화가 둘이면 막대는 통화별로 나눠 그리고, 비용 비중도 같은 통화끼리 계산한다.
+  function renderCampaignBlock(box, id, channels){
+    const multi = channels.length > 1;
+    const groups = currencyGroups(channels);
+    const typeCols = convTypeCols(channels);
+    groups.forEach(g => {
+      g.rows = [];
+      g.channels.forEach(ch => ch.byCampaign.forEach((c, i) => {
+        const r = Object.assign({}, c, { media: ch.name, mediaKey: ch.key, costShare: g.totals.cost > 0 ? c.cost / g.totals.cost * 100 : 0 });
+        if (typeCols.length) ch.convRows.filter(x => x.c === i).forEach(x => { r['conv_' + x.t] = (r['conv_' + x.t] || 0) + x.n; });
+        g.rows.push(r);
+      }));
+      g.rows.sort((a, b) => b.cost - a.cost);
+    });
+    box.innerHTML = groups.map((g, i) => (groups.length > 1 ? '<div class="stack-title">' + curLabel(g.currency) + '</div>' : '')
+        + '<div class="barlist barlist-wide" id="' + id + '-chart-' + i + '" style="margin-bottom:14px;"></div>').join('')
+      + (multi ? '<div class="hourly-legend" style="margin:0 0 16px;border-top:none;padding-top:0;">' + legendHtml(channels) + '</div>' : '')
+      + '<div class="table-scroll"><table id="' + id + '-table"><thead><tr>'
+      + (multi ? '<th class="txt" data-key="media">매체</th>' : '')
+      + '<th class="txt" data-key="campaignType">유형</th><th class="txt" data-key="campaign">캠페인</th>'
+      + '<th data-key="impressions">노출수</th><th data-key="clicks">클릭수</th><th data-key="ctr">CTR</th><th data-key="cpc">CPC</th>'
+      + '<th data-key="cost">총비용</th><th data-key="costShare" data-metric="cost">비용 비중</th>'
+      + '<th data-key="conversions">전환수</th>' + convTypeHead(typeCols)
+      + '<th data-key="revenue">전환매출액</th><th data-key="roas">ROAS</th>'
+      + '</tr></thead><tbody></tbody></table></div>';
+    groups.forEach((g, i) => renderBarList($(id + '-chart-' + i), g.rows.slice(0, 10), {
+      valueKey: 'cost', colorFn: r => CH_COLOR[r.mediaKey], formatValue: n => fmtMoney(n, g.currency), formatLabel: r => r.campaign,
+      tipLines: r => [r.media + (r.campaignType ? ', ' + r.campaignType : '')].concat(statTip(r))
+    }));
+    createTable(id + '-table', groups.reduce((a, g) => a.concat(g.rows), []), {
+      muted: ['campaignType'], keepW: { campaign: 195 },
+      cell: Object.assign({ costShare: r => fmtPct(r.costShare), campaignType: r => r.campaignType || '-' }, convTypeCells(typeCols))
+    });
+  }
+
+  // 쌓은 막대 한 줄 (일별 비용 또는 전환). 가장 큰 날에만 숫자를 적고 나머지는 말풍선과 표로 본다.
+  function renderStackBars(el, rows, valueKey, fmt, tipFn){
+    const peak = Math.max(...rows.map(r => r[valueKey]), 0);
+    el.innerHTML = rows.map(r => {
+      const v = r[valueKey];
+      if (!(v > 0)) return '<div class="col"></div>';
+      const segs = r.parts.filter(p => p[valueKey] > 0).reverse()
+        .map(p => '<i style="flex:' + (p[valueKey] / v * 100).toFixed(2) + ' 0 0;background:' + CH_COLOR[p.key] + '"></i>').join('');
+      return '<div class="col">' + (v === peak ? '<span class="peak num">' + fmt(v) + '</span>' : '')
+        + '<div class="stack" style="height:' + Math.max(v / peak * 84, 1.5) + '%">' + segs + '</div></div>';
+    }).join('');
+    Array.from(el.children).forEach((col, i) => {
+      const r = rows[i];
+      col.addEventListener('mouseenter', e => showTip(e, r.date.replace(/\.$/, '') + ' (' + r.weekday + ')', tipFn(r)));
+      col.addEventListener('mousemove', moveTip);
+      col.addEventListener('mouseleave', hideTip);
+    });
+  }
+
+  // 일별 성과: 매체, 캠페인 고르기 + 비용과 전환 막대 + 표
+  // 고른 매체에 원화와 달러가 섞이면 비용 막대를 통화별로 나누고, 표에는 달러 금액 컬럼을 따로 보여준다.
+  function renderDailyBlock(box, id, channels){
+    const dates = Array.from(new Set(channels.reduce((a, c) => a.concat(c.byDate.map(d => d.date)), []))).sort();
+    if (!dates.length) return false;
+    const multi = channels.length > 1;
+    const twoCur = currencyGroups(channels).length > 1;
+    const typeCols = convTypeCols(channels);
+    box.innerHTML = '<div class="daily-ctl">'
+      + (multi ? '<label>매체 <select id="' + id + '-media"></select></label>' : '')
+      + '<label>캠페인 <select id="' + id + '-camp"></select></label></div>'
+      + '<div class="hourly-chart" style="margin-bottom:16px;">'
+      + '<div id="' + id + '-cost-wrap"></div>'
+      + '<div class="hourly-labels" id="' + id + '-labels"></div>'
+      + '<div class="hourly-legend" id="' + id + '-legend"></div></div>'
+      + '<div class="table-scroll"><table id="' + id + '-table"><thead><tr>'
+      + '<th class="txt" data-key="date">날짜</th><th class="txt" data-key="weekday">요일</th>'
+      + '<th data-key="impressions">노출수</th><th data-key="clicks">클릭수</th><th data-key="ctr">CTR</th>'
+      + '<th data-key="cpc">CPC</th>' + (twoCur ? '<th data-key="cpcUsd" data-metric="cpc">CPC($)</th>' : '')
+      + '<th data-key="cost">총비용</th>' + (twoCur ? '<th data-key="costUsd" data-metric="cost">총비용($)</th>' : '')
+      + '<th data-key="conversions">전환수</th>' + (twoCur ? '<th data-key="cpaUsd" data-metric="cpa">CPA($)</th>' : '') + convTypeHead(typeCols)
+      + '<th data-key="revenue">전환매출액</th><th data-key="roas">ROAS</th>'
+      + '</tr></thead><tbody></tbody></table></div>';
+    const mediaSel = multi ? $(id + '-media') : null;
+    const campSel = $(id + '-camp');
+    const legend = $(id + '-legend');
+    const pickedChannels = () => (mediaSel && mediaSel.value) ? channels.filter(c => c.key === mediaSel.value) : channels;
+    if (mediaSel) mediaSel.innerHTML = '<option value="">전체 매체</option>'
+      + channels.map(c => '<option value="' + c.key + '">' + escapeHtml(c.name) + '</option>').join('');
+    function fillCampaigns(){
+      const list = pickedChannels();
+      campSel.innerHTML = '<option value="">전체 캠페인</option>' + list.map(ch => ch.byCampaign.map((c, i) =>
+        '<option value="' + ch.key + '|' + i + '">' + escapeHtml((list.length > 1 ? ch.name + ' / ' : '') + c.campaign) + '</option>').join('')).join('');
+    }
+    function currentRows(){
+      const pick = campSel.value ? campSel.value.split('|') : null;
+      const list = pick ? channels.filter(c => c.key === pick[0]) : pickedChannels();
+      const campIdx = pick ? +pick[1] : -1;
+      const currencies = currencyGroups(list).map(g => g.currency);
+      return { list: list, currencies: currencies, rows: dates.map(date => {
+        const parts = list.map(ch => {
+          const src = pick ? ch.campaignDaily.find(x => x.c === campIdx && x.date === date) : ch.byDate.find(x => x.date === date);
+          return Object.assign({ key: ch.key, name: ch.name, currency: ch.currency }, src || {});
+        });
+        const r = totalsOf(parts);   // 노출, 클릭, 전환과 CTR, CVR은 통화와 상관없이 합친다
+        const main = totalsOf(parts.filter(p => p.currency === currencies[0]));
+        r.currency = currencies[0]; r.cost = main.cost; r.cpc = main.cpc; r.cpa = main.cpa; r.roas = main.roas;
+        if (currencies.length > 1){
+          const usd = totalsOf(parts.filter(p => p.currency === 'USD'));
+          r.costUsd = usd.cost; r.cpcUsd = usd.cpc; r.cpaUsd = usd.cpa;
+        }
+        r.date = date;
+        r.weekday = weekdayOf(date);
+        r.parts = r.allParts = parts;
+        if (typeCols.length) channels[0].convRows.forEach(x => {
+          if (x.date === date && (campIdx < 0 || x.c === campIdx)) r['conv_' + x.t] = (r['conv_' + x.t] || 0) + x.n;
+        });
+        return r;
+      }) };
+    }
+    const dayTip = r => {
+      const lines = ['전환 ' + fmtConv(r.conversions) + '건, CVR ' + fmtPct(r.cvr)];
+      if (r.allParts.length === 1) lines.push('비용 ' + fmtMoney(r.cost, r.currency) + ', CPA ' + fmtCpa(r.cpa, r.currency));
+      else r.allParts.forEach(p => lines.push(p.name + ': ' + fmtMoney(p.cost || 0, p.currency) + ', ' + fmtConv(p.conversions || 0) + '건'));
+      return lines;
+    };
+    let table = null;
+    function draw(){
+      const cur = currentRows();
+      const two = cur.currencies.length > 1;
+      const showConv = cur.rows.some(r => r.conversions > 0);
+      const oneColor = cur.list.length === 1 ? CH_COLOR[cur.list[0].key] : '';
+      $(id + '-cost-wrap').innerHTML = cur.currencies.map((c, i) => costTitle('총비용' + (two ? ' (' + curLabel(c) + ')' : ''), oneColor, showConv && !i, i ? ' style="margin-top:14px;"' : '')
+        + '<div class="stack-bars cost" id="' + id + '-cost-' + c + '"></div>').join('');
+      cur.currencies.forEach(c => {
+        const items = cur.rows.map(r => {
+          const parts = r.allParts.filter(p => p.currency === c);
+          return Object.assign({}, r, { parts: parts, cost: sumBy(parts, 'cost') });
+        });
+        renderStackBars($(id + '-cost-' + c), items, 'cost', n => fmtMoney(n, c), dayTip);
+      });
+      if (showConv) addConvLine($(id + '-cost-' + cur.currencies[0]), cur.rows.map(r => r.conversions), n => fmtConv(n) + '건');
+      legend.innerHTML = legendHtml(cur.list);
+      legend.hidden = cur.list.length < 2;
+      const hide = two ? {} : { costUsd: 1, cpcUsd: 1, cpaUsd: 1 };
+      if (table){ table.hide = hide; setTableRows(table, cur.rows); }
+      else table = createTable(id + '-table', cur.rows, { hide: hide, minW: { date: 96, weekday: 54 }, cell: Object.assign({ date: r => r.date.replace(/\.$/, '') }, convTypeCells(typeCols)) });
+    }
+    fillCampaigns();
+    $(id + '-labels').innerHTML = dates.map(d => '<span>' + escapeHtml(shortDate({ date: d })) + '</span>').join('');
+    if (mediaSel) mediaSel.addEventListener('change', function(){ fillCampaigns(); draw(); });
+    campSel.addEventListener('change', draw);
+    draw();
+    return true;
+  }
+
+  // 캠페인 비용에서 뽑는 포인트. 금액을 견주므로 같은 통화 매체만 넘긴다. ov: 그 합계, showMedia: 캠페인 앞에 매체 이름을 붙일지
+  function campaignInsights(chs, ov, showMedia){
+    const ins = [];
+    const cur = ov.currency;
+    const showCost = isMetricVisible('cost'), showConv = isMetricVisible('conversions'), showCpa = isMetricVisible('cpa');
+    const camps = [];
+    chs.forEach(ch => ch.byCampaign.forEach(c => camps.push(Object.assign({ media: ch.name }, c))));
+    const label = c => (showMedia ? c.media + ' ' : '') + '‘' + c.campaign + '’';
+    const top = camps.slice().sort((a, b) => b.cost - a.cost)[0];
+    if (showCost && top && top.cost > 0 && ov.cost > 0){
+      ins.push('비용이 가장 많이 나간 캠페인은 <b>' + escapeHtml(label(top)) + '</b>입니다. ' + fmtMoney(top.cost, cur) + '로 '
+        + (cur === 'USD' && showMedia ? '달러 광고비' : (showMedia ? '원화 광고비' : '전체 광고비')) + '의 <b>' + (top.cost / ov.cost * 100).toFixed(1) + '%</b>이고, 전환 ' + fmtConv(top.conversions) + '건'
+        + (showCpa ? ', CPA ' + fmtCpa(cpaOf(top), cur) : '') + '입니다.');
+    }
+    const ranked = camps.filter(c => c.cost > 0 && c.conversions >= 1).sort((a, b) => cpaOf(a) - cpaOf(b));
+    if (showCpa && ranked.length >= 2){
+      const best = ranked[0], worst = ranked[ranked.length - 1];
+      ins.push('CPA가 가장 낮은 캠페인은 <b>' + escapeHtml(label(best)) + '</b>(' + fmtCpa(cpaOf(best), cur) + '), 가장 높은 캠페인은 <b>'
+        + escapeHtml(label(worst)) + '</b>(' + fmtCpa(cpaOf(worst), cur) + ')입니다.');
+    }
+    const zero = camps.filter(c => c.cost > 0 && c.conversions === 0);
+    if (showConv && showCost && zero.length){
+      ins.push('전환 없이 비용만 나간 캠페인은 <b>' + zero.length + '개</b>(' + fmtMoney(sumBy(zero, 'cost'), cur) + ')입니다: ' + escapeHtml(zero.map(label).join(', ')));
+    }
+    return ins;
+  }
+  // 일자에서 뽑는 포인트
+  function dayInsights(chs){
+    const ins = [];
+    const showCost = isMetricVisible('cost'), showConv = isMetricVisible('conversions');
+    const byDay = {};
+    chs.forEach(ch => ch.byDate.forEach(d => {
+      const a = byDay[d.date] || (byDay[d.date] = { date: d.date, conversions: 0, cost: 0 });
+      a.conversions += d.conversions; a.cost += d.cost;
+    }));
+    const days = Object.keys(byDay).map(k => byDay[k]);
+    const bestDay = days.slice().sort((a, b) => b.conversions - a.conversions)[0];
+    if (showConv && bestDay && bestDay.conversions > 0){
+      ins.push('전환이 가장 많았던 날은 <b>' + escapeHtml(bestDay.date.replace(/\.$/, '')) + '</b>(' + weekdayOf(bestDay.date) + ', ' + fmtConv(bestDay.conversions) + '건)입니다.');
+    }
+    const zeroDays = days.filter(d => d.cost > 0 && d.conversions === 0);
+    if (showConv && zeroDays.length){
+      const oneCur = currencyGroups(chs).length === 1;   // 통화가 섞이면 금액을 더할 수 없다
+      ins.push('비용이 나갔지만 전환이 없었던 날은 <b>' + zeroDays.length + '일</b>' + (showCost && oneCur ? '(' + fmtMoney(sumBy(zeroDays, 'cost'), chs[0].currency) + ')' : '') + '입니다.');
+    }
+    return ins;
+  }
+  // 브랜드검색처럼 비용이 0원으로 잡히는 캠페인의 전환은 CPA를 실제보다 낮아 보이게 한다. 같은 통화 매체만 넘긴다.
+  function freeConvInsight(chs, ov){
+    if (!isMetricVisible('cpa')) return null;
+    const free = [];
+    chs.forEach(ch => ch.byCampaign.forEach(c => { if (c.cost === 0 && c.conversions > 0) free.push(c); }));
+    if (!free.length || !(ov.cost > 0)) return null;
+    const freeConv = sumBy(free, 'conversions');
+    const types = Array.from(new Set(free.map(c => c.campaignType))).join(', ');
+    return '<b>' + escapeHtml(types) + '</b>은 비용이 0원으로 잡혀 있어(계약금 별도), 전환 ' + fmtConv(freeConv) + '건이 CPA를 낮춰 보이게 합니다. 이 전환을 빼면 CPA는 <b>'
+      + fmtMoney(ov.cost / (ov.conversions - freeConv), ov.currency) + '</b>입니다.';
+  }
+
+  // =====================================================================
+  // 네이버
+  // =====================================================================
+  document.querySelectorAll('[data-metric-only]').forEach(el => { if (!isMetricVisible(el.dataset.metricOnly)) el.hidden = true; });
+  if (!SEC.compare)   hideSection('nav-compare', 'compare');
+  if (!SEC.placement) hideSection('nav-placement', 'placement');
+  if (!SEC.keyword)   hideSection('nav-keywords', 'keywords');
+  // 쇼핑검색만 하는 광고주는 키워드 보고서의 키워드가 모두 '-'라서 표가 쓸모없다. 그럴 땐 표만 숨긴다 (합계 계산에는 그대로 쓴다).
+  const kw2Empty = !!DATA.keywordTable2 && DATA.keywordTable2.rows.every(r => !r.keyword || r.keyword === '-');
+  if (!SEC.keyword || !DATA.keywordTable2 || kw2Empty) hideSection('nav-keywords2', 'keywords2');
+  if (!SEC.hourly)    hideSection('nav-hourly', 'hourly');
+  if (!SEC.region)    hideSection('nav-region', 'region');
+  document.querySelectorAll('.kw-dim').forEach(el => { el.textContent = KW_DIM; });
+  const KW2 = DATA.keywordTable2;
+  if (KW2) document.querySelectorAll('.kw-dim2').forEach(el => { el.textContent = KW2.dimension; });
+
+  // ---------- 머리말 ----------
+  if (DATA.period) $('period-label').textContent = formatPeriodWithDays(DATA.period);
+  if (DATA.author){
+    $('author-info').textContent = DATA.author;
+    $('author-line').hidden = false;
+  }
+  const logoEl = $('brand-logo');
+  if (logoEl && logoEl.getAttribute('src') && !logoEl.getAttribute('src').startsWith('__')) logoEl.hidden = false;
+  const GFA_ON = !!(DATA.gfa && DATA.gfa.available);
+  const byCampaignType = DATA.byCampaignType || [];
+  const typeNames = byCampaignType.map(t=>t.type);
+  $('summary-sub').textContent = typeNames.length ? '해당 기간 전체 캠페인(' + typeNames.join(' + ') + ') 합계' : '해당 기간 전체 합계';
+  const manualNames = byCampaignType.filter(t => t.manualCost).map(t => t.type);
+  if (manualNames.length) $('summary-sub').textContent += ', ' + manualNames.join(', ') + ' 광고비는 직접 입력한 값';
+  $('compare-sub').textContent = typeNames.join(', ') + ' 비교. 줄마다 가장 좋은 값은 초록 바탕으로 표시했습니다.';
+
+  if (DATA.overview){
+    const ov = DATA.overview;
+    renderKpis('kpi-grid', overviewKpis(ov));
+
+    // ---------- 눈에 띄는 포인트 ----------
+    const insights = [];
+    const gap = roasGapInsight(byCampaignType, ' 캠페인');
+    if (gap) insights.push(gap);
+    const share = topCostShare(byCampaignType, ov.cost);
+    if (share) insights.push('광고비 비중이 가장 큰 캠페인 유형은 <b>'+escapeHtml(share.top.type)+'</b>로, 전체 광고비의 <b>'+share.pct+'%</b>('+fmtWon(share.top.cost)+')를 차지합니다.');
+    if (SEC.keyword && isMetricVisible('conversions') && isMetricVisible('cost') && ov.cost>0){
+      const zeroSpend = DATA.keywordStats.zeroConversionSpend;
+      insights.push('전환이 발생하지 않은 '+KW_DIM+'에 <b>'+fmtWon(zeroSpend)+'</b>이 소진되어, 전체 광고비의 <b>'+(zeroSpend/ov.cost*100).toFixed(1)+'%</b>를 차지합니다.');
+    }
+    const bestHour = (DATA.hourly || []).slice().sort((a,b)=>b.revenue-a.revenue)[0];
+    if (isMetricVisible('revenue') && bestHour && bestHour.revenue>0){
+      insights.push('전환매출이 가장 높은 시간대는 <b>'+escapeHtml(bestHour.hour)+'</b>('+fmtWon(bestHour.revenue)+')입니다.');
+    }
+    const bestConvHour = (DATA.hourly || []).slice().sort((a,b)=>b.conversions-a.conversions)[0];
+    if (LEAD && isMetricVisible('conversions') && bestConvHour && bestConvHour.conversions>0){
+      insights.push('전환이 가장 많은 시간대는 <b>'+escapeHtml(bestConvHour.hour)+'</b>('+fmtConv(bestConvHour.conversions)+'건)입니다.');
+    }
+    // 표 줄은 캠페인 · 광고그룹별이라, 같은 검색어를 합쳐서 가장 비용이 큰 것을 찾는다. '-' = 키워드가 없는 행(쇼핑검색 등)
+    const kwSum = new Map();
+    (DATA.topKeywordsByCost || []).forEach(r => {
+      if (r.keyword === '-') return;
+      const a = kwSum.get(r.keyword) || { keyword: r.keyword, cost: 0, conversions: 0 };
+      a.cost += r.cost; a.conversions += r.conversions;
+      kwSum.set(r.keyword, a);
+    });
+    const topKw = Array.from(kwSum.values()).sort((a, b) => b.cost - a.cost)[0];
+    if (isMetricVisible('cost') && topKw){
+      const convPart = isMetricVisible('conversions') ? ', 전환 '+topKw.conversions+'건' : '';
+      insights.push('광고비가 가장 많이 투입된 '+KW_DIM+'는 <b>‘'+escapeHtml(topKw.keyword)+'’</b>('+fmtWon(topKw.cost)+convPart+')입니다.');
+    }
+    const nvForNote = CHANNELS.filter(c => c.key === 'naver' || c.key === 'gfa');
+    const free = LEAD ? freeConvInsight(nvForNote, totalsOf(nvForNote.map(c => c.overview))) : null;
+    if (free) insights.push(free);
+    const nvTypes = (CHANNELS.find(c => c.key === 'naver') || { convTypes: [] }).convTypes;
+    if (LEAD && nvTypes.length > 1 && isMetricVisible('conversions')){
+      const typeSum = sumBy(nvTypes, 'conversions');
+      insights.push('검색광고 전환 ' + fmtConv(typeSum) + '건의 구성: ' + nvTypes.map(t => '<b>' + escapeHtml(t.type) + ' ' + fmtConv(t.conversions) + '건</b>(' + (t.conversions / typeSum * 100).toFixed(1) + '%)').join(', '));
+    }
+    const dq = DATA.dataQuality || {};
+    if (isMetricVisible('cost') && dq.placementVsHourlyCostDiff !== null && dq.placementVsHourlyCostDiff !== undefined){
+      // 차이가 지면별 합계의 2% 이하일 때만 '정합성 확인'이라고 쓴다. 그보다 크면 두 파일의 기간이나 캠페인 범위가 다를 수 있다.
+      const placementCost = (DATA.byPlacement || []).reduce((s, r) => s + r.cost, 0);
+      const plName = DATA.naverCampaignOnly ? '캠페인별' : '지면별';
+      if (placementCost > 0 && Math.abs(dq.placementVsHourlyCostDiff) <= placementCost * 0.02){
+        insights.push(plName+'과 시간대별 합계의 비용 차이는 '+fmtWon(dq.placementVsHourlyCostDiff)+'로 반올림 오차 수준입니다.');
+      } else {
+        insights.push('확인 필요: '+plName+' 합계와 시간대별 합계의 비용이 '+fmtWon(dq.placementVsHourlyCostDiff)+' 차이 납니다. 두 파일의 기간이나 캠페인 범위가 같은지 확인해 주세요.');
+      }
+    }
+    renderInsights('insights-list', 'insightAddBtn', insights);
+  }
+
+  // ---------- 캠페인 유형 비교 ----------
+  const TYPE_COLORS = { '쇼핑검색':'var(--accent)', '파워링크':'var(--series-2)', 'GFA':'var(--ch-gfa)' };
+  const typeColor = t => TYPE_COLORS[t] || 'var(--series-3)';
+  renderCompareCards('compare-grid', byCampaignType, r => r.type, r => typeColor(r.type));
+  // 비용이 0원인 유형 카드에 '광고비 입력' 버튼. 입력하면 이 PC에 기억하고 다시 열어 전체 숫자를 새로 계산한다.
+  $('compare-grid').querySelectorAll('.compare-card[data-i]').forEach(card => {
+    const row = byCampaignType[+card.dataset.i];
+    if (!row || MANUAL_TYPES.indexOf(row.type) < 0) return;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'cost-input-btn';
+    btn.textContent = row.manualCost ? '광고비 수정 (직접 입력한 값)' : '+ 광고비 입력';
+    btn.addEventListener('click', function(){
+      const v = window.prompt(row.type + ' 광고비(원)를 입력하세요.\n비우거나 0을 넣으면 입력한 값을 지웁니다.', row.manualCost ? String(row.cost) : '');
+      if (v === null) return;
+      const n = Math.round(parseFloat(String(v).replace(/[^\d.]/g, '')) || 0);
+      setDraft('manualCost', { [row.type]: n > 0 ? n : 0 });   // 0도 기억해야 파일에 저장해 둔 값을 지울 수 있다
+      reloadKeepingEdits();
+    });
+    card.appendChild(btn);
+  });
+
+  // ---------- 캠페인별 · 전환 유형 · 일별 (문의 전환 광고주, 또는 캠페인 단위 보고서만 넣은 경우) ----------
+  const nvChannel = CHANNELS.find(c => c.key === 'naver');
+  let nvDailyOn = false;
+  if ((LEAD || DATA.naverCampaignOnly) && nvChannel && nvChannel.byCampaign.length){
+    $('nav-campaign').hidden = false;
+    $('campaign').hidden = false;
+    renderCampaignBlock($('campaign-body'), 'nv-campaign', [nvChannel]);
+    nvDailyOn = renderDailyBlock($('nv-daily-body'), 'nv-day', [nvChannel]);
+    $('nav-nv-daily').hidden = !nvDailyOn;
+    $('nv-daily').hidden = !nvDailyOn;
+  }
+  if (LEAD && nvChannel && (DATA.convDetail || []).length){
+    $('nav-conv-type').hidden = false;
+    $('conv-type').hidden = false;
+    const typeTotal = sumBy(nvChannel.convTypes, 'conversions');
+    renderBarList($('conv-type-chart'), nvChannel.convTypes, {
+      valueKey: 'conversions', colorFn: () => 'var(--ch-naver)', formatValue: n => fmtConv(n) + '건', formatLabel: r => r.type,
+      tipLines: r => ['전체 전환의 ' + (r.conversions / typeTotal * 100).toFixed(1) + '%']
+    });
+    createTable('conv-detail-table', DATA.convDetail, { noRates: true, muted: ['campaignType', 'adGroup'] });
+  }
+
+  // ---------- 지면 · 매체별 ----------
+  if (SEC.placement && DATA.byPlacement){
+    // 표는 캠페인, 광고그룹까지 나뉜 줄이라 같은 지면 이름이 반복된다. 막대는 지면끼리 합쳐서 어디에 비용이 나갔는지 본다.
+    const byMedia = {};
+    DATA.byPlacement.forEach(r => { (byMedia[r.media] = byMedia[r.media] || []).push(r); });
+    const mediaRows = Object.keys(byMedia).map(k => Object.assign(totalsOf(byMedia[k]), { media: k })).sort((a, b) => b.cost - a.cost);
+    renderBarList($('placement-chart'), mediaRows.slice(0,10), {
+      valueKey:'cost', colorFn: () => 'var(--accent)', formatValue: fmtWon, formatLabel: r => r.media, tipLines: r => statTip(r)
+    });
+    $('placement-count').textContent = DATA.byPlacement.length;
+    createTable('placement-table', DATA.byPlacement, { muted: ['adGroup'], dims: ['campaignType', 'campaign', 'adGroup', 'media'] });
+  }
+
+  // ---------- 검색어 · 키워드별 ----------
+  // 표 줄은 캠페인유형 · 캠페인 · 광고그룹 · 검색어 단위다. 보고서에 없는 구분 컬럼(값이 모두 빈 컬럼)은 숨긴다.
+  // 구분 컬럼을 표 밖으로 끌어내면 남은 컬럼끼리 다시 합친다 (예: 광고그룹을 빼면 캠페인 · 검색어별).
+  const KW_DIMS = ['campaignType', 'campaign', 'adGroup', 'keyword'];
+  const DIM_LABEL = { campaignType: '캠페인유형', campaign: '캠페인', adGroup: '광고그룹' };
+  function keywordTable(tableId, clickedId, rows){
+    const distinct = new Set(rows.map(r => r.keyword)).size;
+    const hide = {};
+    ['campaignType', 'campaign', 'adGroup'].forEach(k => { if (rows.every(r => !r[k])) hide[k] = 1; });
+    // 설명의 줄 수는 지금 표에 남은 구분 컬럼 기준으로 적는다 (컬럼을 빼면 다시 적는다)
+    const note = t => {
+      const gone = t.removed.map(i => t.cols[i].key);
+      const by = ['campaignType', 'campaign', 'adGroup'].filter(k => !hide[k] && gone.indexOf(k) < 0).map(k => DIM_LABEL[k]);
+      $(clickedId).textContent = NUM_FMT.format(distinct) + '개' + (t.rows.length > distinct && by.length ? '(' + by.join(', ') + '별 ' + NUM_FMT.format(t.rows.length) + '줄)' : '');
+    };
+    note(createTable(tableId, rows, { dims: KW_DIMS, hide: hide, muted: ['campaignType', 'adGroup'], onRows: note }));
+  }
+  if (SEC.keyword && DATA.topKeywordsByCost){
+    $('kw-total').textContent = NUM_FMT.format(DATA.keywordStats.totalUniqueKeywords);
+    keywordTable('keyword-table', 'kw-clicked', DATA.topKeywordsByCost);
+  }
+  // 검색어 파일과 키워드 파일을 함께 넣은 경우: 키워드별 성과 표를 하나 더 보여준다.
+  if (SEC.keyword && KW2 && !kw2Empty){
+    $('kw2-total').textContent = NUM_FMT.format(KW2.totalUniqueKeywords);
+    keywordTable('keyword-table2', 'kw2-clicked', KW2.rows);
+  }
+
+  // ---------- 시간대별 ----------
+  if (SEC.hourly && DATA.hourly){
+    renderTimeChart($('hourly-bars'), $('hourly-labels'), DATA.hourly,
+      { barColor: 'var(--accent)', labelFn: h => h.hour.split('~')[0].replace('시',''), tipTitleFn: h => h.hour });
+  }
+
+  // ---------- 지역별 ----------
+  if (SEC.region && DATA.region){
+    const regionRows = DATA.region.rows;
+    renderBarList($('region-chart'), regionRows, {
+      valueKey:'cost', colorFn: () => 'var(--series-2)', formatValue: fmtWon, formatLabel: r => r.region, tipLines: r => statTip(r)
+    });
+    createTable('region-table', regionRows);
+  }
+
+  // ---------- 요일 · 일자 · 기기별 ----------
+  if (DATA.dow && DATA.dow.available){
+    $('nav-dow').hidden = false;
+    $('dow').hidden = false;
+    const dw = DATA.dow;
+    $('dow-sub').textContent = '기간 ' + formatPeriodWithDays(dw.period);
+    const DEVICE_COLORS = ['var(--accent)', 'var(--series-2)', 'var(--series-3)'];
+    // 통합 보고서에 일자/요일/기기 항목이 빠져 있으면 해당 블록(소제목 + 차트)을 통째로 숨긴다.
+    const hideBlock = innerId => {
+      const block = $(innerId).closest('.hourly-chart, .compare-grid');
+      block.style.display = 'none';
+      if (block.previousElementSibling) block.previousElementSibling.style.display = 'none';
+    };
+    if (dw.byDevice && dw.byDevice.length){
+      renderCompareCards('device-grid', dw.byDevice, r => r.device, (r, i) => DEVICE_COLORS[i % DEVICE_COLORS.length]);
+    } else { hideBlock('device-grid'); }
+    if (dw.byDate && dw.byDate.length && !nvDailyOn){
+      renderTimeChart($('date-bars'), $('date-labels'), dw.byDate, { barColor: 'var(--accent)', labelFn: shortDate, tipTitleFn: d => d.date });
+    } else { hideBlock('date-bars'); }
+    if (dw.byWeekday && dw.byWeekday.length){
+      renderTimeChart($('weekday-bars'), $('weekday-labels'), dw.byWeekday,
+        { barColor: 'var(--series-3)', labelFn: w => w.weekday.replace('요일',''), tipTitleFn: w => w.weekday, lineColor: 'var(--series-2)' });
+    } else { hideBlock('weekday-bars'); }
+  }
+
+  // ---------- GFA ----------
+  if (GFA_ON){
+    $('nav-gfa').hidden = false;
+    $('gfa').hidden = false;
+    const g = DATA.gfa;
+    // GFA 리포트 종류에 따라 파일에 '기간'(일자) 컬럼이 없을 수 있다 — 그럴 땐 전체 리포트 기준 기간으로 대신 표시한다.
+    const gfaPeriodLabel = g.period ? formatPeriodWithDays(g.period)
+      : (DATA.period ? formatPeriodWithDays(DATA.period) + ' (GFA 파일 자체에는 일자 정보 없음)' : '기간 정보 없음');
+    $('gfa-sub').textContent = '기간 ' + gfaPeriodLabel + '. 위 전체 요약에 합산되어 있고, 아래는 GFA만의 내역입니다.';
+    if (DATA.dataQuality && DATA.dataQuality.gfaPeriodWarning){
+      const w = $('gfa-warning');
+      w.hidden = false;
+      w.textContent = '⚠️ ' + DATA.dataQuality.gfaPeriodWarning;
+    }
+    // GFA 요약 칸은 '표시 항목' 설정과 관계없이 모두 보여준다 (기존 보고서와 같음)
+    const gfaKpis = overviewKpis(g.overview);
+    renderKpis('gfa-kpi-grid', LEAD ? gfaKpis : gfaKpis.filter(r => r[0] !== 'cvr' && r[0] !== 'cpa'), { all: !LEAD, quiet: true });
+    createTable('gfa-campaign-table', g.byCampaign, { muted: ['objective'] });
+    // 상품 성과 보고서를 함께 넣은 경우에만: 구매완료 전환이 있었던 상품 목록
+    if (g.productCount){
+      $('gfa-product-block').hidden = false;
+      $('gfa-product-shown').textContent = NUM_FMT.format(g.byProduct.length);
+      $('gfa-product-count').textContent = NUM_FMT.format(g.productCount);
+      createTable('gfa-product-table', g.byProduct, { muted: ['campaign'] });
+    }
+    const gfaChannel = CHANNELS.find(c => c.key === 'gfa');
+    if (LEAD && gfaChannel && g.byDate && g.byDate.length){
+      $('gfa-daily-block').innerHTML = '<h3 class="sub-h">GFA 일별 성과</h3><div id="gfa-daily-body" style="margin-bottom:24px;"></div>';
+      renderDailyBlock($('gfa-daily-body'), 'gfa-day', [gfaChannel]);
+    } else if (g.byDate && g.byDate.length){
+      renderTimeChart($('gfa-daily-bars'), $('gfa-daily-labels'), g.byDate, { barColor: 'var(--series-3)', labelFn: shortDate, tipTitleFn: d => d.date, lineColor: 'var(--series-2)' });
+    } else {
+      $('gfa-daily-block').hidden = true;
+    }
+    // 상단 메뉴: GFA는 내용이 길어 소제목별로 바로 갈 수 있게 나눠 보여준다 (내용이 없는 항목은 숨김).
+    $('nav-gfa-campaign').hidden = false;
+    $('nav-gfa-product').hidden = $('gfa-product-block').hidden;
+    $('nav-gfa-daily').hidden = $('gfa-daily-block').hidden;
+    $('nav-gfa-segment').hidden = !g.bySegment.length;
+    // 연령 및 성별 없이 캠페인 단위로만 받은 GFA 보고서는 연령, 성별 부분을 통째로 숨긴다
+    $('gfa-segment-block').hidden = !g.bySegment.length;
+    $('gfa-segment-count').textContent = g.bySegment.length;
+    renderBarList($('gfa-segment-chart'), g.bySegment, {
+      valueKey:'cost', colorFn: () => 'var(--series-3)', formatValue: fmtWon, formatLabel: r => r.segment, tipLines: r => statTip(r)
+    });
+    createTable('gfa-segment-table', g.bySegment);
+  }
+
+  // =====================================================================
+  // 지마켓
+  // =====================================================================
+  const GM = DATA.gmarket || { available:false };
+  if (GM.available){
+    renderKpis('gm-kpi-grid', overviewKpis(GM.overview, { cost: '광고비용' }));
+    if (GM.period) $('gm-summary-sub').textContent = '해당 기간 상품별 리포트 합계, ' + formatPeriodWithDays(GM.period);
+    const types = GM.byCampaignType || [];
+    const ins = [];
+    const gap = roasGapInsight(types, ' 캠페인');
+    if (gap) ins.push(gap);
+    const share = topCostShare(types, GM.overview.cost);
+    if (share) ins.push('광고비 비중이 가장 큰 캠페인 유형은 <b>'+escapeHtml(share.top.type)+'</b>로, 전체 광고비의 <b>'+share.pct+'%</b>('+fmtWon(share.top.cost)+')를 차지합니다.');
+    if (isMetricVisible('conversions') && isMetricVisible('cost') && GM.topKeywordsByCost && GM.topKeywordsByCost.length && GM.overview.cost>0){
+      const zeroSpend = GM.keywordStats.zeroConversionSpend;
+      ins.push('전환이 발생하지 않은 키워드에 <b>'+fmtWon(zeroSpend)+'</b>이 소진되어, 전체 광고비의 <b>'+(zeroSpend/GM.overview.cost*100).toFixed(1)+'%</b>를 차지합니다.');
+    }
+    const topProduct = (GM.byProduct || [])[0];
+    if (isMetricVisible('cost') && topProduct){
+      const convPart = isMetricVisible('conversions') ? ', 전환 '+topProduct.conversions+'건' : '';
+      ins.push('광고비가 가장 많이 투입된 상품은 <b>‘'+escapeHtml(topProduct.product)+'’</b>('+fmtWon(topProduct.cost)+convPart+')입니다.');
+    }
+    const topKw = (GM.topKeywordsByCost || [])[0];
+    if (isMetricVisible('cost') && topKw){
+      const convPart = isMetricVisible('conversions') ? ', 전환 '+topKw.conversions+'건' : '';
+      ins.push('광고비가 가장 많이 투입된 키워드는 <b>‘'+escapeHtml(topKw.keyword)+'’</b>('+fmtWon(topKw.cost)+convPart+')입니다.');
+    }
+    renderInsights('gm-insights-list', 'gmInsightAddBtn', ins);
+
+    if (types.length){
+      $('gm-compare-sub').textContent = types.map(t=>t.type).join(', ') + ' 비교. 줄마다 가장 좋은 값은 초록 바탕으로 표시했습니다.';
+      renderCompareCards('gm-compare-grid', types, r => r.type, cycleColor, { cost: '광고비용' });
+    } else {
+      hideSection('gm-nav-compare', 'gm-compare');
+    }
+    if (GM.byProduct && GM.byProduct.length){
+      renderBarList($('gm-product-chart'), GM.byProduct.slice(0,10), {
+        valueKey:'cost', colorFn: () => 'var(--accent)', formatValue: fmtWon, formatLabel: r => r.product,
+        tipLines: r => [(r.campaignType||'') + ', ' + (r.adGroup||'')].concat(statTip(r))
+      });
+      $('gm-product-count').textContent = GM.byProduct.length;
+      createTable('gm-product-table', GM.byProduct, {
+        muted: ['adGroup'],
+        cell: { campaignType: r => r.campaignType || '', adGroup: r => r.adGroup || '' },
+        minW: { campaignType: 100, adGroup: 140, product: 320 }   // 상품명이 길어서 다른 표보다 넉넉히
+      });
+    } else {
+      hideSection('gm-nav-product', 'gm-product');
+    }
+    if (GM.topKeywordsByCost && GM.topKeywordsByCost.length){
+      $('gm-kw-total').textContent = NUM_FMT.format(GM.keywordStats.totalUniqueKeywords);
+      createTable('gm-keyword-table', GM.topKeywordsByCost);
+    } else {
+      hideSection('gm-nav-keywords', 'gm-keywords');
+    }
+  }
+
+  // =====================================================================
+  // 옥션
+  // =====================================================================
+  const AU = DATA.auction || { available:false };
+  if (AU.available){
+    if (AU.hasImpressionGap) $('au-impression-warning').hidden = false;
+    renderKpis('au-kpi-grid', overviewKpis(AU.overview, { cost: '광고비용', conversions: '구매수', revenue: '구매금액' }));
+    if (DATA.period) $('au-summary-sub').textContent = 'AI매출업, 파워클릭 합계, ' + formatPeriodWithDays(DATA.period);
+    const types = AU.byAdType || [];
+    const ins = [];
+    const gap = roasGapInsight(types, '');
+    if (gap) ins.push(gap);
+    const share = topCostShare(types, AU.overview.cost);
+    if (share) ins.push('광고비 비중이 가장 큰 광고상품은 <b>'+escapeHtml(share.top.type)+'</b>로, 전체 광고비의 <b>'+share.pct+'%</b>('+fmtWon(share.top.cost)+')를 차지합니다.');
+    if (isMetricVisible('conversions') && isMetricVisible('cost') && AU.topKeywordsByCost && AU.topKeywordsByCost.length && AU.overview.cost>0){
+      const zeroSpend = AU.keywordStats.zeroConversionSpend;
+      ins.push('전환이 발생하지 않은 키워드에 <b>'+fmtWon(zeroSpend)+'</b>이 소진되어, 전체 광고비의 <b>'+(zeroSpend/AU.overview.cost*100).toFixed(1)+'%</b>를 차지합니다.');
+    }
+    const topProduct = (AU.byProduct || [])[0];
+    if (isMetricVisible('cost') && topProduct){
+      const convPart = isMetricVisible('conversions') ? ', 구매 '+topProduct.conversions+'건' : '';
+      ins.push('광고비가 가장 많이 투입된 상품은 <b>‘'+escapeHtml(topProduct.product)+'’</b>('+fmtWon(topProduct.cost)+convPart+')입니다.');
+    }
+    const topKw = (AU.topKeywordsByCost || [])[0];
+    if (isMetricVisible('cost') && topKw){
+      const convPart = isMetricVisible('conversions') ? ', 구매 '+topKw.conversions+'건' : '';
+      ins.push('광고비가 가장 많이 투입된 키워드는 <b>‘'+escapeHtml(topKw.keyword)+'’</b>('+fmtWon(topKw.cost)+convPart+')입니다.');
+    }
+    renderInsights('au-insights-list', 'auInsightAddBtn', ins);
+
+    const L = { cost: '광고비용', conversions: '구매수', revenue: '구매금액' };
+    if (types.length){
+      $('au-compare-sub').textContent = types.map(t=>t.type).join(', ') + ' 비교. 줄마다 가장 좋은 값은 초록 바탕으로 표시했습니다.';
+      renderCompareCards('au-compare-grid', types, r => r.type, cycleColor, L);
+    } else {
+      hideSection('au-nav-compare', 'au-compare');
+    }
+    if (AU.byProduct && AU.byProduct.length){
+      renderBarList($('au-product-chart'), AU.byProduct.slice(0,10), {
+        valueKey:'cost', colorFn: () => 'var(--accent)', formatValue: fmtWon, formatLabel: r => r.product,
+        tipLines: r => [(r.adType||'') + ', ' + (r.group||'')].concat(statTip(r, '구매', '구매금액'))
+      });
+      $('au-product-count').textContent = AU.byProduct.length;
+      createTable('au-product-table', AU.byProduct, {
+        muted: ['group'],
+        cell: { adType: r => r.adType || '', group: r => r.group || '' },
+        minW: { adType: 90, group: 200, product: 120 }
+      });
+    } else {
+      hideSection('au-nav-product', 'au-product');
+    }
+    if (AU.topKeywordsByCost && AU.topKeywordsByCost.length){
+      $('au-kw-total').textContent = NUM_FMT.format(AU.keywordStats.totalUniqueKeywords);
+      createTable('au-keyword-table', AU.topKeywordsByCost);
+    } else {
+      hideSection('au-nav-keywords', 'au-keywords');
+    }
+  }
+
+  // =====================================================================
+  // 11번가
+  // =====================================================================
+  const ST = DATA.elevenst || { available:false };
+  if (ST.available){
+    renderKpis('st-kpi-grid', overviewKpis(ST.overview));
+    const types = ST.byAdType || [];
+    const typeNamesSt = types.map(t=>t.type);
+    $('st-summary-sub').textContent = (typeNamesSt.length ? typeNamesSt.join(' + ') + ' 합계' : '광고상품별 리포트 합계')
+      + (ST.period ? ', ' + formatPeriodWithDays(ST.period) : '');
+    const ins = [];
+    const gap = roasGapInsight(types, '');
+    if (gap) ins.push(gap);
+    const share = topCostShare(types, ST.overview.cost);
+    if (share) ins.push('전체 광고비의 <b>'+share.pct+'%</b>('+fmtWon(share.top.cost)+')가 <b>'+escapeHtml(share.top.type)+'</b>에 쓰였습니다.');
+    const bestDay = (ST.byDate || []).slice().sort((a,b)=>b.revenue-a.revenue)[0];
+    if (isMetricVisible('revenue') && bestDay && bestDay.revenue>0){
+      ins.push('전환매출이 가장 높은 날은 <b>'+escapeHtml(bestDay.date.replace(/\.$/,''))+'</b>('+fmtWon(bestDay.revenue)+')입니다.');
+    }
+    const zeroDays = (ST.byDate || []).filter(d => d.cost>0 && d.conversions===0);
+    if (isMetricVisible('conversions') && zeroDays.length){
+      const zeroCost = zeroDays.reduce((s,d)=>s+d.cost, 0);
+      ins.push('광고비가 쓰였지만 전환이 없었던 날은 <b>'+zeroDays.length+'일</b>'+(isMetricVisible('cost') ? '(광고비 '+fmtWon(zeroCost)+')' : '')+'입니다.');
+    }
+    renderInsights('st-insights-list', 'stInsightAddBtn', ins);
+
+    if (types.length){
+      $('st-compare-sub').textContent = typeNamesSt.join(', ') + ' 비교. 줄마다 가장 좋은 값은 초록 바탕으로 표시했습니다.';
+      renderCompareCards('st-compare-grid', types, r => r.type, cycleColor);
+    } else {
+      hideSection('st-nav-compare', 'st-compare');
+    }
+    // 광고상품(직접캠페인 / AI캠페인 등)마다 일별 성과 섹션(차트 + 표)을 하나씩 만든다
+    const stDailyList = $('st-daily-list');
+    const stJump = $('st-jump');
+    types.forEach((t, i)=>{
+      if (!t.byDate || !t.byDate.length) return;
+      const id = 'st-daily-' + i;
+      const sec = document.createElement('section');
+      sec.id = id;
+      sec.innerHTML = `
+        <h2>${escapeHtml(t.type)} 일별 성과</h2>
+        <div class="section-sub">${escapeHtml(t.type)}만의 일자별 성과${ST.period ? ', ' + formatPeriodWithDays(ST.period) : ''}</div>
+        <div class="hourly-chart" style="margin-bottom:24px;">
+          <div class="hourly-bars" id="${id}-bars"></div>
+          <div class="hourly-labels" id="${id}-labels"></div>
+        </div>
+        <div class="table-scroll">
+          <table id="${id}-table">
+            <thead><tr>
+              <th class="txt" data-key="date">날짜</th>
+              <th data-key="impressions">노출수</th>
+              <th data-key="clicks">클릭수</th>
+              <th data-key="ctr">CTR</th>
+              <th data-key="cpc">CPC</th>
+              <th data-key="cost">총비용</th>
+              <th data-key="conversions">전환수</th>
+              <th data-key="revenue">전환매출액</th>
+              <th data-key="roas">ROAS</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      `;
+      stDailyList.appendChild(sec);
+      const link = document.createElement('a');
+      link.href = '#' + id;
+      link.textContent = t.type + ' 일별';
+      stJump.appendChild(link);
+      renderTimeChart($(id + '-bars'), $(id + '-labels'), t.byDate,
+        { barColor: 'var(--accent)', labelFn: shortDate, tipTitleFn: d => t.type + ', ' + d.date.replace(/\.$/,'') });
+      createTable(id + '-table', t.byDate, { cell: { date: r => r.date.replace(/\.$/,'') } });
+    });
+  }
+
+  // =====================================================================
+  // 오늘의집
+  // 요약, 캠페인별, 일별은 구글, 메타와 같은 모양의 데이터(OH.channel)로 그린다. 통합 화면에는 넣지 않는다 (11번가 등과 같이 따로 본다).
+  // =====================================================================
+  const OH = DATA.ohouse || { available:false };
+  if (OH.available){
+    const ch = OH.channel;
+    [ch.overview].concat(ch.byCampaign, ch.byDate, ch.campaignDaily).forEach(r => { r.currency = ch.currency; });
+    const o = ch.overview;
+    const KWO = OH.keywords;
+    // 상품별 캠페인 성과: 상품 보고서는 캠페인마다 따로 받으므로, 같은 상품이 여러 캠페인에 있으면 캠페인끼리 견준다
+    const prodGroups = [];
+    const prodById = {};
+    (OH.byProduct || []).forEach(r => {
+      let g = prodById[r.productId];
+      if (!g){ g = prodById[r.productId] = { name: r.product, rows: [] }; prodGroups.push(g); }
+      g.rows.push(r);
+    });
+    // 상품(전체) 보고서가 있으면 상품 전체 합계와 등록 캠페인 목록을 붙인다
+    const PT = OH.productTotals || [];
+    const ptById = {};
+    PT.forEach(p => { ptById[p.productId] = p; });
+    prodGroups.forEach(g => {
+      g.total = totalsOf(g.rows); g.rows.sort((a, b) => b.cost - a.cost);
+      g.pt = ptById[g.rows[0].productId] || null;
+    });
+    prodGroups.sort((a, b) => b.total.cost - a.total.cost);
+    const multiProds = prodGroups.filter(g => g.rows.length >= 2);
+    const compareProds = prodGroups.filter(g => g.rows.length >= 2 || (g.pt && g.pt.campaigns.length >= 2));
+
+    renderKpis('oh-kpi-grid', overviewKpis(o));
+    const srcLabel = { campaign: '전체 캠페인 합계', account: '계정 전체 합계', product: '상품 보고서를 넣은 캠페인 합계', productTotal: '상품별 통합 보고서 합계(최근 14일 노출 기준)',
+                       category: '카테고리별 통합 보고서 합계(최근 14일 노출 기준)', keyword: '검색어 보고서 합계' }[OH.totalSource] || '합계';
+    $('oh-summary-sub').textContent = srcLabel + (OH.period ? ', ' + formatPeriodWithDays(OH.period) : '');
+
+    const ins = campaignInsights([ch], o, false);
+    if (isMetricVisible('roas')) multiProds.slice(0, 3).forEach(g => {
+      const parts = g.rows.map(r => '<b>' + escapeHtml(r.campaign) + '</b> ' + fmtRoas(r.roas) + (isMetricVisible('cost') ? '(광고비 ' + fmtWon(r.cost) + ')' : ''));
+      ins.push('캠페인 ' + g.rows.length + '개에 함께 등록된 <b>‘' + escapeHtml(g.name) + '’</b>의 캠페인별 ROAS는 ' + parts.join(', ') + '입니다.');
+    });
+    if (KWO && KWO.rows.length && isMetricVisible('cost')){
+      const top = KWO.rows[0];
+      ins.push('광고비가 가장 많이 나간 검색어는 <b>‘' + escapeHtml(top.keyword) + '’</b>(' + fmtWon(top.cost) + (isMetricVisible('conversions') ? ', 전환 ' + fmtConv(top.conversions) + '건' : '') + ')입니다.');
+      if (isMetricVisible('conversions') && KWO.totalCost > 0){
+        ins.push('검색어 보고서 광고비 ' + fmtWon(KWO.totalCost) + ' 중 <b>' + fmtWon(KWO.zeroConversionSpend) + '</b>(' + (KWO.zeroConversionSpend / KWO.totalCost * 100).toFixed(1) + '%)는 전환이 없었던 검색어에 나갔습니다.');
+      }
+    }
+    const catGap = roasGapInsight((OH.byCategory || []).map(c => Object.assign({ type: c.category }, c)), ' 카테고리');
+    if (catGap) ins.push(catGap + ' (카테고리별 통합 보고서, 최근 14일 노출 기준)');
+    dayInsights([ch]).forEach(t => ins.push(t));
+    renderInsights('oh-insights-list', 'ohInsightAddBtn', ins);
+
+    if (ch.byCampaign.length) renderCampaignBlock($('oh-campaign-body'), 'oh-campaign-tbl', [ch]);
+    else hideSectionAndLinks('oh-campaign');
+    if (!renderDailyBlock($('oh-daily-body'), 'oh-day', [ch])) hideSectionAndLinks('oh-daily');
+
+    if (prodGroups.length){
+      const prodCamps = new Set((OH.byProduct || []).map(r => r.campaign));
+      const spentCamps = ch.byCampaign.filter(c => c.cost > 0).length;
+      let sub = '캠페인 ' + prodCamps.size + '개' + (spentCamps > prodCamps.size ? '(집행한 캠페인 ' + spentCamps + '개 중)' : '') + ', 상품 ' + prodGroups.length + '개의 성과입니다.';
+      if (compareProds.length) sub += ' 두 캠페인 이상에 등록된 상품은 캠페인끼리 나란히 비교합니다 (줄마다 가장 좋은 값은 초록 바탕으로 표시).';
+      $('oh-product-sub').textContent = sub;
+      const totalLine = t => [
+        ['cost', '광고비 ' + fmtWon(t.cost)], ['conversions', '전환 ' + fmtConv(t.conversions) + '건'],
+        ['revenue', '전환매출 ' + fmtWon(t.revenue)], ['roas', 'ROAS ' + fmtRoas(t.roas)]
+      ].filter(m => isMetricVisible(m[0])).map(m => m[1]).join(', ');
+      const box = $('oh-product-compare');
+      const spentByName = {};
+      ch.byCampaign.forEach(c => { if (c.cost > 0) spentByName[c.campaign] = true; });
+      compareProds.forEach((g, i) => {
+        const id = 'oh-pc-' + i;
+        const lines = [];
+        if (g.rows.length >= 2) lines.push('캠페인 ' + g.rows.length + '개 합계: ' + totalLine(g.total));
+        if (g.pt){
+          // 등록 캠페인 중 이번 기간에 집행했는데 캠페인별 상품 보고서가 없는 캠페인, 집행이 없었던 캠페인을 나눠 적는다
+          const have = {};
+          g.rows.forEach(r => { have[r.campaignId] = true; });
+          const missing = g.pt.campaigns.filter(c => !have[c.id] && spentByName[c.name]).map(c => c.name);
+          const idle = g.pt.campaigns.filter(c => !have[c.id] && !spentByName[c.name]).map(c => c.name);
+          lines.push('상품 전체(상품별 통합 보고서, 최근 14일 노출 기준): ' + totalLine(g.pt) + '. 등록 캠페인 ' + g.pt.campaigns.length + '개: ' + g.pt.campaigns.map(c => c.name).join(', ')
+            + (missing.length ? '. 캠페인별 데이터 없음: ' + missing.join(', ') : '') + (idle.length ? '. 이번 기간 집행 없음: ' + idle.join(', ') : ''));
+        }
+        box.insertAdjacentHTML('beforeend', '<h3 class="sub-h">' + escapeHtml(g.name) + '</h3>'
+          + lines.map(l => '<div class="section-sub">' + escapeHtml(l) + '</div>').join('')
+          + '<div class="compare-grid" id="' + id + '" style="margin-bottom:24px;"></div>');
+        renderCompareCards(id, g.rows, r => r.campaign, cycleColor);
+      });
+      if (compareProds.length) box.insertAdjacentHTML('beforeend', '<h3 class="sub-h">상품, 캠페인별 전체</h3>');
+      const rows = prodGroups.reduce((a, g) => a.concat(g.rows), []);   // 상품끼리 모아 둔 순서 (상품 광고비 합계 순)
+      createTable('oh-product-table', rows, {
+        // 상품명이 길어 표가 좁으면 상품명만 줄인다. 캠페인 이름과 입찰 전략은 다 보이게 둔다
+        muted: ['campaignType'], minW: { product: 200 }, keepW: { campaign: 240, campaignType: 160 },
+        cell: { campaignType: r => r.campaignType || '-' },
+        hide: rows.every(r => !r.campaignType) ? { campaignType: 1 } : {}
+      });
+    } else {
+      hideSectionAndLinks('oh-product');
+    }
+
+    // 카테고리, 상품(전체) 보고서는 조회 기간과 관계없이 최근 14일 내 오늘의집 매체에 노출된 성과만 담는다 (오늘의집 화면 안내 문구, 2026-11-04 사용자 확인).
+    // 그래서 합계가 캠페인 합계와 다르다. 설명에 그 기준과 두 합계를 적는다.
+    const RECENT14 = '조회 기간과 관계없이 최근 14일 내 오늘의집 매체에 노출된 성과만 담은 보고서입니다';
+    const vsTotal = (label, cost) => ' ' + label + '는 ' + RECENT14
+      + ((OH.totalSource === 'campaign' || OH.totalSource === 'account') && o.cost > 0 && cost !== o.cost && isMetricVisible('cost')
+        ? ' (합계 ' + fmtWon(cost) + ', 캠페인 합계 ' + fmtWon(o.cost) + ').' : '.');
+    const CATS = OH.byCategory || [];
+    if (CATS.length){
+      $('oh-category-sub').textContent = '카테고리 ' + CATS.length + '개, 비용순.' + vsTotal('카테고리별 통합 보고서', OH.categoryTotal.cost);
+      renderBarList($('oh-category-chart'), CATS, {
+        valueKey: 'cost', colorFn: () => 'var(--accent)', formatValue: fmtWon, formatLabel: r => r.category, tipLines: r => statTip(r)
+      });
+      createTable('oh-category-table', CATS, { minW: { category: 200 } });
+    } else {
+      hideSectionAndLinks('oh-category');
+    }
+    if (PT.length){
+      $('oh-product-all-sub').textContent = '상품 ' + PT.length + '개, 비용순. 한 상품의 등록 캠페인 전체를 합친 성과입니다.' + vsTotal('상품별 통합 보고서', OH.productTotalCost);
+      if (PT.length >= 2) renderBarList($('oh-product-all-chart'), PT.slice(0, 10), {
+        valueKey: 'cost', colorFn: () => 'var(--accent)', formatValue: fmtWon, formatLabel: r => r.product, tipLines: r => [r.campaignNames].concat(statTip(r))
+      });
+      else $('oh-product-all-chart').hidden = true;
+      createTable('oh-product-all-table', PT, { muted: ['campaignNames'], minW: { product: 200 } });
+    } else {
+      hideSectionAndLinks('oh-product-all');
+    }
+
+    if (KWO && KWO.rows.length){
+      const kwCamps = KWO.campaigns || [];
+      const oneCamp = kwCamps.length <= 1;
+      const oneTarget = KWO.rows.every(r => r.targeting === KWO.rows[0].targeting);
+      let sub = (oneCamp ? '‘' + KWO.rows[0].campaign + '’ 캠페인, ' : '') + (oneTarget && KWO.rows[0].targeting ? KWO.rows[0].targeting + ' 타겟팅, ' : '')
+        + '클릭이 1회 이상 발생한 검색어 ' + fmtInt(KWO.rows.length) + '개, 비용순 (전체 ' + fmtInt(KWO.totalUniqueKeywords) + '개 검색어 중).';
+      // 검색어 보고서는 캠페인마다 받을 수 있어, 그 보고서에 들어 있는 캠페인의 광고비와 견준다
+      const campCost = sumBy(ch.byCampaign.filter(c => kwCamps.indexOf(c.campaign) >= 0), 'cost');
+      if (campCost > 0 && isMetricVisible('cost')){
+        sub += ' 검색어 보고서에 잡힌 광고비는 ' + fmtWon(KWO.totalCost) + '로 ' + (oneCamp ? '이 캠페인' : '해당 캠페인 ' + kwCamps.length + '개') + ' 광고비(' + fmtWon(campCost) + ')의 ' + (KWO.totalCost / campCost * 100).toFixed(1) + '%입니다.';
+      }
+      $('oh-kw-sub').textContent = sub;
+      const hide = {};
+      if (oneCamp) hide.campaign = 1;
+      if (oneTarget) hide.targeting = 1;
+      createTable('oh-keyword-table', KWO.rows, { hide: hide, muted: ['campaign', 'targeting'], keepW: { campaign: 235, keyword: 155 } });   // 표가 좁아도 캠페인, 검색어는 이 폭까지 보이게 (그래서 이 표에는 '상태' 칸을 두지 않는다)
+    } else {
+      hideSectionAndLinks('oh-keywords');
+    }
+  }
+
+  // =====================================================================
+  // 구글, 메타
+  // =====================================================================
+  function renderChannelPanel(ch){
+    const k = ch.key, name = escapeHtml(ch.name), o = ch.overview;
+    $('panel-' + k).innerHTML = `
+      <section id="${k}-summary">
+        <h2>전체 요약</h2>
+        <div class="section-sub" id="${k}-summary-sub"></div>
+        <div class="kpi-grid" id="${k}-kpi-grid"></div>
+        <div class="insights">
+          <h3>이번 기간 눈에 띄는 포인트 <span class="insights-hint">(문구를 클릭해 수정하거나 지울 수 있습니다)</span></h3>
+          <ul id="${k}-insights-list"></ul>
+          <button id="${k}InsightAddBtn" class="insight-add-btn" type="button">+ 문구 추가</button>
+        </div>
+      </section>
+      <section id="${k}-campaign">
+        <h2>캠페인별 성과</h2>
+        <div class="section-sub">비용이 많은 순서로 정리</div>
+        <div id="${k}-campaign-body"></div>
+      </section>
+      <section id="${k}-daily">
+        <h2>일별 성과</h2>
+        <div class="section-sub">캠페인을 고르면 그 일별 성과만 봅니다</div>
+        <div id="${k}-daily-body"></div>
+      </section>
+    `;
+    let sub = ch.period ? formatPeriodWithDays(ch.period) : '';
+    if (ch.currency === 'USD') sub += ', 광고비는 보고서의 달러 금액 그대로';
+    $(k + '-summary-sub').textContent = sub;
+    renderKpis(k + '-kpi-grid', overviewKpis(o));
+    renderInsights(k + '-insights-list', k + 'InsightAddBtn', campaignInsights([ch], o, false).concat(dayInsights([ch])));
+    renderCampaignBlock($(k + '-campaign-body'), k + '-campaign-tbl', [ch]);
+    // 날짜 컬럼 없이 받은 보고서(캠페인 단위 월간 보고서 등)는 일별 데이터가 없어서 일별 성과를 숨긴다
+    if (!renderDailyBlock($(k + '-daily-body'), k + '-day', [ch])) hideSectionAndLinks(k + '-daily');
+  }
+  CHANNELS.filter(c => c.key === 'google' || c.key === 'meta').forEach(renderChannelPanel);
+
+  // =====================================================================
+  // 전체 매체 통합
+  // =====================================================================
+  // 원형 그래프 하나. items: [{ key, name, value, text }]. 매체 순서를 바꾸면 이웃한 색이 달라지므로 CHANNELS 순서 그대로 넘긴다.
+  function donutHtml(title, note, centerLabel, centerValue, items){
+    const C = 160, R = 88, W = 38, LEN = 2 * Math.PI * R;
+    const parts = items.filter(r => r.value > 0);
+    const total = sumBy(parts, 'value');
+    let done = 0, arcs = '', labels = '';
+    parts.forEach(r => {
+      const len = r.value / total * LEN;
+      const gap = parts.length > 1 ? Math.min(2, len / 2) : 0;   // 조각 사이 틈
+      const pct = (r.value / total * 100).toFixed(1) + '%';
+      arcs += '<circle cx="' + C + '" cy="' + C + '" r="' + R + '" fill="none" stroke-width="' + W + '" style="stroke:' + CH_COLOR[r.key] + '"'
+        + ' stroke-dasharray="' + (len - gap).toFixed(2) + ' ' + (LEN - len + gap).toFixed(2) + '" stroke-dashoffset="' + (-done).toFixed(2) + '"'
+        + ' transform="rotate(-90 ' + C + ' ' + C + ')" data-name="' + escapeHtml(r.name) + '" data-tip="' + escapeHtml(r.text + ', ' + pct) + '"></circle>';
+      if (r.value / total >= 0.03){   // 아주 작은 조각은 글자가 겹치므로 옆 목록과 말풍선으로 본다
+        const a = (done + len / 2) / LEN * 2 * Math.PI - Math.PI / 2, cos = Math.cos(a), at = R + W / 2 + 9;
+        labels += '<text class="num" x="' + (C + at * cos).toFixed(1) + '" y="' + (C + at * Math.sin(a)).toFixed(1) + '" dominant-baseline="middle"'
+          + ' text-anchor="' + (cos > 0.3 ? 'start' : (cos < -0.3 ? 'end' : 'middle')) + '">' + pct + '</text>';
+      }
+      done += len;
+    });
+    return '<div class="donut"><div class="donut-title">' + title + '</div><div class="donut-note">' + escapeHtml(note) + '</div>'
+      + '<div class="donut-box"><svg viewBox="0 0 320 320" role="img" aria-label="' + title + '">' + arcs + labels + '</svg>'
+      + '<div class="donut-center"><span>' + centerLabel + '</span><b class="num">' + centerValue + '</b></div></div></div>';
+  }
+  // 비용 비중은 첫 번째 통화(원화) 매체끼리 계산한다. 달러 매체는 금액만 적고, 전환 비중은 전체 기준이다.
+  function renderShareChart(el, groups, ov){
+    const main = groups[0];
+    const excluded = groups.slice(1).reduce((a, g) => a.concat(g.channels.map(c => c.name)), []);
+    const costItems = main.channels.map(ch => ({ key: ch.key, name: ch.name, value: ch.overview.cost, text: fmtMoney(ch.overview.cost, ch.currency) }));
+    const convItems = CHANNELS.map(ch => ({ key: ch.key, name: ch.name, value: ch.overview.conversions, text: fmtConv(ch.overview.conversions) + '건' }));
+    const cell = (top, under) => '<div class="share-cell"><b class="num">' + top + '</b><span class="num">' + under + '</span></div>';
+    const showCpa = isMetricVisible('cpa');
+    const rows = groups.map((g, gi) => g.channels.slice().sort((a, b) => b.overview.cost - a.overview.cost).map(ch => {
+      const o = ch.overview;
+      const costPct = gi === 0 && g.totals.cost > 0 ? (o.cost / g.totals.cost * 100).toFixed(1) + '%' : '-';
+      const convPct = ov.conversions > 0 ? (o.conversions / ov.conversions * 100).toFixed(1) + '%' : '-';
+      return '<div class="share-row"><div class="share-name"><span class="dot" style="background:' + CH_COLOR[ch.key] + '"></span>' + escapeHtml(ch.name) + '</div>'
+        + cell(costPct, fmtMoney(o.cost, ch.currency)) + cell(convPct, fmtConv(o.conversions) + '건')
+        + (showCpa ? '<div class="share-cell"><b class="num">' + fmtCpa(cpaOf(o), ch.currency) + '</b></div>' : '') + '</div>';
+    }).join('')).join('');
+    el.innerHTML = donutHtml('비용 비중', excluded.length ? excluded.join(', ') + '는 달러라 제외' : '전체 매체', excluded.length ? '원화 합계' : '총비용', fmtMoney(main.totals.cost, main.currency), costItems)
+      + donutHtml('전환 비중', '전체 매체', '총 전환', fmtConv(ov.conversions) + '건', convItems)
+      + '<div class="share-list"><div class="share-row head"><span></span><span>비용</span><span>전환</span><span>' + (showCpa ? 'CPA' : '') + '</span></div>' + rows + '</div>';
+    el.querySelectorAll('circle').forEach(c => {
+      c.addEventListener('mouseenter', e => showTip(e, c.dataset.name, [c.dataset.tip]));
+      c.addEventListener('mousemove', moveTip);
+      c.addEventListener('mouseleave', hideTip);
+    });
+  }
+  const ALL_ON = CHANNELS.length >= 2 && (LEAD || CHANNELS.some(c => c.key === 'google' || c.key === 'meta'));
+  if (ALL_ON){
+    const groups = currencyGroups(CHANNELS);
+    const twoCur = groups.length > 1;
+    const main = groups[0];
+    const ov = totalsOf(CHANNELS.map(c => c.overview));   // 노출, 클릭, 전환과 CTR, CVR만 전체로 본다. 금액은 groups의 합계를 쓴다.
+    $('all-summary-sub').textContent = CHANNELS.map(c => c.name).join(' + ') + ' 합계';
+    const allWarn = (DATA.dataQuality || {}).channelPeriodWarning;
+    if (allWarn){
+      $('all-warning').hidden = false;
+      $('all-warning').textContent = '⚠️ ' + allWarn;
+    }
+    if (twoCur){
+      // 금액 칸은 원화 합계를 크게 적고, 달러 매체는 더하지 않고 그 아래에 따로 적는다
+      const krwKpis = overviewKpis(groups[0].totals), usdKpis = overviewKpis(groups[1].totals);
+      const usdName = groups[1].channels.map(c => c.name).join(', ');
+      const pick = (items, key) => items.find(r => r[0] === key);
+      renderKpis('all-kpi-grid', overviewKpis(ov).map(r => ['cost', 'cpc', 'cpa', 'roas'].indexOf(r[0]) < 0 ? r
+        : pick(krwKpis, r[0]).slice(0, 4).concat(usdName + ' ' + pick(usdKpis, r[0])[2])));
+      const shareNote = ' 비용 비중은 같은 통화끼리 계산했습니다.';
+      $('all-media-sub').textContent = '비용이 어디로 나가고 전환이 어디서 나오는지 비교.' + shareNote;
+      $('all-campaign-sub').textContent += '.' + shareNote;
+    } else {
+      renderKpis('all-kpi-grid', overviewKpis(ov));
+    }
+
+    const ins = [];
+    const byCost = main.channels.slice().sort((a, b) => b.overview.cost - a.overview.cost);
+    if (isMetricVisible('cost') && main.totals.cost > 0){
+      const t = byCost[0].overview;
+      ins.push((twoCur ? '원화 광고비' : '전체 광고비') + '의 <b>' + (t.cost / main.totals.cost * 100).toFixed(1) + '%</b>(' + fmtMoney(t.cost, main.currency) + ')가 <b>' + escapeHtml(byCost[0].name)
+        + '</b>에 나갔고, 전체 전환의 <b>' + (ov.conversions > 0 ? (t.conversions / ov.conversions * 100).toFixed(1) : '0.0') + '%</b>가 여기서 나왔습니다.');
+    }
+    const byCpa = main.channels.filter(c => c.overview.cost > 0 && c.overview.conversions > 0).sort((a, b) => cpaOf(a.overview) - cpaOf(b.overview));
+    if (isMetricVisible('cpa') && byCpa.length >= 2){
+      const best = byCpa[0], worst = byCpa[byCpa.length - 1];
+      ins.push('매체별 CPA는 <b>' + escapeHtml(best.name) + '</b>가 ' + fmtMoney(cpaOf(best.overview), main.currency) + '로 가장 낮고, <b>' + escapeHtml(worst.name) + '</b>가 ' + fmtMoney(cpaOf(worst.overview), main.currency)
+        + '로 약 <b>' + (cpaOf(worst.overview) / cpaOf(best.overview)).toFixed(1) + '배</b>입니다.');
+    }
+    if (twoCur) groups[1].channels.forEach(ch => {
+      const o = ch.overview;
+      ins.push('<b>' + escapeHtml(ch.name) + '</b>는 달러로 집행해 따로 봅니다. 광고비 ' + fmtUsd(o.cost) + ', 전환 ' + fmtConv(o.conversions) + '건(전체 전환의 '
+        + (ov.conversions > 0 ? (o.conversions / ov.conversions * 100).toFixed(1) : '0.0') + '%)' + (isMetricVisible('cpa') ? ', CPA ' + fmtCpa(cpaOf(o), 'USD') : '') + '입니다.');
+    });
+    const free = freeConvInsight(main.channels, main.totals);
+    if (free) ins.push(free);
+    campaignInsights(main.channels, main.totals, true).forEach(t => ins.push(t));   // 달러 매체의 캠페인 포인트는 그 매체 화면에서 본다
+    dayInsights(CHANNELS).forEach(t => ins.push(t));
+    if (SEC.keyword && isMetricVisible('conversions') && isMetricVisible('cost')){
+      ins.push('네이버 검색광고에서 전환이 없었던 ' + KW_DIM + '에 <b>' + fmtWon(DATA.keywordStats.zeroConversionSpend) + '</b>이 나갔습니다.');
+    }
+    renderInsights('all-insights-list', 'allInsightAddBtn', ins);
+
+    renderShareChart($('all-share'), groups, ov);
+    renderCompareCards('all-compare-grid', CHANNELS.map(c => Object.assign({ name: c.name, key: c.key }, c.overview)), r => r.name, r => CH_COLOR[r.key]);
+    renderCampaignBlock($('all-campaign-body'), 'all-campaign-tbl', CHANNELS);
+    if (!renderDailyBlock($('all-daily-body'), 'all-day', CHANNELS)) hideSectionAndLinks('all-daily');
+
+    const convItems = [];
+    CHANNELS.forEach(ch => ch.convTypes.forEach(t => convItems.push({ media: ch.name, mediaKey: ch.key, type: t.type, conversions: t.conversions })));
+    convItems.sort((a, b) => b.conversions - a.conversions);
+    renderBarList($('all-conv-chart'), convItems, {
+      valueKey: 'conversions', colorFn: r => CH_COLOR[r.mediaKey], formatValue: n => fmtConv(n) + '건',
+      formatLabel: r => r.media + ' / ' + r.type,
+      tipLines: r => ['전체 전환의 ' + (ov.conversions > 0 ? (r.conversions / ov.conversions * 100).toFixed(1) : '0.0') + '%']
+    });
+  }
+
+  // ---------- 하단 주석 (보고 있는 매체에 따라 다르게) ----------
+  function renderFootnote(media){
+    const foot = $('footnote');
+    if (media === 'all' || media === 'google' || media === 'meta'){
+      const chs = media === 'all' ? CHANNELS : CHANNELS.filter(c => c.key === media);
+      const has = key => chs.some(c => c.key === key);
+      const basis = [];
+      if (has('naver')) basis.push('네이버 검색광고는 총 전환수');
+      if (has('gfa')) basis.push('GFA는 총 전환수');
+      if (has('google')) basis.push('구글은 전환');
+      if (has('meta')) basis.push('메타는 결과');
+      const notes = ['<div><b>전환 기준</b>: ' + basis.join(', ') + '입니다.'
+        + (chs.length > 1 ? ' 매체마다 전환을 세는 방식이 달라 같은 사람의 전환이 여러 매체에 잡힐 수 있습니다.' : '') + '</div>'];
+      if (has('google')) notes.push('<div>구글 전환은 기여 모델에 따라 소수로 나옵니다.</div>');
+      const meta = chs.find(c => c.key === 'meta');
+      if (meta) notes.push('<div>메타 클릭은 클릭(전체) 기준이라 링크 클릭 외의 클릭도 포함합니다.'
+        + (meta.currency === 'USD' ? ' 메타 광고비는 달러 금액 그대로이며' + (chs.length > 1 ? ' 원화와 더하지 않았습니다. 비용 비중과 CPC, CPA도 통화별로 따로 계산했습니다.' : ', 환율로 바꾸지 않았습니다.') : '') + '</div>');
+      foot.innerHTML = '<div><b>데이터 출처</b>: ' + escapeHtml(chs.map(c => c.name).join(', ')) + ' 매체별 자체 다운로드 파일 기준.</div>' + notes.join('')
+        + '<div style="margin-top:6px;">본 보고서는 원본 파일의 숫자를 그대로 합산, 재계산한 결과이며, 별도의 수동 보정을 거치지 않았습니다.</div>';
+      return;
+    }
+    if (media === 'gmarket'){
+      foot.innerHTML = `
+        <div><b>데이터 출처</b>: 지마켓 광고관리시스템 상품별, 키워드별 리포트 xlsx, 셀러 자체 다운로드 파일 기준.</div>
+        <div style="margin-top:6px;">본 보고서는 원본 파일의 '판매자 전환 금액/수' 기준으로 매출·전환을 재계산한 결과이며, 별도의 수동 보정을 거치지 않았습니다.</div>
+      `;
+      return;
+    }
+    if (media === 'auction'){
+      foot.innerHTML = `
+        <div><b>데이터 출처</b>: 옥션 광고관리시스템 AI매출업, 파워클릭(상품별/키워드별) 리포트 xlsx, 셀러 자체 다운로드 파일 기준.</div>
+        <div style="margin-top:6px;">AI매출업 리포트는 노출수를 제공하지 않아 해당 지표는 파워클릭 데이터만 반영됩니다. 별도의 수동 보정을 거치지 않았습니다.</div>
+      `;
+      return;
+    }
+    if (media === 'elevenst'){
+      foot.innerHTML = `
+        <div><b>데이터 출처</b>: 11번가 광고센터 광고상품별(${escapeHtml((ST.byAdType || []).map(t=>t.type).join(', '))}) 일별 리포트 CSV, 셀러 자체 다운로드 파일 기준.</div>
+        <div style="margin-top:6px;">전환수, 전환매출액은 '총 전환(직접+간접)' 기준이며 장바구니 전환은 포함하지 않았습니다. 별도의 수동 보정을 거치지 않았습니다.</div>
+      `;
+      return;
+    }
+    if (media === 'ohouse'){
+      foot.innerHTML = `
+        <div><b>데이터 출처</b>: 오늘의집 광고 보고서 CSV (${escapeHtml((OH.sources || []).join(', '))}), 셀러 자체 다운로드 파일 기준.</div>
+        <div>전환수, 전환매출액은 '광고 전환 판매 수', '광고 전환 매출'(직접+간접) 기준이며 오늘의집 '광고 수익률'과 같은 계산입니다.</div>
+        <div style="margin-top:6px;">본 보고서는 원본 파일의 숫자를 그대로 합산, 재계산한 결과이며, 별도의 수동 보정을 거치지 않았습니다.</div>
+      `;
+      return;
+    }
+    const usedSources = [];
+    if (SEC.placement) usedSources.push('지면별');
+    if (DATA.naverCampaignOnly) usedSources.push('캠페인별');
+    if (SEC.keyword) usedSources.push('검색어');
+    if (SEC.hourly) usedSources.push('시간대별');
+    if (SEC.region) usedSources.push('지역별');
+    if (SEC.dow) usedSources.push('요일_일자_기기별');
+    if ((DATA.convDetail || []).length) usedSources.push('전환유형');
+    const sourceLine = '네이버 검색광고 다차원보고서 CSV (' + usedSources.join(', ') + ')'
+      + (SEC.gfa ? ' + 네이버GFA 보고서 CSV' : '')
+      + ', 매체별 자체 다운로드 파일 기준.';
+    const dq = DATA.dataQuality || {};
+    const noteLines = [];
+    if (dq.note) noteLines.push(dq.note);
+    if (dq.placementVsKeywordCostDiff !== null && dq.placementVsKeywordCostDiff !== undefined){
+      noteLines.push((DATA.naverCampaignOnly ? '캠페인별' : '지면별') + ' 합계와 검색어 합계는 ' + fmtWon(dq.placementVsKeywordCostDiff) + ' 차이가 있습니다. 검색어 보고서에는 검색어 없이 노출된 광고(쇼핑 지면, 콘텐츠 매체 등)가 빠지기 때문이며, 지면별, 요약 합계는 이를 포함한 값입니다.');
+    }
+    foot.innerHTML = `
+      <div><b>데이터 출처</b>: ${sourceLine}</div>
+      ${noteLines.length ? '<div><b>참고</b>: ' + noteLines.join(' ') + '</div>' : ''}
+      <div style="margin-top:6px;">본 보고서는 원본 CSV의 숫자를 그대로 합산, 재계산한 결과이며, 별도의 수동 보정을 거치지 않았습니다.</div>
+    `;
+  }
+
+  // ---------- 매체 선택 (2개 이상 매체가 있을 때만 드롭다운 노출) ----------
+  function mediaTabLabel(key){
+    return { all: '전체 매체 통합', naver: GFA_ON ? '네이버 검색광고 + GFA' : '네이버 검색광고', google: '구글', meta: '메타',
+             gmarket: '지마켓', auction: '옥션', elevenst: '11번가', ohouse: '오늘의집' }[key];
+  }
+  const PANEL_IDS = { all: 'panel-all', naver: 'panel-naver', google: 'panel-google', meta: 'panel-meta', gmarket: 'panel-gmarket', auction: 'panel-auction', elevenst: 'panel-elevenst', ohouse: 'panel-ohouse' };
+  const JUMP_IDS  = { all: 'all-jump', naver: 'naver-jump', google: 'google-jump', meta: 'meta-jump', gmarket: 'gm-jump', auction: 'auction-jump', elevenst: 'st-jump', ohouse: 'oh-jump' };
+  const hasChannel = key => CHANNELS.some(c => c.key === key);
+  const availableMedia = [
+    { key: 'all',      available: ALL_ON },
+    { key: 'naver',    available: !!DATA.naverAvailable },
+    { key: 'google',   available: hasChannel('google') },
+    { key: 'meta',     available: hasChannel('meta') },
+    { key: 'gmarket',  available: !!GM.available },
+    { key: 'auction',  available: !!AU.available },
+    { key: 'elevenst', available: !!ST.available },
+    { key: 'ohouse',   available: !!OH.available }
+  ].filter(m => m.available);
+
+  function activateMedia(media){
+    Object.keys(PANEL_IDS).forEach(k=>{
+      $(PANEL_IDS[k]).hidden = (k !== media);
+      $(JUMP_IDS[k]).hidden = (k !== media);
+    });
+    document.querySelectorAll('#eyebrowMenu button[data-media]').forEach(btn=>{
+      btn.classList.toggle('active', btn.dataset.media === media);
+    });
+    const channelOfMedia = CHANNELS.find(c => c.key === media);
+    const periodSrc = media === 'naver' ? DATA.period : (media === 'gmarket' ? GM.period : (media === 'elevenst' ? ST.period : (media === 'ohouse' ? OH.period : (channelOfMedia ? channelOfMedia.period : null))));
+    if (periodSrc) $('period-label').textContent = formatPeriodWithDays(periodSrc);
+    else if (DATA.period) $('period-label').textContent = formatPeriodWithDays(DATA.period);
+    renderFootnote(media);
+    fitAll();   // 새로 보이게 된 표의 폭을 맞추고, 상단 높이도 다시 잰다
+  }
+
+  // ---------- 상단 고정 영역 높이 (메뉴로 이동할 때 제목이 가려지지 않게) ----------
+  function updateStickyHeight(){
+    const sh = document.querySelector('.sticky-head');
+    if (sh) document.documentElement.style.setProperty('--sticky-h', sh.offsetHeight + 'px');
+  }
+
+  // ---------- 화면 폭 조절 (가로로 긴 모니터에서 좌우 여백 줄이기) ----------
+  // 보는 사람마다 모니터가 달라 보고서 파일이 아니라 이 PC의 브라우저에만 기억한다.
+  // 조정 버튼의 숫자를 누르면 그 자리에서 직접 입력할 수 있다. Enter 또는 바깥 클릭 = 적용, Esc = 취소.
+  function editCtlValue(label, current, onCommit){
+    if (label.querySelector('input')) return;
+    const shown = label.textContent;
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = current;
+    label.textContent = '';
+    label.appendChild(input);
+    input.focus();
+    input.select();
+    let done = false;
+    function finish(commit){
+      if (done) return;
+      done = true;
+      const text = input.value.trim();
+      label.textContent = shown;
+      if (commit && text !== '') onCommit(text);
+    }
+    input.addEventListener('keydown', function(e){
+      if (e.key === 'Enter') finish(true);
+      else if (e.key === 'Escape') finish(false);
+    });
+    input.addEventListener('blur', function(){ finish(true); });
+  }
+  (function(){
+    const WIDTHS = [1180, 1400, 1600, 1900, 2300];   // 버튼으로 오르내리는 단계. 그 위는 '전체'(0)
+    const MIN = 800, MAX = 4000;
+    const KEY = 'adReportWidthPx';
+    let width = 1180;                                 // 0 = 화면 전체
+    try { const saved = parseInt(localStorage.getItem(KEY), 10); if (!isNaN(saved)) width = saved; } catch (e) {}
+    const label = $('wdLabel');
+    function apply(refit){
+      if (width !== 0) width = Math.min(MAX, Math.max(MIN, Math.round(width)));
+      document.documentElement.style.setProperty('--wrap-w', width ? width + 'px' : 'none');
+      label.textContent = width ? width : '전체';
+      try { localStorage.setItem(KEY, String(width)); } catch (e) {}
+      if (refit) fitAll();
+    }
+    $('wdUp').addEventListener('click', function(){
+      if (width === 0) return;
+      width = WIDTHS.filter(w => w > width)[0] || 0;
+      apply(true);
+    });
+    $('wdDown').addEventListener('click', function(){
+      const lower = WIDTHS.filter(w => width === 0 || w < width);
+      if (!lower.length) return;
+      width = lower[lower.length - 1];
+      apply(true);
+    });
+    label.title = '눌러서 직접 입력 (' + MIN + '~' + MAX + ', 전체는 0)';
+    label.addEventListener('click', function(){
+      editCtlValue(label, width, function(text){
+        if (text === '전체') { width = 0; apply(true); return; }
+        const n = parseFloat(text);
+        if (!isNaN(n)) { width = n; apply(true); }
+      });
+    });
+    apply(false);   // 처음 표 폭 맞춤은 아래에서 한 번에 한다
+  })();
+
+  // ---------- 글자 크기 조절 (레이아웃/화면 크기는 그대로 두고 글자만 확대) ----------
+  (function(){
+    const MIN = 70, MAX = 160, STEP = 5;
+    let pct = 110;
+    const label = $('fsLabel');
+    function apply(){
+      pct = Math.min(MAX, Math.max(MIN, Math.round(pct)));
+      FS = pct / 100;
+      document.documentElement.style.setProperty('--fs-mult', FS);
+      label.textContent = pct + '%';
+      TABLES.forEach(t => { t.natural = null; });
+      fitAll();
+    }
+    $('fsUp').addEventListener('click', function(){ pct += STEP; apply(); });
+    $('fsDown').addEventListener('click', function(){ pct -= STEP; apply(); });
+    label.title = '눌러서 직접 입력 (' + MIN + '~' + MAX + ')';
+    label.addEventListener('click', function(){
+      editCtlValue(label, pct, function(text){
+        const n = parseFloat(text.replace('%', ''));
+        if (!isNaN(n)) { pct = n; apply(); }
+      });
+    });
+  })();
+
+  // ---------- 상단 고정 영역(제목 · 메뉴) 접기/펼치기 ----------
+  // 표를 넓게 보고 싶을 때 쓴다. 기억하지 않으므로 보고서를 열 때는 항상 펼친 상태(업체명, 기간, 작성자가 보임)로 시작한다.
+  let headHidden = false;
+  (function(){
+    const btn = $('headBtn');
+    const ICON = d => '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="' + d + '"/></svg>';
+    function apply(){
+      document.body.classList.toggle('head-hidden', headHidden);
+      btn.innerHTML = headHidden ? ICON('M3.5 6 8 10.5 12.5 6') : ICON('M3.5 10 8 5.5 12.5 10');
+      btn.title = headHidden ? '메뉴 보이기' : '메뉴 숨기기';
+    }
+    btn.addEventListener('click', function(){ headHidden = !headHidden; apply(); updateStickyHeight(); });
+    apply();
+  })();
+
+  // ---------- 인쇄: 상단은 펼치고, 표는 전체 줄을 내용 폭으로 ----------
+  function setPrinting(on){
+    if (PRINTING === on) return;
+    PRINTING = on;
+    if (on){
+      document.body.classList.remove('head-hidden');
+      TABLES.forEach(t => {
+        t.table.style.width = '';
+        Array.from(t.colgroup.children).forEach(col => { col.style.width = ''; });
+        renderRows(t, true);
+      });
+    } else {
+      document.body.classList.toggle('head-hidden', headHidden);
+      fitAll();
+    }
+  }
+  window.addEventListener('beforeprint', function(){ setPrinting(true); });
+  window.addEventListener('afterprint', function(){ setPrinting(false); });
+  const printMq = window.matchMedia ? window.matchMedia('print') : null;
+  if (printMq && printMq.addEventListener) printMq.addEventListener('change', function(e){ setPrinting(e.matches); });
+
+  // ---------- 표 줄 강조 ----------
+  // 마우스를 따라가며 줄에 색을 넣는다. 스크롤 중(마지막 스크롤 후 150ms 이내)에는 강조를 끈다.
+  (function(){
+    let cur = null, lastScroll = 0;
+    function clear(){ if (cur){ cur.classList.remove('row-hover'); cur = null; } }
+    function track(e){
+      if (Date.now() - lastScroll < 150) return;
+      const tr = e.target.closest ? e.target.closest('.table-scroll tbody tr:not(.vspace)') : null;
+      if (tr === cur) return;
+      clear();
+      if (tr){ tr.classList.add('row-hover'); cur = tr; }
+    }
+    document.addEventListener('scroll', function(){ lastScroll = Date.now(); clear(); }, {capture:true, passive:true});
+    document.addEventListener('mouseover', track);
+    document.addEventListener('mousemove', track);
+    document.addEventListener('mouseout', function(e){ if (!e.relatedTarget) clear(); });
+  })();
+
+  // ---------- 표를 엑셀(.xlsx)로 내려받기 ----------
+  // 지금 보이는 그대로(숨긴 컬럼 제외, 바꾼 컬럼 순서와 정렬 유지), 화면에 그리지 않은 줄까지 전체를 내보낸다.
+  // 외부 라이브러리 없이 동작해야 해서 xlsx(무압축 zip)를 직접 만든다.
+  (function(){
+    const enc = new TextEncoder();
+    const CRC = (function(){
+      const t = new Uint32Array(256);
+      for (let n = 0; n < 256; n++){ let c = n; for (let k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1); t[n] = c >>> 0; }
+      return t;
+    })();
+    // 2.036: 줄이 수십만 개인 표(네이버 검색어)도 내려받게, 파일 내용을 조각(chunks)으로 받아 조각마다 바이트로 바꾸고,
+    // 브라우저에 압축 기능(CompressionStream 'deflate-raw', Edge · Chrome 103 이상)이 있으면 압축한다. 없으면 예전처럼 무압축.
+    // 예전에는 250MB 글자 하나를 한 번에 바꿔 30만 줄에서 20초 넘게 걸리고 파일도 249MB였다.
+    function crc32Into(c, u8){ for (let i = 0; i < u8.length; i++) c = CRC[(c ^ u8[i]) & 0xFF] ^ (c >>> 8); return c; }
+    async function deflateRaw(parts){
+      if (typeof CompressionStream !== 'function') return null;
+      try {
+        const cs = new CompressionStream('deflate-raw');
+        const w = cs.writable.getWriter();
+        parts.forEach(p => w.write(p));
+        w.close();
+        return new Uint8Array(await new Response(cs.readable).arrayBuffer());
+      } catch (e) { return null; }
+    }
+    async function zip(files){
+      const parts = [], central = [];
+      let offset = 0;
+      for (const f of files){
+        const name = enc.encode(f.name);
+        const raw = (f.chunks || [f.text]).map(s => enc.encode(s));
+        let crc = 0xFFFFFFFF, size = 0;
+        raw.forEach(u8 => { crc = crc32Into(crc, u8); size += u8.length; });
+        crc = (crc ^ 0xFFFFFFFF) >>> 0;
+        const packed = size > 1024 ? await deflateRaw(raw) : null;
+        const method = packed ? 8 : 0, stored = packed ? packed.length : size;
+        const head = new DataView(new ArrayBuffer(30));
+        head.setUint32(0, 0x04034b50, true); head.setUint16(4, 20, true); head.setUint16(8, method, true);
+        head.setUint16(12, 0x21, true);   // 날짜 1980-01-01
+        head.setUint32(14, crc, true); head.setUint32(18, stored, true); head.setUint32(22, size, true);
+        head.setUint16(26, name.length, true);
+        const cen = new DataView(new ArrayBuffer(46));
+        cen.setUint32(0, 0x02014b50, true); cen.setUint16(4, 20, true); cen.setUint16(6, 20, true); cen.setUint16(10, method, true);
+        cen.setUint16(14, 0x21, true);
+        cen.setUint32(16, crc, true); cen.setUint32(20, stored, true); cen.setUint32(24, size, true);
+        cen.setUint16(28, name.length, true); cen.setUint32(42, offset, true);
+        parts.push(new Uint8Array(head.buffer), name);
+        if (packed) parts.push(packed); else raw.forEach(u8 => parts.push(u8));
+        central.push(new Uint8Array(cen.buffer), name);
+        offset += 30 + name.length + stored;
+      }
+      const cenSize = central.reduce((s, p) => s + p.length, 0);
+      const end = new DataView(new ArrayBuffer(22));
+      end.setUint32(0, 0x06054b50, true); end.setUint16(8, files.length, true); end.setUint16(10, files.length, true);
+      end.setUint32(12, cenSize, true); end.setUint32(16, offset, true);
+      return new Blob(parts.concat(central, [new Uint8Array(end.buffer)]), {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    }
+    const xmlEsc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '');
+    function colName(i){ let s = ''; for (i = i + 1; i > 0; i = Math.floor((i - 1) / 26)) s = String.fromCharCode(65 + (i - 1) % 26) + s; return s; }
+    // 칸 글자를 엑셀 값으로: '1,234' → 숫자, '1.49%' → 백분율, 그 밖(상품번호 · 이름 등)은 문자 그대로
+    function toCell(text, isNum){
+      text = String(text).replace(/\s+/g, ' ').trim();
+      if (isNum){
+        if (/^\$[\d,]+(\.\d+)?$/.test(text)) return {n: parseFloat(text.replace(/[$,]/g, '')), s: 5, len: text.length};
+        const raw = text.replace(/[₩,원건]/g, '').trim();
+        if (/^-?\d+(\.\d+)?%$/.test(raw)) return {n: Math.round(parseFloat(raw) * 10000) / 1000000, s: raw.indexOf('.') >= 0 ? 2 : 3, len: text.length};
+        if (/^-?\d+(\.\d+)?$/.test(raw)) return {n: parseFloat(raw), s: raw.indexOf('.') >= 0 ? 0 : 1, len: text.length};
+      }
+      return {t: text, s: 0, len: text.length};
+    }
+    function tableRows(t){
+      const head = t.shown.map(c => ({t: c.label, s: 4, len: c.label.length}));
+      return [head].concat(t.rows.map(r => t.shown.map(c => toCell(cellText(c, r), !c.txt))));
+    }
+    function buildXlsx(rows){
+      const widths = [];
+      // 칸 위치(r="A1")는 적지 않는다(생략하면 엑셀이 순서대로 채운다. 30만 줄에서 파일이 수십 MB 줄었다). 2,000줄씩 조각으로 모은다
+      const sheetRows = [];
+      let buf = [];
+      rows.forEach((row, r) => {
+        buf.push('<row r="' + (r + 1) + '">' + row.map((c, i) => {
+          // 한글은 영문보다 넓어서 글자 수의 1.8배 정도로 잡는다.
+          widths[i] = Math.min(Math.max(widths[i] || 6, (c.t !== undefined ? c.len * 1.8 : c.len + 3)), 70);
+          return c.t !== undefined
+            ? '<c s="' + c.s + '" t="inlineStr"><is><t xml:space="preserve">' + xmlEsc(c.t) + '</t></is></c>'
+            : '<c s="' + c.s + '"><v>' + c.n + '</v></c>';
+        }).join('') + '</row>');
+        if (buf.length >= 2000){ sheetRows.push(buf.join('')); buf = []; }
+      });
+      if (buf.length) sheetRows.push(buf.join(''));
+      const cols = widths.map((w, i) => '<col min="' + (i + 1) + '" max="' + (i + 1) + '" width="' + w.toFixed(1) + '" customWidth="1"/>').join('');
+      const NS = 'http://schemas.openxmlformats.org/spreadsheetml/2006/main';
+      const REL = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships';
+      const PKG = 'http://schemas.openxmlformats.org/package/2006/';
+      const X = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
+      return zip([
+        {name: '[Content_Types].xml', text: X + '<Types xmlns="' + PKG + 'content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>'},
+        {name: '_rels/.rels', text: X + '<Relationships xmlns="' + PKG + 'relationships"><Relationship Id="rId1" Type="' + REL + '/officeDocument" Target="xl/workbook.xml"/></Relationships>'},
+        {name: 'xl/workbook.xml', text: X + '<workbook xmlns="' + NS + '" xmlns:r="' + REL + '"><sheets><sheet name="Sheet1" sheetId="1" r:id="rId1"/></sheets></workbook>'},
+        {name: 'xl/_rels/workbook.xml.rels', text: X + '<Relationships xmlns="' + PKG + 'relationships"><Relationship Id="rId1" Type="' + REL + '/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="' + REL + '/styles" Target="styles.xml"/></Relationships>'},
+        // 서식 번호: 0 기본, 1 천단위 구분, 2 백분율(소수 둘째), 3 백분율(정수), 4 제목(굵게), 5 달러
+        {name: 'xl/styles.xml', text: X + '<styleSheet xmlns="' + NS + '"><numFmts count="1"><numFmt numFmtId="164" formatCode="&quot;$&quot;#,##0.00"/></numFmts><fonts count="2"><font><sz val="10"/><name val="맑은 고딕"/></font><font><b/><sz val="10"/><name val="맑은 고딕"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="6"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="3" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/><xf numFmtId="10" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/><xf numFmtId="9" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/><xf numFmtId="164" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/></cellXfs></styleSheet>'},
+        {name: 'xl/worksheets/sheet1.xml', chunks: [X + '<worksheet xmlns="' + NS + '"><sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews><cols>' + cols + '</cols><sheetData>'].concat(sheetRows, ['</sheetData></worksheet>'])}
+      ]);
+    }
+    // 파일명: '보고서 파일명_매체_표 제목.xlsx'
+    function headingText(el){
+      if (!el) return '';
+      const c = el.cloneNode(true);
+      c.querySelectorAll('.badge').forEach(b => b.remove());
+      return c.textContent.replace(/\(.*\)/, '').replace(/\s+/g, ' ').trim();
+    }
+    function tableTitle(table){
+      const names = [];
+      const panel = table.closest('[id^="panel-"]');
+      const media = panel && {'panel-gmarket':'지마켓', 'panel-auction':'옥션', 'panel-elevenst':'11번가', 'panel-ohouse':'오늘의집', 'panel-all':'통합', 'panel-google':'구글', 'panel-meta':'메타'}[panel.id];
+      if (media) names.push(media);
+      const section = table.closest('section');
+      const h2 = headingText(section && section.querySelector('h2'));
+      let h3 = '';
+      for (let el = table.closest('.table-scroll'); el && !h3; el = el.parentElement === section ? null : el.parentElement){
+        for (let p = el.previousElementSibling; p; p = p.previousElementSibling){
+          if (p.tagName === 'H3') { h3 = headingText(p); break; }
+          if (p.tagName === 'H2') break;
+        }
+        if (el.parentElement === section) break;
+      }
+      if (h2) names.push(h2);
+      if (h3 && h3 !== h2) names.push(h3);
+      return names.join('_');
+    }
+    const ICON = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v8M4.5 6.5 8 10l3.5-3.5M2.5 13.5h11"/></svg>';
+    TABLES.forEach(t => {
+      const row = document.createElement('div');
+      row.className = 'tbl-export';
+      t.restoreEl = document.createElement('div');
+      t.restoreEl.className = 'col-restore-list edit-only';
+      row.appendChild(t.restoreEl);
+      updateRestore(t);
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.title = '이 표를 엑셀 파일로 내려받기';
+      btn.innerHTML = ICON;
+      btn.addEventListener('click', async function(){
+        if (btn.disabled) return;
+        btn.disabled = true;   // 큰 표는 몇 초 걸린다. 그동안 두 번 눌리지 않게
+        try {
+          const base = (decodeURIComponent(location.pathname.split('/').pop()) || 'report').replace(/\.html?$/i, '');
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(await buildXlsx(tableRows(t)));
+          link.download = (base + '_' + tableTitle(t.table)).replace(/[\\/:*?"<>|]/g, ' ') + '.xlsx';
+          link.click();
+        } finally { btn.disabled = false; }
+      });
+      row.appendChild(btn);
+      t.box.parentElement.insertBefore(row, t.box);
+    });
+  })();
+
+  // ---------- 표시 항목 (지표 숨기기/다시 보이기) ----------
+  (function(){
+    const panel = $('colPanel');
+    const list = $('colPanelList');
+    const OPEN_KEY = 'adReportColsOpen';
+    [['impressions','노출수'],['clicks','클릭수'],['ctr','클릭률(CTR)'],['cpc','평균 CPC'],['cost','총비용'],
+     ['conversions','전환수, 전환 상태'],['cvr','전환율(CVR)'],['cpa','전환당 비용(CPA)'],['revenue','전환매출액'],['roas','광고수익률(ROAS)']].forEach(([key,label])=>{
+      const el = document.createElement('label');
+      el.innerHTML = '<input type="checkbox"'+(isMetricVisible(key)?' checked':'')+'>'+label;
+      el.querySelector('input').addEventListener('change', function(){
+        setDraft('visibleMetrics', { [key]: this.checked });
+        try { sessionStorage.setItem(OPEN_KEY, '1'); } catch (e) {}
+        reloadKeepingEdits();
+      });
+      list.appendChild(el);
+    });
+    $('colBtn').addEventListener('click', function(){ panel.hidden = !panel.hidden; });
+    try { if (sessionStorage.getItem(OPEN_KEY)) { panel.hidden = false; sessionStorage.removeItem(OPEN_KEY); } } catch (e) {}
+  })();
+
+  // 표시 항목 · 광고비처럼 전체를 다시 그려야 하는 변경은 새로 고침한다 (바꾼 내용은 브라우저에 기억해 두었으므로 남는다)
+  function reloadKeepingEdits(){ location.reload(); }
+  // 광고주 발송용 파일 내용: 파일의 데이터 위에 이 브라우저에 기억해 둔 변경을 덮는다
+  function buildSavedHtml(extra){
+    const out = Object.assign({}, BASE);
+    EDIT_FIELDS.forEach(f => {
+      const v = edited(f);
+      if (Object.keys(v).length) out[f] = v; else delete out[f];
+    });
+    Object.assign(out, extra || {});
+    const json = JSON.stringify(out).replace(/</g, String.fromCharCode(92) + 'u003c');
+    const html = PRISTINE_HTML.replace(/(<script id="report-data" type="application\/json">)[\s\S]*?(<\/script>)/, (m, a, b) => a + json + b)
+      .replace(/(<script id="report-rows" type="application\/json">)(<\/script>)/, (m, a, b) => a + ROWS_TEXT + b);
+    return { data: out, html: html };
+  }
+  // ---------- 광고주 발송용 저장 ----------
+  // 지금 화면 그대로(저장 전에 바꾼 문구, 표시 항목, 컬럼 순서 포함) 수정 기능을 뺀 파일을 '원래 이름_광고주용.html'로 따로 만든다.
+  // 지금 열린 보고서 파일은 바꾸지 않는다. 월별 추이는 '_광고주용' 파일을 '생성된 보고서' 폴더에서 찾지 않는다 (파일 이름 규칙이 달라서).
+  async function saveClientCopy(){
+    const fileName = (decodeURIComponent(location.pathname.split('/').pop()) || 'report.html').replace(/\.html?$/i, '') + '_광고주용.html';
+    const blob = new Blob([buildSavedHtml({ clientMode: true }).html], {type: 'text/html;charset=utf-8'});
+    try {
+      if (window.showSaveFilePicker){
+        const h = await window.showSaveFilePicker({ suggestedName: fileName, types: [{ description: 'HTML 보고서', accept: { 'text/html': ['.html'] } }] });
+        const w = await h.createWritable();
+        await w.write(blob);
+        await w.close();
+        alert('"' + h.name + '" 파일로 저장했습니다. 광고주에게는 이 파일을 보내 주세요.\n(문구 수정, 표시 항목, 저장 버튼이 없는 파일입니다)');
+      } else {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = fileName;
+        link.click();
+        alert('"' + fileName + '" 파일을 내려받았습니다. 광고주에게는 이 파일을 보내 주세요.\n(문구 수정, 표시 항목, 저장 버튼이 없는 파일입니다)');
+      }
+    } catch (e) {
+      if (e && e.name === 'AbortError') return;   // 파일 고르는 창에서 취소
+      alert('저장하지 못했습니다: ' + (e && e.message ? e.message : e));
+    }
+  }
+  $('clientSaveBtn').addEventListener('click', saveClientCopy);
+
+  // ---------- 처음 화면: 매체를 고르고 표 폭을 한 번에 맞춘다 ----------
+  if (availableMedia.length >= 2){
+    $('eyebrowSelect').hidden = false;
+    availableMedia.forEach(m=>{
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.dataset.media = m.key;
+      btn.textContent = mediaTabLabel(m.key);
+      btn.addEventListener('click', ()=>{ activateMedia(m.key); window.scrollTo(0, 0); });
+      $('eyebrowMenu').appendChild(btn);
+    });
+    activateMedia(availableMedia[0].key);
+  } else if (availableMedia.length === 1){
+    activateMedia(availableMedia[0].key);
+  } else {
+    renderFootnote('naver');
+    fitAll();
+  }
+
+  window.addEventListener('resize', scheduleFit);
+  // 프리텐다드가 늦게 도착하면 글자 폭과 상단 높이가 달라지므로 다시 맞춘다.
+  if (document.fonts){
+    document.fonts.addEventListener('loadingdone', function(e){
+      if (e.fontfaces.some(f => /Pretendard/.test(f.family))) remeasureAll();
+    });
+    if (document.fonts.ready) document.fonts.ready.then(updateStickyHeight);
+  }
+})();
+</script>
+<script>
+// 다크모드 버튼 (머리의 스크립트가 정한 data-theme를 바꾸고 이 브라우저에 기억한다)
+(function(){
+  var root = document.documentElement, btn = document.getElementById('themeBtn');
+  if (!btn) return;
+  function show(){
+    var dark = root.getAttribute('data-theme') === 'dark';
+    btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+    btn.title = dark ? '다크모드 끄기' : '다크모드 켜기';
+  }
+  btn.addEventListener('click', function(){
+    var t = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', t);
+    try { localStorage.setItem('reportTheme', t); } catch (e) {}
+    show();
+  });
+  show();
+})();
+</script>
+</body>
+</html>

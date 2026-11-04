@@ -1,0 +1,1116 @@
+﻿<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>레포디</title>
+<link rel="icon" href="assets/app.ico">
+<link rel="shortcut icon" href="assets/app.ico">
+<hta:application
+  id="oAdReportApp"
+  applicationname="AdReportGenerator"
+  border="thin"
+  borderstyle="normal"
+  caption="yes"
+  icon="assets\app.ico"
+  maximizebutton="no"
+  minimizebutton="yes"
+  navigable="no"
+  scroll="no"
+  selection="no"
+  showintaskbar="yes"
+  singleinstance="yes"
+  sysmenu="yes"
+  windowstate="normal"
+/>
+<style>
+  /* 왼쪽은 파일을 놓는 면, 오른쪽은 위에서 아래로 내려가는 작업 순서. 색과 글꼴은 사용 가이드와 같다. IE11 엔진이라 CSS 변수와 grid는 쓰지 않는다. */
+  @font-face{font-family:'GenTitle';src:url(assets/title.woff) format('woff');}
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;overflow:hidden;height:100%;}
+  body{
+    background:#FFFFFF;
+    color:#16211B;
+    font-family:'Malgun Gothic','맑은 고딕',sans-serif;
+    font-size:13px;
+  }
+  .wrap{height:100%;overflow-y:auto;}
+
+  #appHead{display:flex;align-items:center;height:62px;padding:0 24px;border-bottom:1px solid #CFD8D2;}
+  #appHead img{height:30px;display:block;margin-right:14px;-ms-interpolation-mode:bicubic;}
+  #appHead h1{flex:1;margin:0;font-family:'GenTitle','Malgun Gothic',sans-serif;font-size:18px;font-weight:normal;color:#16211B;line-height:30px;}
+  #appHead h1 span{margin-left:6px;font-size:12px;color:#55635A;}
+  #shortcutBtn{
+    height:30px;padding:0 10px;margin-right:6px;
+    border:none;background:transparent;
+    color:#55635A;font-size:12px;cursor:pointer;font-family:inherit;
+  }
+  #shortcutBtn:hover{color:#00583F;text-decoration:underline;}
+  #guideBtn{
+    height:30px;padding:0 12px;
+    border:1px solid #00805D;border-radius:4px;background:#FFFFFF;
+    color:#00583F;font-weight:600;font-size:12.5px;cursor:pointer;font-family:inherit;
+  }
+  #guideBtn:hover{background:#E2F2EC;}
+
+  #appBody{display:flex;}
+  #leftCol{position:relative;width:44%;background:#EEF3EF;}
+  #rightCol{width:56%;padding:18px 24px 18px;}
+  .step-h{margin:0 0 10px;font-family:'GenTitle','Malgun Gothic',sans-serif;font-size:15px;font-weight:normal;color:#16211B;line-height:24px;}
+  .step-h i{font-style:normal;font-size:20px;color:#00805D;margin-right:7px;vertical-align:-1px;}
+  #leftCol .step-h{position:absolute;left:24px;top:18px;}
+  .step-next{margin-top:18px;}
+
+  .file-list{
+    position:absolute;left:24px;right:24px;top:54px;bottom:112px;overflow-y:auto;
+    border:1px solid #CFD8D2;border-radius:4px;background:#FFFFFF;
+  }
+  .file-list.drag-over{border:2px solid #00805D;background:#E2F2EC;}
+  .file-empty{padding:0 24px;position:absolute;left:0;right:0;top:50%;margin-top:-22px;font-size:12.5px;line-height:22px;color:#55635A;text-align:center;}
+  .file-row{display:block;padding:8px 10px 8px 12px;font-size:12.5px;color:#16211B;border-bottom:1px solid #EEF3EF;overflow:hidden;}
+  .file-name{display:block;float:left;max-width:90%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .file-del{display:block;float:right;color:#AE4A18;cursor:pointer;font-weight:700;padding:0 4px;}
+  /* 인식된 리포트 종류 (Get-ReportKinds.ps1). 인식 못 한 파일은 주황 */
+  .file-kind{display:block;clear:both;padding-top:2px;font-size:11px;line-height:15px;color:#00805D;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .file-kind.wait{color:#8A968F;}
+  .file-kind.bad{color:#AE4A18;font-weight:700;}
+  #leftFoot{position:absolute;left:24px;right:24px;bottom:16px;}
+  .file-btn-row{display:flex;}
+  #selectFilesBtn{
+    flex:1;height:36px;padding:0 10px;margin-right:6px;
+    border:1px solid #00805D;border-radius:4px;background:#FFFFFF;
+    color:#00583F;font-weight:600;font-size:12.5px;cursor:pointer;font-family:inherit;
+  }
+  #selectFilesBtn:hover:enabled{background:#E2F2EC;}
+  #selectFilesBtn:disabled{opacity:0.6;cursor:default;}
+  #clearFilesBtn{
+    height:36px;padding:0 12px;white-space:nowrap;
+    border:1px solid #CFD8D2;border-radius:4px;background:#FFFFFF;
+    color:#55635A;font-weight:600;font-size:12.5px;cursor:pointer;font-family:inherit;
+  }
+  #clearFilesBtn:hover:enabled{border-color:#AE4A18;color:#AE4A18;}
+  #clearFilesBtn:disabled{opacity:0.6;cursor:default;}
+
+  .field-row{display:flex;}
+  .field-row .field{flex:1;margin-right:10px;}
+  .field-row .field:last-child{margin-right:0;}
+  .field{margin-bottom:12px;}
+  .field label.cap{display:block;font-size:12px;color:#55635A;font-weight:600;margin-bottom:4px;}
+  .field input[type=text]{
+    width:100%;height:34px;padding:0 10px;border:1px solid #CFD8D2;border-radius:4px;
+    font-size:13px;font-family:inherit;color:#16211B;background:#FFFFFF;
+  }
+  .field input[type=text]:focus{outline:none;border-color:#00805D;}
+  .field input:-ms-input-placeholder{color:#8A968D;}
+  .field input::-ms-input-placeholder{color:#8A968D;}
+  .hint{font-size:11.5px;line-height:17px;color:#55635A;margin-top:6px;}
+
+  .metric-grid{overflow:hidden;margin-right:-4px;}
+  .metric-item{float:left;width:25%;position:relative;margin:0 0 4px 0;padding:0;}
+  .metric-item-inner{
+    display:block;margin:0 4px 0 0;padding:5px 6px;
+    border:1px solid #CFD8D2;border-radius:4px;background:#FFFFFF;
+    font-size:12px;color:#55635A;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .metric-item-inner.checked{border-color:#00805D;background:#E2F2EC;color:#00583F;font-weight:600;}
+  .metric-item input{position:absolute;width:1px;height:1px;margin:0;padding:0;opacity:0;filter:alpha(opacity=0);}
+  .metric-item .chk-box{
+    display:inline-block;width:12px;height:12px;
+    border:1.5px solid #C7D0C7;border-radius:3px;background:#FFFFFF;
+    margin-right:5px;vertical-align:-1px;position:relative;
+  }
+  .metric-item input:checked + .chk-box{background:#00805D;border-color:#00805D;}
+  .metric-item input:checked + .chk-box:after{
+    content:'';position:absolute;left:2px;top:-1px;width:4px;height:8px;
+    border:solid #FFFFFF;border-width:0 2px 2px 0;
+    -ms-transform:rotate(45deg);transform:rotate(45deg);
+  }
+  .make-row label{display:inline-block;margin-right:16px;font-size:12.5px;cursor:pointer;}
+  .make-row input{width:auto;margin:0 5px 0 0;vertical-align:-2px;}
+
+  .go-row{display:flex;margin-top:4px;}
+  #generateBtn{
+    flex:1;height:46px;margin-right:8px;
+    background:#00805D;color:#FFFFFF;border:none;border-radius:4px;
+    font-size:16px;font-family:'GenTitle','Malgun Gothic',sans-serif;cursor:pointer;
+  }
+  #generateBtn:disabled{background:#8A968D;cursor:default;}
+  #generateBtn:hover:enabled{background:#00583F;}
+  #trendBtn{
+    width:170px;height:46px;
+    border:1px solid #00805D;border-radius:4px;background:#FFFFFF;
+    color:#00583F;font-weight:600;font-size:12.5px;cursor:pointer;font-family:inherit;
+  }
+  #trendBtn:hover:enabled{background:#E2F2EC;}
+  #trendBtn:disabled{opacity:0.6;cursor:default;}
+
+  #status{
+    margin-top:10px;font-size:12.5px;color:#55635A;min-height:18px;
+    white-space:pre-wrap;line-height:1.5;
+  }
+  /* 작업 중일 때 상태 문구 앞에서 도는 원형 로딩 표시 (회색 테두리 위로 초록 부분이 돈다) */
+  #status .busy-spinner{display:inline-block;width:12px;height:12px;vertical-align:-2px;margin-right:7px;
+    border:2px solid #CFD8D2;border-top-color:#00805D;border-radius:50%;animation:busySpin .8s linear infinite;}
+  @keyframes busySpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+  #status.err{color:#AE4A18;}
+  #status.ok{color:#00583F;font-weight:600;}
+  #resultActions{display:none;margin-top:8px;overflow:hidden;}
+  #resultActions button{
+    float:left;width:50%;height:36px;
+    border:1px solid #00805D;border-radius:4px;
+    background:#FFFFFF;color:#00583F;font-weight:600;font-size:12.5px;
+    cursor:pointer;font-family:inherit;
+  }
+  #resultActions button:first-child{width:49%;margin-right:1%;}
+</style>
+</head>
+<body onload="init()">
+<div class="wrap">
+  <div id="appHead">
+    <img id="logo" src="assets/logo.png">
+    <h1>레포디<span id="appVersion">ver 2.036</span></h1>
+    <button id="shortcutBtn" type="button" onclick="makeDesktopShortcut()" title="바탕화면에 레포디 바로가기를 다시 만듭니다">바탕화면 바로가기</button>
+    <button id="guideBtn" type="button" onclick="openGuide()" title="사용가이드 PDF를 엽니다">사용가이드</button>
+  </div>
+
+  <div id="appBody">
+    <div id="leftCol">
+      <h2 class="step-h"><i>1</i>파일 넣기</h2>
+      <div class="file-list" id="fileListBox"></div>
+      <div id="leftFoot">
+        <div class="file-btn-row">
+          <button id="selectFilesBtn" type="button" onclick="selectFiles()">+ 파일 선택 (CSV·ZIP·XLSX·HTML)</button>
+          <button id="clearFilesBtn" type="button" onclick="clearInputFiles(false)" title="입력 폴더의 파일을 전부 지웁니다">폴더 비우기</button>
+        </div>
+        <div class="hint">여러 매체 리포트를 한 번에 넣어도 됩니다. 다른 업체 작업 전에는 '폴더 비우기'를 눌러 주세요.</div>
+      </div>
+    </div>
+
+    <div id="rightCol">
+      <h2 class="step-h"><i>2</i>보고서 정보</h2>
+      <div class="field-row">
+        <div class="field">
+          <label class="cap">업체명 (선택)</label>
+          <input id="clientName" type="text" placeholder="ex) 예지솔루션">
+        </div>
+        <div class="field">
+          <label class="cap">작성자 (선택)</label>
+          <input id="authorInfo" type="text" placeholder="ex) 예지솔루션 박호종 SL">
+        </div>
+      </div>
+
+      <h2 class="step-h step-next"><i>3</i>만들기</h2>
+      <div class="field">
+        <label class="cap">보고서에 표시할 항목 (선택)</label>
+        <div class="metric-grid" id="metricGrid">
+          <div class="metric-item"><label class="metric-item-inner"><input type="checkbox" class="metricChk" value="impressions" checked><span class="chk-box"></span>노출수</label></div>
+          <div class="metric-item"><label class="metric-item-inner"><input type="checkbox" class="metricChk" value="clicks" checked><span class="chk-box"></span>클릭수</label></div>
+          <div class="metric-item"><label class="metric-item-inner"><input type="checkbox" class="metricChk" value="ctr" checked><span class="chk-box"></span>클릭률</label></div>
+          <div class="metric-item"><label class="metric-item-inner"><input type="checkbox" class="metricChk" value="cpc" checked><span class="chk-box"></span>평균 CPC</label></div>
+          <div class="metric-item"><label class="metric-item-inner"><input type="checkbox" class="metricChk" value="cost" checked><span class="chk-box"></span>총비용</label></div>
+          <div class="metric-item"><label class="metric-item-inner"><input type="checkbox" class="metricChk" value="conversions" checked><span class="chk-box"></span>전환수</label></div>
+          <div class="metric-item"><label class="metric-item-inner"><input type="checkbox" class="metricChk" value="revenue" checked><span class="chk-box"></span>전환매출액</label></div>
+          <div class="metric-item"><label class="metric-item-inner"><input type="checkbox" class="metricChk" value="roas" checked><span class="chk-box"></span>ROAS</label></div>
+        </div>
+        <div class="hint">매출 없이 전환만 있으면 전환매출액, ROAS 대신 CVR, CPA가 나옵니다.</div>
+      </div>
+
+      <div class="field">
+        <label class="cap">만들 보고서</label>
+        <div class="make-row">
+          <label><input type="checkbox" id="htmlChk" checked>HTML 방식 보고서 생성</label>
+          <label title="지마켓, 옥션 리포트 xlsx로 '구매전환 리포트' 엑셀 파일을 매체별로 만듭니다. Excel이 설치된 PC에서만 동작합니다."><input type="checkbox" id="excelChk">캐츠온 방식 엑셀 보고서 추출 (지마켓, 옥션)</label>
+        </div>
+      </div>
+
+      <div class="go-row">
+        <button id="generateBtn" onclick="generateReport()">보고서 생성</button>
+        <button id="trendBtn" type="button" onclick="generateTrendReport()" title="'파일 넣기'에 기간별 보고서(HTML)를 넣으면 그 보고서들을 모아 월별 추이 보고서를 만듭니다. 넣지 않으면 '생성된 보고서' 폴더에서 위 '업체명'의 보고서를 찾습니다.">월별 추이 보고서 생성</button>
+      </div>
+
+      <div id="status"></div>
+      <div id="resultActions">
+        <button onclick="openReport()">보고서 열기</button>
+        <button onclick="openFolder()">폴더 열기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="scripts/auth.js" charset="utf-8"></script>
+<script type="text/javascript">
+var scriptDir = "";
+var lastOutputPath = "";
+var staleFileCheckDone = false; // 이번 실행에서 이미 한 번 물어봤으면 다시 묻지 않음
+var fso = new ActiveXObject("Scripting.FileSystemObject");
+
+function getScriptDir(){
+  var p = window.location.pathname;
+  p = unescape(p);
+  if (p.charAt(0) === "/") { p = p.substring(1); }
+  p = p.replace(/\//g, "\\");
+  var idx = p.lastIndexOf("\\");
+  return p.substring(0, idx);
+}
+
+var AUTHOR_STORE_PATH = "";
+
+function loadLastAuthor(){
+  try {
+    if (fso.FileExists(AUTHOR_STORE_PATH)) {
+      var f = fso.OpenTextFile(AUTHOR_STORE_PATH, 1, false, -1);
+      var val = f.ReadAll();
+      f.Close();
+      return val;
+    }
+  } catch (e) {}
+  return "";
+}
+
+function saveLastAuthor(value){
+  try {
+    var f = fso.CreateTextFile(AUTHOR_STORE_PATH, true, true);
+    f.Write(value);
+    f.Close();
+  } catch (e) {}
+}
+
+function getSelectedMetrics(){
+  var boxes = document.querySelectorAll(".metricChk");
+  var selected = [];
+  for (var i = 0; i < boxes.length; i++) {
+    if (boxes[i].checked) { selected.push(boxes[i].value); }
+  }
+  return selected.join(",");
+}
+
+function bindMetricChipStyles(){
+  var items = document.querySelectorAll("#metricGrid .metric-item-inner");
+  for (var i = 0; i < items.length; i++) {
+    (function(item){
+      var input = item.querySelector("input");
+      function sync(){
+        item.className = input.checked ? "metric-item-inner checked" : "metric-item-inner";
+      }
+      input.attachEvent ? input.attachEvent("onchange", sync) : input.addEventListener("change", sync);
+      sync();
+    })(items[i]);
+  }
+}
+
+function getInputDir(){
+  return scriptDir + "\\보고서 생성용 데이터";
+}
+
+var kindSpans = {};   // 파일 이름 -> 종류 표시 칸
+var kindsSeq = 0;     // 목록을 다시 그릴 때마다 늘린다 (늦게 끝난 이전 판별 결과는 버린다)
+
+function refreshFileList(){
+  var inputDir = getInputDir();
+  var listEl = document.getElementById("fileListBox");
+  listEl.innerHTML = "";
+  kindSpans = {};
+
+  var names = [];
+  if (fso.FolderExists(inputDir)) {
+    var folder = fso.GetFolder(inputDir);
+    var files = new Enumerator(folder.Files);
+    for (; !files.atEnd(); files.moveNext()) {
+      names.push(files.item().Name);
+    }
+    names.sort();
+  }
+
+  if (names.length === 0) {
+    listEl.innerHTML = '<div class="file-empty">받은 리포트 파일을 이 창으로 끌어다 놓거나<br>아래 버튼으로 선택하세요.</div>';
+  } else {
+    for (var i = 0; i < names.length; i++) {
+      (function(name){
+        var row = document.createElement("div");
+        row.className = "file-row";
+        var nameSpan = document.createElement("span");
+        nameSpan.className = "file-name";
+        nameSpan.innerText = name;
+        var delBtn = document.createElement("span");
+        delBtn.className = "file-del";
+        delBtn.innerText = "×";
+        delBtn.title = "이 파일 삭제";
+        delBtn.onclick = function(){ removeInputFile(name); };
+        var kindSpan = document.createElement("span");
+        kindSpan.className = "file-kind wait";
+        kindSpan.innerText = "종류 확인 중...";
+        kindSpans[name] = kindSpan;
+        row.appendChild(nameSpan);
+        row.appendChild(delBtn);
+        row.appendChild(kindSpan);
+        listEl.appendChild(row);
+      })(names[i]);
+    }
+  }
+  resizeToContent();
+  detectKinds(names.length);
+}
+
+// 파일마다 어떤 리포트로 인식되는지 확인한다 (2.032). 창 없이 PowerShell을 돌리고, 끝나면 결과 파일(UTF-16)을 읽어 목록에 적는다.
+// 실제 보고서를 만들 때와 같은 규칙을 파일 앞 몇 줄만 보고 따라 하므로, 큰 파일도 금방 끝난다.
+function detectKinds(count){
+  var seq = ++kindsSeq;
+  if (!count) { return; }
+  var ps1 = scriptDir + "\\scripts\\Get-ReportKinds.ps1";
+  if (!fso.FileExists(ps1)) { return; }
+  var out = fso.GetSpecialFolder(2).Path + "\\ad_report_kinds_" + seq + ".txt";
+  try { if (fso.FileExists(out)) { fso.DeleteFile(out, true); } } catch (e) {}
+  var shell = new ActiveXObject("WScript.Shell");
+  var cmd = 'powershell -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "' + ps1 + '" -InputDir "' + getInputDir() + '" -OutFile "' + out + '"';
+  try { shell.Run(cmd, 0, false); } catch (e) { return; }
+  pollKinds(seq, out, new Date().getTime());
+}
+
+function pollKinds(seq, out, started){
+  if (seq !== kindsSeq) { try { if (fso.FileExists(out)) { fso.DeleteFile(out, true); } } catch (e) {} return; }
+  var text = null;
+  if (fso.FileExists(out)) {
+    try { var ts = fso.OpenTextFile(out, 1, false, -1); text = ts.ReadAll(); ts.Close(); } catch (e) { text = null; }   // 아직 쓰는 중이면 다음에 다시
+  }
+  if (text === null) {
+    if (new Date().getTime() - started > 60000) { setKinds({}, true); return; }
+    window.setTimeout(function(){ pollKinds(seq, out, started); }, 400);
+    return;
+  }
+  try { fso.DeleteFile(out, true); } catch (e) {}
+  var map = {};
+  var lines = text.replace(/\r/g, "").split("\n");
+  for (var i = 0; i < lines.length; i++) {
+    var tab = lines[i].indexOf("\t");
+    if (tab > 0) { map[lines[i].substring(0, tab)] = lines[i].substring(tab + 1); }
+  }
+  setKinds(map, false);
+}
+
+function setKinds(map, failed){
+  for (var name in kindSpans) {
+    var span = kindSpans[name];
+    var kind = map[name];
+    if (!kind) { kind = failed ? "종류를 확인하지 못했습니다" : "? 인식 못 함"; }
+    var bad = kind.charAt(0) === "?";
+    span.className = "file-kind" + (bad ? " bad" : "");
+    span.innerText = bad ? "인식 못 함" + kind.substring(1).replace(/^\s*인식 못 함/, "") + " - 보고서에 들어가지 않습니다" : kind;
+    span.title = span.innerText;
+  }
+  resizeToContent();
+}
+
+function removeInputFile(name){
+  var inputDir = getInputDir();
+  try {
+    fso.DeleteFile(inputDir + "\\" + name, true);
+  } catch (e) {}
+  refreshFileList();
+}
+
+function countInputFiles(){
+  var inputDir = getInputDir();
+  if (!fso.FolderExists(inputDir)) { return 0; }
+  var n = 0;
+  var files = new Enumerator(fso.GetFolder(inputDir).Files);
+  for (; !files.atEnd(); files.moveNext()) { n++; }
+  return n;
+}
+
+function deleteAllInputFiles(){
+  var inputDir = getInputDir();
+  if (!fso.FolderExists(inputDir)) { return; }
+  var files = new Enumerator(fso.GetFolder(inputDir).Files);
+  for (; !files.atEnd(); files.moveNext()) {
+    try { fso.DeleteFile(files.item().Path, true); } catch (e) {}
+  }
+}
+
+function clearInputFiles(silentIfEmpty){
+  var n = countInputFiles();
+  if (n === 0) {
+    if (!silentIfEmpty) { setStatus("입력 폴더가 이미 비어 있습니다.", ""); }
+    return;
+  }
+  if (confirm("입력 폴더에 등록된 파일 " + n + "개를 모두 삭제할까요?\n(다른 업체 데이터가 섞이지 않도록 새 업체 작업 전에 비워주세요)")) {
+    deleteAllInputFiles();
+    refreshFileList();
+    setStatus(n + "개 파일을 삭제했습니다.", "ok");
+  }
+  staleFileCheckDone = true;
+}
+
+function selectFiles(){
+  var tempFolder = fso.GetSpecialFolder(2).Path;
+  var pickScript = tempFolder + "\\_naver_pick_files.ps1";
+
+  var lines = [];
+  lines.push('Add-Type -AssemblyName System.Windows.Forms');
+  lines.push('$f = New-Object System.Windows.Forms.OpenFileDialog');
+  lines.push('$f.Multiselect = $true');
+  lines.push('$f.Filter = "리포트 파일 (CSV, ZIP, XLSX), 월별 추이용 보고서 (HTML)|*.csv;*.zip;*.xlsx;*.html;*.htm|모든 파일|*.*"');
+  lines.push('$f.Title = "네이버 · 지마켓 · 옥션 · 11번가 · 구글 · 메타 · 오늘의집 리포트 파일 선택"');
+  lines.push('if ($f.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) {');
+  lines.push('  $f.FileNames | ForEach-Object { Write-Output $_ }');
+  lines.push('}');
+
+  try {
+    var tsOut = fso.CreateTextFile(pickScript, true, true);
+    tsOut.Write(lines.join("\r\n"));
+    tsOut.Close();
+  } catch (e) {
+    setStatus("오류: 임시 스크립트를 만들 수 없습니다.", "err");
+    return;
+  }
+
+  document.getElementById("selectFilesBtn").disabled = true;
+  setStatus("파일 선택 창을 여는 중입니다...", "");
+
+  var shell = new ActiveXObject("WScript.Shell");
+  var cmd = 'powershell -NoProfile -STA -WindowStyle Minimized -ExecutionPolicy Bypass -File "' + pickScript + '"';
+  var exec = shell.Exec(cmd);
+  pollPickExec(exec);
+}
+
+function pollPickExec(exec){
+  if (exec.Status === 0) {
+    window.setTimeout(function(){ pollPickExec(exec); }, 300);
+    return;
+  }
+
+  document.getElementById("selectFilesBtn").disabled = false;
+
+  var output = "";
+  try { output = exec.StdOut.ReadAll(); } catch (e) {}
+  output = (output || "").replace(/\r/g, "");
+  var parts = output.split("\n");
+  var paths = [];
+  for (var i = 0; i < parts.length; i++) {
+    var p = parts[i].replace(/^\s+|\s+$/g, "");
+    if (p) { paths.push(p); }
+  }
+
+  if (paths.length === 0) {
+    setStatus("", "");
+    return;
+  }
+
+  var inputDir = prepareInputDir();
+
+  var copied = 0, failed = 0;
+  for (var j = 0; j < paths.length; j++) {
+    try {
+      var srcPath = paths[j];
+      var srcName = fso.GetFileName(srcPath);
+      fso.CopyFile(srcPath, inputDir + "\\" + srcName, true);
+      copied++;
+    } catch (e) { failed++; }
+  }
+
+  refreshFileList();
+
+  if (failed === 0) {
+    setStatus(copied + "개 파일을 추가했습니다.", "ok");
+  } else {
+    setStatus(copied + "개 추가, " + failed + "개 실패했습니다.", "err");
+  }
+}
+
+// 파일을 추가하기 직전에 부른다: 입력 폴더를 만들고, 이전 업체 파일이 남아 있으면 지울지 한 번 묻는다.
+function prepareInputDir(){
+  var inputDir = getInputDir();
+  if (!fso.FolderExists(inputDir)) { fso.CreateFolder(inputDir); }
+
+  if (!staleFileCheckDone) {
+    staleFileCheckDone = true;
+    var existingN = countInputFiles();
+    if (existingN > 0) {
+      var clearOld = confirm(
+        "입력 폴더에 이전에 등록된 파일이 " + existingN + "개 남아있습니다.\n" +
+        "(다른 업체 작업 후 지우지 않은 파일일 수 있습니다)\n\n" +
+        "확인: 기존 파일을 지우고 새로 시작\n취소: 기존 파일을 유지하고 이번에 고른 파일만 추가"
+      );
+      if (clearOld) { deleteAllInputFiles(); }
+    }
+  }
+  return inputDir;
+}
+
+// ---------- 파일을 창에 끌어다 놓아 추가 ----------
+// 끌어다 놓은 파일은 원래 경로를 알 수 없고 내용만 읽을 수 있어서, 내용을 읽어 입력 폴더에 같은 이름으로 저장한다.
+function saveBase64File(path, b64){
+  var st = new ActiveXObject("ADODB.Stream");
+  st.Type = 1;
+  st.Open();
+  if (b64) {
+    var el = new ActiveXObject("MSXML2.DOMDocument").createElement("b");
+    el.dataType = "bin.base64";
+    el.text = b64;
+    st.Write(el.nodeTypedValue);
+  }
+  st.SaveToFile(path, 2);
+  st.Close();
+}
+
+function handleDroppedFiles(fileList){
+  var files = [], skipped = 0;
+  for (var i = 0; i < fileList.length; i++) {
+    if (/\.(csv|zip|xlsx|html?)$/i.test(fileList[i].name)) { files.push(fileList[i]); } else { skipped++; }
+  }
+  if (files.length === 0) {
+    setStatus("CSV, ZIP, XLSX, HTML 파일만 추가할 수 있습니다.", "err");
+    return;
+  }
+
+  var inputDir = prepareInputDir();
+  var done = 0, failed = 0;
+  setStatus("파일을 추가하는 중입니다...", "");
+
+  function finishOne(){
+    if (done + failed < files.length) { return; }
+    refreshFileList();
+    var msg = done + "개 파일을 추가했습니다.";
+    if (failed > 0) { msg = done + "개 추가, " + failed + "개 실패했습니다."; }
+    if (skipped > 0) { msg += "\n(CSV, ZIP, XLSX, HTML이 아닌 파일 " + skipped + "개는 제외했습니다)"; }
+    setStatus(msg, failed > 0 ? "err" : "ok");
+  }
+
+  for (var j = 0; j < files.length; j++) {
+    (function(file){
+      var reader = new FileReader();
+      reader.onload = function(){
+        try {
+          saveBase64File(inputDir + "\\" + file.name, String(reader.result).replace(/^[^,]*,/, ""));
+          done++;
+        } catch (e) { failed++; }
+        finishOne();
+      };
+      reader.onerror = function(){ failed++; finishOne(); };
+      reader.readAsDataURL(file);
+    })(files[j]);
+  }
+}
+
+function bindFileDrop(){
+  var box = document.getElementById("fileListBox");
+  // 창 어디에 놓아도 받는다. 기본 동작(창이 그 파일로 바뀌는 것)은 막는다.
+  document.addEventListener("dragover", function(e){
+    e.preventDefault();
+    box.className = "file-list drag-over";
+  });
+  document.addEventListener("dragleave", function(e){
+    box.className = "file-list";
+  });
+  document.addEventListener("drop", function(e){
+    e.preventDefault();
+    box.className = "file-list";
+    if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      handleDroppedFiles(e.dataTransfer.files);
+    }
+  });
+}
+
+function resizeToContent(){
+  try {
+    var contentHeight = document.getElementById("appHead").offsetHeight + document.getElementById("rightCol").offsetHeight;
+    var chrome = window.outerHeight - document.documentElement.clientHeight;
+    if (!chrome || chrome < 0 || chrome > 200) { chrome = 39; }
+    var maxWindowHeight = screen.availHeight - 60; // 화면보다 커지지 않도록 여유를 둔다
+    var targetHeight = Math.min(contentHeight + chrome, maxWindowHeight);
+    window.resizeTo(900, targetHeight);
+  } catch (e) {
+    window.resizeTo(900, 640);
+  }
+}
+
+// 바로가기를 지금 폴더 위치에 맞춘다.
+// 윈도우 바로가기는 고정된 전체 경로만 기억해서, 폴더 이름이나 위치가 바뀌면 실행과 아이콘이 깨진다. 그래서 레포디를 켤 때마다:
+//  - 바탕화면 바로가기: 이 PC에서 처음 켤 때 한 번만 만든다. 그 뒤로는 있을 때만 경로를 고친다 (지운 사람에게 다시 만들지 않는다).
+//  - 작업 표시줄에 고정한 바로가기: 있으면 경로를 고친다.
+// '처음 한 번'은 레포디 폴더가 아니라 이 PC 사용자 폴더(%LOCALAPPDATA%)에 기억한다.
+// (레포디 폴더에 두면 압축해서 다른 직원에게 보낼 때 같이 가서, 그 PC에서는 처음에도 바로가기가 안 생긴다)
+var SHORTCUT_NAME = "레포디.lnk";
+// ver 2.034에서 이름을 '광고 보고서 생성기'에서 '레포디'로 바꿨다(폴더 '1. 광고 보고서 생성기', 파일 '광고_보고서_생성기.hta'도).
+// 예전 이름 바로가기는 예전 폴더를 가리켜서 깨져 있으니, 레포디를 처음 켤 때 정리한다.
+var OLD_SHORTCUT_NAME = "광고 보고서 생성기.lnk";
+var OLD_HTA_NAME = "광고_보고서_생성기.hta";
+function shortcutTargets(){
+  var shell = new ActiveXObject("WScript.Shell");
+  var htaPath = unescape(window.location.pathname);
+  if (htaPath.charAt(0) === "/") { htaPath = htaPath.substring(1); }
+  htaPath = htaPath.replace(/\//g, "\\");
+  return {
+    shell: shell,
+    args: '"' + htaPath + '"',
+    icon: scriptDir + "\\assets\\app.ico",
+    desktop: shell.SpecialFolders("Desktop") + "\\" + SHORTCUT_NAME,
+    pinned: shell.ExpandEnvironmentStrings("%APPDATA%") + "\\Microsoft\\Internet Explorer\\Quick Launch\\User Pinned\\TaskBar\\" + SHORTCUT_NAME,
+    oldDesktop: shell.SpecialFolders("Desktop") + "\\" + OLD_SHORTCUT_NAME,
+    oldPinned: shell.ExpandEnvironmentStrings("%APPDATA%") + "\\Microsoft\\Internet Explorer\\Quick Launch\\User Pinned\\TaskBar\\" + OLD_SHORTCUT_NAME,
+    markDir: shell.ExpandEnvironmentStrings("%LOCALAPPDATA%") + "\\YejiSolution"
+  };
+}
+function writeShortcut(t, lnkPath){
+  var lnk = t.shell.CreateShortcut(lnkPath);
+  if (fso.FileExists(lnkPath) && lnk.Arguments === t.args && lnk.IconLocation.toLowerCase() === (t.icon + ",0").toLowerCase()) return;
+  lnk.TargetPath = t.shell.ExpandEnvironmentStrings("%WINDIR%") + "\\System32\\mshta.exe";
+  lnk.Arguments = t.args;
+  lnk.IconLocation = t.icon + ",0";
+  lnk.WorkingDirectory = scriptDir;
+  lnk.Description = "레포디";
+  lnk.Save();
+}
+// 예전 이름 바로가기 중 이 프로그램(예전 .hta, 또는 경로를 고친 뒤의 레포디.hta)을 여는 것만 고른다. 같은 이름의 다른 바로가기는 건드리지 않는다
+function isOldAppShortcut(t, lnkPath){
+  if (!fso.FileExists(lnkPath)) return false;
+  var lnk = t.shell.CreateShortcut(lnkPath);
+  return /mshta\.exe$/i.test(lnk.TargetPath) && (lnk.Arguments.indexOf(OLD_HTA_NAME) >= 0 || lnk.Arguments.indexOf("\\레포디.hta") >= 0);
+}
+function syncShortcuts(){
+  try {
+    var t = shortcutTargets();
+    // 바탕화면: 새 이름 바로가기를 만들고 예전 것은 지운다
+    if (isOldAppShortcut(t, t.oldDesktop)) {
+      writeShortcut(t, t.desktop);
+      fso.DeleteFile(t.oldDesktop);
+    }
+    // 작업 표시줄: 고정한 파일 이름을 바꾸면 고정이 풀리므로, 이름은 두고 경로만 고친다
+    if (!fso.FileExists(t.pinned) && isOldAppShortcut(t, t.oldPinned)) writeShortcut(t, t.oldPinned);
+    var mark = t.markDir + "\\desktop_shortcut_made.txt";
+    var made = fso.FileExists(mark);
+    if (fso.FileExists(t.desktop) || !made) writeShortcut(t, t.desktop);
+    if (!made) {
+      if (!fso.FolderExists(t.markDir)) fso.CreateFolder(t.markDir);
+      var f = fso.CreateTextFile(mark, true, true); f.WriteLine("레포디 바탕화면 바로가기를 만든 적이 있음"); f.Close();
+    }
+    if (fso.FileExists(t.pinned)) writeShortcut(t, t.pinned);
+  } catch (e) { }
+}
+// '바탕화면 바로가기' 버튼: 지웠던 바로가기를 다시 만든다
+function makeDesktopShortcut(){
+  try {
+    var t = shortcutTargets();
+    writeShortcut(t, t.desktop);
+    setStatus("바탕화면에 '레포디' 바로가기를 만들었습니다.", "ok");
+  } catch (e) {
+    setStatus("바탕화면 바로가기를 만들지 못했습니다: " + e.message, "err");
+  }
+}
+
+function init(){
+  // 인증코드 확인(scripts\auth.js). 통과할 때까지 창 전체를 덮는다. 파일이 없으면 열지 않는다
+  if (typeof authGate !== "function") {
+    document.body.innerHTML = '<div style="padding:30px;font-size:14px;">필요한 파일(scripts\\auth.js)이 없어서 열 수 없습니다.</div>';
+    return;
+  }
+  // 인증을 통과하면 새 버전이 있는지 본다 (일주일에 한 번)
+  authGate("레포디", function(){ window.setTimeout(checkUpdate, 1500); });
+
+  scriptDir = getScriptDir();
+  syncShortcuts();
+  AUTHOR_STORE_PATH = scriptDir + "\\.last_author.txt";
+
+  var logoPath = scriptDir + "\\assets\\logo.png";
+  if (fso.FileExists(logoPath)) {
+    document.getElementById("logo").src = logoPath;
+    document.getElementById("logo").style.display = "block";
+  }
+
+  var lastAuthor = loadLastAuthor();
+  if (lastAuthor) {
+    document.getElementById("authorInfo").value = lastAuthor;
+  }
+
+  bindMetricChipStyles();
+  bindFileDrop();
+  refreshFileList();
+  resizeToContent();
+}
+
+// 작업 중 문구('…중입니다')일 때는 앞에 원형 로딩 표시를 돌려서 아직 일하고 있다는 것을 보여준다.
+function setStatus(text, cls){
+  var el = document.getElementById("status");
+  el.innerHTML = "";
+  if (!cls && /중입니다/.test(text)) {
+    var spinner = document.createElement("span");
+    spinner.className = "busy-spinner";
+    el.appendChild(spinner);
+  }
+  el.appendChild(document.createTextNode(text));
+  el.className = cls || "";
+  resizeToContent();
+}
+
+// ---------- 자동 업데이트 (2.035, 사용자: "일주일에 1회 자동 업데이트") ----------
+// 공개 배포 저장소(hojong90-creator/repodi)에 '1. 레포디' 폴더에서 개발용(공유x)만 뺀 것과 version.txt를 올려 둔다(올리는 방법: 개발용(공유x)\도구\publish_repodi.sh).
+// 레포디를 켜서 인증을 통과하면, 마지막으로 확인한 뒤 7일이 지났을 때만 version.txt를 읽는다. 지금보다 높으면
+// scripts\Update-Repodi.ps1이 zip을 받아 이 폴더의 프로그램 파일을 덮어쓰고, 끝나면 창을 다시 연다.
+// '보고서 생성용 데이터', '생성된 보고서', '.last_author.txt'는 배포 저장소에 없고 업데이트도 건드리지 않는다. 배포 저장소에서 지운 파일은 PC에서 지우지 않는다.
+// 다음 확인 시각은 이 PC 사용자 폴더(%LOCALAPPDATA%\YejiSolution)에 적는다. 인터넷이 안 되거나 실패하면 하루 뒤 다시 시도한다.
+var UPDATE_VERSION_URL = "https://raw.githubusercontent.com/hojong90-creator/repodi/main/version.txt";
+var UPDATE_EVERY_DAYS = 7, UPDATE_RETRY_DAYS = 1;
+function appVersion(){
+  var el = document.getElementById("appVersion");
+  return el ? el.innerText.replace(/^\s*ver\s*/i, "") : "";
+}
+function updateStatePath(){
+  var sh = new ActiveXObject("WScript.Shell");
+  return sh.ExpandEnvironmentStrings("%LOCALAPPDATA%") + "\\YejiSolution\\repodi_update_next.txt";
+}
+function updateNextTime(){
+  try {
+    var p = updateStatePath();
+    if (!fso.FileExists(p)) return 0;
+    var ts = fso.OpenTextFile(p, 1); var v = Number(ts.ReadAll()); ts.Close();
+    return v || 0;
+  } catch (e) { return 0; }
+}
+function updateCheckAgainIn(days){
+  try {
+    var p = updateStatePath(), dir = fso.GetParentFolderName(p);
+    if (!fso.FolderExists(dir)) fso.CreateFolder(dir);
+    var ts = fso.CreateTextFile(p, true); ts.Write(String(new Date().getTime() + days * 86400000)); ts.Close();
+  } catch (e) { }
+}
+function checkUpdate(){
+  if (new Date().getTime() < updateNextTime()) return;
+  var x = null, finished = false;
+  function end(ver){
+    if (finished) return;
+    finished = true;
+    if (ver === null) { updateCheckAgainIn(UPDATE_RETRY_DAYS); return; }
+    if (!(parseFloat(ver) > parseFloat(appVersion()))) { updateCheckAgainIn(UPDATE_EVERY_DAYS); return; }
+    installUpdate(ver);
+  }
+  try {
+    x = new ActiveXObject("MSXML2.XMLHTTP.6.0");
+    x.open("GET", UPDATE_VERSION_URL + "?t=" + new Date().getTime(), true);
+    x.setRequestHeader("Cache-Control", "no-cache");
+    x.onreadystatechange = function(){
+      if (x.readyState !== 4) return;
+      var m = x.status === 200 ? /^\s*(\d+\.\d+)\s*$/.exec(x.responseText) : null;
+      end(m ? m[1] : null);
+    };
+    x.send();
+  } catch (e) { end(null); return; }
+  window.setTimeout(function(){ if (!finished) { try { x.abort(); } catch (e) { } end(null); } }, 10000);
+}
+function installUpdate(ver){
+  var gen = document.getElementById("generateBtn"), trend = document.getElementById("trendBtn");
+  // 보고서를 만드는 중이면 끝날 때까지 기다린다
+  if (gen.disabled || trend.disabled) { window.setTimeout(function(){ installUpdate(ver); }, 30000); return; }
+  var ps1 = scriptDir + "\\scripts\\Update-Repodi.ps1";
+  if (!fso.FileExists(ps1)) return;
+  var out = fso.GetSpecialFolder(2).Path + "\\repodi_update_result.txt";
+  try { if (fso.FileExists(out)) fso.DeleteFile(out, true); } catch (e) { }
+  gen.disabled = true; trend.disabled = true;
+  setStatus("새 버전(ver " + ver + ")으로 업데이트하는 중입니다. 잠시만 기다려 주세요.");
+  var cmd = 'powershell -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "' + ps1 + '" -AppDir "' + scriptDir + '" -Version "' + ver + '" -OutFile "' + out + '"';
+  try { new ActiveXObject("WScript.Shell").Run(cmd, 0, false); } catch (e) { finishUpdate(ver, "업데이트를 시작하지 못했습니다."); return; }
+  pollUpdate(ver, out, new Date().getTime());
+}
+function pollUpdate(ver, out, started){
+  var text = null;
+  if (fso.FileExists(out)) {
+    try { var ts = fso.OpenTextFile(out, 1, false, -1); text = ts.ReadAll(); ts.Close(); } catch (e) { text = null; }   // 아직 쓰는 중이면 다음에 다시
+  }
+  if (text === null) {
+    if (new Date().getTime() - started > 180000) { finishUpdate(ver, "시간이 너무 오래 걸립니다."); return; }
+    window.setTimeout(function(){ pollUpdate(ver, out, started); }, 500);
+    return;
+  }
+  try { fso.DeleteFile(out, true); } catch (e) { }
+  text = text.replace(/^\s+|\s+$/g, "");
+  finishUpdate(ver, text === "ok" ? null : text.replace(/^fail\t/, ""));
+}
+function finishUpdate(ver, error){
+  document.getElementById("generateBtn").disabled = false;
+  document.getElementById("trendBtn").disabled = false;
+  if (error) {
+    updateCheckAgainIn(UPDATE_RETRY_DAYS);
+    setStatus("업데이트하지 못했습니다: " + error + "\n지금 버전으로 계속 쓸 수 있고, 내일 다시 시도합니다.", "err");
+    return;
+  }
+  updateCheckAgainIn(UPDATE_EVERY_DAYS);
+  setStatus("새 버전(ver " + ver + ")으로 업데이트했습니다. 창을 다시 엽니다.", "ok");
+  window.setTimeout(function(){ location.reload(); }, 1500);
+}
+
+function generateReport(){
+  var clientName = document.getElementById("clientName").value.replace(/"/g, "");
+  var authorInfo = document.getElementById("authorInfo").value.replace(/"/g, "");
+  var visibleMetrics = getSelectedMetrics();
+
+  saveLastAuthor(authorInfo);
+
+  var inputDir = scriptDir + "\\보고서 생성용 데이터";
+  var outputDir = scriptDir + "\\생성된 보고서";
+  var outputJson = outputDir + "\\ad_summary.json";
+  var template = scriptDir + "\\templates\\ad-report.template.html";
+  var ps1 = scriptDir + "\\scripts\\Build-AdReport.ps1";
+
+  if (!fso.FolderExists(inputDir)) {
+    setStatus("오류: '보고서 생성용 데이터' 폴더를 찾을 수 없습니다.\n(" + inputDir + ")", "err");
+    return;
+  }
+  if (!fso.FileExists(ps1)) {
+    setStatus("오류: 생성 스크립트를 찾을 수 없습니다.\n(" + ps1 + ")", "err");
+    return;
+  }
+  if (!fso.FolderExists(outputDir)) {
+    fso.CreateFolder(outputDir);
+  }
+
+  var wantHtml = document.getElementById("htmlChk").checked;
+  if (!wantHtml && !document.getElementById("excelChk").checked) {
+    alert("만들 보고서를 하나 이상 체크해주세요.\n(HTML 방식 / 캐츠온 방식 엑셀)");
+    return;
+  }
+
+  document.getElementById("generateBtn").disabled = true;
+  document.getElementById("resultActions").style.display = "none";
+  if (!wantHtml) {
+    setStatus("", "");
+    generateExcelReport(outputDir);
+    return;
+  }
+  setStatus("생성 중입니다. 잠시만 기다려주세요...", "");
+
+  var beforeTime = new Date();
+
+  var shell = new ActiveXObject("WScript.Shell");
+  var cmd = 'powershell -NoProfile -WindowStyle Minimized -ExecutionPolicy Bypass -File "' + ps1 +
+    '" -InputDir "' + inputDir +
+    '" -OutputPath "' + outputJson +
+    '" -TemplatePath "' + template +
+    '" -ClientName "' + clientName +
+    '" -AuthorInfo "' + authorInfo +
+    '" -VisibleMetrics "' + visibleMetrics +
+    '" -PendingHtmlPath "' + getPendingHtmlPath() + '"';
+
+  var exec = shell.Exec(cmd);
+  pollExec(exec, outputDir, beforeTime);
+}
+
+// 같은 이름의 보고서가 이미 있으면 생성 스크립트가 새 보고서를 여기에 대신 만들어 두고 종료 코드 3으로 끝난다.
+function getPendingHtmlPath(){
+  return fso.GetSpecialFolder(2).Path + "\\ad_report_pending.html";
+}
+
+function resolvePendingReport(){
+  var pending = getPendingHtmlPath();
+  var info = pending + ".txt";
+  var target = "";
+  try {
+    var ts = fso.OpenTextFile(info, 1, false, -1);
+    target = ts.ReadAll().replace(/^\s+|\s+$/g, "");
+    ts.Close();
+  } catch (e) {}
+
+  if (target && fso.FileExists(pending)) {
+    var ok = confirm(
+      "같은 이름의 보고서가 이미 있습니다.\n" + fso.GetFileName(target) + "\n\n" +
+      "확인: 기존 보고서를 새 보고서로 덮어쓰기\n취소: 기존 보고서를 그대로 두고 생성 취소"
+    );
+    if (ok) {
+      fso.CopyFile(pending, target, true);
+      lastOutputPath = target;
+      document.getElementById("resultActions").style.display = "block";
+      setStatus("기존 보고서를 덮어써서 완료되었습니다!", "ok");
+    } else {
+      setStatus("생성을 취소했습니다. 기존 보고서는 그대로 남아 있습니다.", "");
+    }
+  } else {
+    setStatus("오류: 새로 만든 보고서를 찾지 못했습니다. 다시 생성해주세요.", "err");
+  }
+  try { fso.DeleteFile(pending, true); } catch (e) {}
+  try { fso.DeleteFile(info, true); } catch (e) {}
+}
+
+function pollExec(exec, outputDir, beforeTime){
+  if (exec.Status === 0) {
+    window.setTimeout(function(){ pollExec(exec, outputDir, beforeTime); }, 300);
+    return;
+  }
+
+  document.getElementById("generateBtn").disabled = false;
+
+  if (exec.ExitCode === 0) {
+    lastOutputPath = findLatestHtml(outputDir, beforeTime);
+    document.getElementById("resultActions").style.display = "block";
+    if (lastOutputPath) {
+      setStatus("완료되었습니다!", "ok");
+    } else {
+      setStatus("생성은 완료됐지만 결과 파일을 찾지 못했습니다.\n'폴더 열기'로 직접 확인해주세요.", "err");
+    }
+  } else if (exec.ExitCode === 3) {
+    resolvePendingReport();
+  } else if (exec.ExitCode === 4) {
+    // 지원하지 않는 통화처럼 사용자가 고칠 수 있는 문제: 생성 스크립트가 남긴 문구를 그대로 보여준다.
+    var userMsg = "";
+    try { userMsg = exec.StdErr.ReadAll(); } catch (e) {}
+    setStatus((userMsg || "").replace(/^\s+|\s+$/g, ""), "err");
+  } else {
+    setStatus("오류가 발생했습니다 (종료 코드 " + exec.ExitCode + ").\n입력 폴더의 CSV 파일 구성을 확인해주세요.", "err");
+  }
+
+  if (document.getElementById("excelChk").checked) { generateExcelReport(outputDir); }
+}
+
+// HTML 보고서가 끝난 뒤 이어서 실행한다. 결과는 기존 상태 문구 아래에 덧붙인다.
+function generateExcelReport(outputDir){
+  var clientName = document.getElementById("clientName").value.replace(/"/g, "");
+  var ps1 = scriptDir + "\\scripts\\Build-ExcelReport.ps1";
+  var statusEl = document.getElementById("status");
+  var prevText = statusEl.innerText ? statusEl.innerText + "\n" : "";
+  var prevCls = statusEl.className;
+
+  document.getElementById("generateBtn").disabled = true;
+  setStatus(prevText + "엑셀 보고서를 만드는 중입니다...", "");
+
+  var shell = new ActiveXObject("WScript.Shell");
+  var cmd = 'powershell -NoProfile -WindowStyle Minimized -ExecutionPolicy Bypass -File "' + ps1 +
+    '" -InputDir "' + getInputDir() +
+    '" -OutputDir "' + outputDir +
+    '" -TemplateDir "' + scriptDir + '\\templates' +
+    '" -ClientName "' + clientName + '"';
+  pollExcelExec(shell.Exec(cmd), prevText, prevCls);
+}
+
+function pollExcelExec(exec, prevText, prevCls){
+  if (exec.Status === 0) {
+    window.setTimeout(function(){ pollExcelExec(exec, prevText, prevCls); }, 300);
+    return;
+  }
+  document.getElementById("generateBtn").disabled = false;
+
+  if (exec.ExitCode === 0) {
+    var out = "";
+    try { out = exec.StdOut.ReadAll(); } catch (e) {}
+    var lines = (out || "").replace(/\r/g, "").split("\n");
+    var names = [];
+    for (var i = 0; i < lines.length; i++) {
+      if (lines[i]) {
+        names.push(fso.GetFileName(lines[i]));
+        // 엑셀만 만든 경우 '보고서 열기'가 엑셀 파일을 열도록 한다.
+        if (!document.getElementById("htmlChk").checked && names.length === 1) { lastOutputPath = lines[i]; }
+      }
+    }
+    document.getElementById("resultActions").style.display = "block";
+    setStatus(prevText + "엑셀 보고서 " + names.length + "개 생성: " + names.join(", "), prevCls);
+  } else {
+    var errText = "";
+    try { errText = exec.StdErr.ReadAll(); } catch (e) {}
+    errText = (errText || "").replace(/^\s+|\s+$/g, "");
+    setStatus(prevText + "엑셀 보고서 오류: " + (errText || ("종료 코드 " + exec.ExitCode)), "err");
+  }
+}
+
+function generateTrendReport(){
+  var clientName = document.getElementById("clientName").value.replace(/"/g, "");
+  if (!clientName) {
+    alert("월별 추이 보고서를 만들려면 '업체명'을 먼저 입력해주세요.\n(과거에 생성한 보고서와 같은 업체명을 입력해야 합니다)");
+    return;
+  }
+  var authorInfo = document.getElementById("authorInfo").value.replace(/"/g, "");
+
+  var outputDir = scriptDir + "\\생성된 보고서";
+  var template = scriptDir + "\\templates\\trend-report.template.html";
+  var ps1 = scriptDir + "\\scripts\\Build-TrendReport.ps1";
+  var safeClient = clientName.replace(/[\\\/:\*\?"<>\|]/g, "").replace(/^\s+|\s+$/g, "");
+  var htmlOut = outputDir + "\\" + safeClient + "_월별추이_보고서.html";
+
+  if (!fso.FileExists(ps1)) {
+    setStatus("오류: 추이 보고서 생성 스크립트를 찾을 수 없습니다.\n(" + ps1 + ")", "err");
+    return;
+  }
+  if (!fso.FolderExists(outputDir)) {
+    setStatus("오류: '생성된 보고서' 폴더가 없습니다. 먼저 보고서를 한 번 생성해주세요.", "err");
+    return;
+  }
+
+  document.getElementById("generateBtn").disabled = true;
+  document.getElementById("trendBtn").disabled = true;
+  document.getElementById("resultActions").style.display = "none";
+  setStatus("'" + clientName + "' 업체의 기존 보고서를 모아 월별 추이 보고서를 만드는 중입니다...", "");
+
+  var beforeTime = new Date();
+  var shell = new ActiveXObject("WScript.Shell");
+  var cmd = 'powershell -NoProfile -WindowStyle Minimized -ExecutionPolicy Bypass -File "' + ps1 +
+    '" -ReportsDir "' + outputDir +
+    '" -InputDir "' + getInputDir() +
+    '" -ClientName "' + clientName +
+    '" -TemplatePath "' + template +
+    '" -HtmlOutputPath "' + htmlOut +
+    '" -AuthorInfo "' + authorInfo + '"';
+
+  var exec = shell.Exec(cmd);
+  pollTrendExec(exec, outputDir, beforeTime);
+}
+
+function pollTrendExec(exec, outputDir, beforeTime){
+  if (exec.Status === 0) {
+    window.setTimeout(function(){ pollTrendExec(exec, outputDir, beforeTime); }, 300);
+    return;
+  }
+
+  document.getElementById("generateBtn").disabled = false;
+  document.getElementById("trendBtn").disabled = false;
+
+  if (exec.ExitCode === 0) {
+    lastOutputPath = findLatestHtml(outputDir, beforeTime);
+    document.getElementById("resultActions").style.display = "block";
+    if (lastOutputPath) {
+      setStatus("월별 추이 보고서가 완료되었습니다!", "ok");
+    } else {
+      setStatus("생성은 완료됐지만 결과 파일을 찾지 못했습니다.\n'폴더 열기'로 직접 확인해주세요.", "err");
+    }
+  } else {
+    var errText = "";
+    try { errText = exec.StdErr.ReadAll(); } catch (e) {}
+    errText = (errText || "").replace(/^\s+|\s+$/g, "");
+    setStatus("오류가 발생했습니다.\n" + (errText || ("종료 코드 " + exec.ExitCode)), "err");
+  }
+}
+
+function findLatestHtml(outputDir, beforeTime){
+  var folder = fso.GetFolder(outputDir);
+  var files = new Enumerator(folder.Files);
+  var latestPath = "";
+  var latestTime = null;
+  for (; !files.atEnd(); files.moveNext()) {
+    var f = files.item();
+    if (/\.html$/i.test(f.Name)) {
+      var modified = new Date(f.DateLastModified);
+      if (modified >= beforeTime && (latestTime === null || modified > latestTime)) {
+        latestTime = modified;
+        latestPath = f.Path;
+      }
+    }
+  }
+  return latestPath;
+}
+
+function openReport(){
+  if (!lastOutputPath) { return; }
+  var shell = new ActiveXObject("WScript.Shell");
+  shell.Run('"' + lastOutputPath + '"');
+}
+
+// 레포디 폴더 안에 함께 들어 있는 사용가이드 PDF를 그 PC의 기본 PDF 프로그램으로 연다.
+function openGuide(){
+  var guide = scriptDir + "\\레포디_사용가이드_v3.pdf";
+  if (!fso.FileExists(guide)) {
+    setStatus("사용가이드 파일을 찾을 수 없습니다.\n(" + guide + ")", "err");
+    return;
+  }
+  var shell = new ActiveXObject("WScript.Shell");
+  shell.Run('"' + guide + '"');
+}
+
+function openFolder(){
+  var shell = new ActiveXObject("WScript.Shell");
+  shell.Run('explorer.exe "' + scriptDir + '\\생성된 보고서"');
+}
+</script>
+</body>
+</html>

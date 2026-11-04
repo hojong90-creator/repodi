@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>__REPORT_TITLE__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --fs-mult: 1;   /* 글씨 크기 조절 값 (오른쪽 아래 가− 가+) */
+    color-scheme: light;
+    --bg:#F5F6F3; --surface:#FFFFFF; --surface-2:#EEF1ED; --border:#DDE4DD;
+    --ink:#1B231F; --ink-muted:#5C685F; --ink-faint:#8A968D;
+    --accent:#00805D; --accent-ink:#00583F; --accent-soft:#E2F2EC;
+    --series-2:#0072B2; --series-2-soft:#E1EEF7;
+    --shadow: 0 1px 2px rgba(20,30,25,.06), 0 6px 16px rgba(20,30,25,.06);
+    --radius: 14px;
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --bg:#141815; --surface:#1C211D; --surface-2:#232823; --border:#323A32;
+    --ink:#EDF1EC; --ink-muted:#A4AFA2; --ink-faint:#727D71;
+    --accent:#3BC996; --accent-ink:#8FE8C8; --accent-soft:#173229;
+    --series-2:#5CA7DE; --series-2-soft:#122A3B;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;
+    font-size:calc(14px * var(--fs-mult));line-height:1.55;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--wrap-w,1100px);margin:0 auto;padding:32px 24px 80px;}
+  h1,h2,h3{font-family:'IBM Plex Sans KR','Noto Sans KR',sans-serif;text-wrap:balance;margin:0;}
+  .num{font-variant-numeric:tabular-nums;}
+
+  header.top{
+    display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;
+    padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:28px;
+  }
+  header.top .eyebrow{
+    color:var(--accent-ink);font-weight:600;font-size:calc(12.5px * var(--fs-mult));letter-spacing:.04em;
+    text-transform:uppercase;margin-bottom:6px;display:block;
+  }
+  header.top h1{font-size:calc(24px * var(--fs-mult));font-weight:700;color:var(--ink);}
+  header.top .meta{color:var(--ink-muted);font-size:calc(13px * var(--fs-mult));margin-top:6px;}
+  header.top .meta b{color:var(--ink);font-weight:600;}
+  header.top .header-right{display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
+  header.top .brand-logo{height:56px;width:auto;object-fit:contain;-ms-interpolation-mode:bicubic;}
+  header.top .brand-logo[hidden]{display:none;}
+  header.top .genstamp{color:var(--ink-faint);font-size:calc(12px * var(--fs-mult));text-align:right;}
+  header.top .genstamp[hidden]{display:none;}
+
+  section{margin-bottom:32px;}
+  section h2{font-size:calc(18px * var(--fs-mult));font-weight:700;margin-bottom:4px;}
+  .section-sub{color:var(--ink-muted);font-size:calc(13px * var(--fs-mult));margin-bottom:16px;}
+
+  /* KPI tiles */
+  .kpi-grid{
+    display:grid;grid-template-columns:repeat(6,1fr);gap:1px;
+    background:var(--border);border:1px solid var(--border);border-radius:var(--radius);
+    overflow:hidden;box-shadow:var(--shadow);
+  }
+  @media screen and (max-width:900px){ .kpi-grid{grid-template-columns:repeat(3,1fr);} }
+  @media screen and (max-width:520px){ .kpi-grid{grid-template-columns:repeat(2,1fr);} }
+  .kpi-tile{background:var(--surface);padding:16px 16px 14px;}
+  .kpi-tile .label{font-size:calc(11.5px * var(--fs-mult));color:var(--ink-muted);font-weight:500;margin-bottom:8px;}
+  .kpi-tile .value{font-family:'IBM Plex Sans KR',sans-serif;font-size:calc(19px * var(--fs-mult));font-weight:700;color:var(--ink);}
+
+  /* Trend chart */
+  .trend-card{
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:22px 22px 14px;box-shadow:var(--shadow);
+  }
+  .trend-chart{position:relative;height:260px;}
+  .trend-bars{display:flex;align-items:flex-end;gap:18px;height:100%;position:relative;z-index:1;}
+  .trend-bars .col{flex:1;display:flex;align-items:flex-end;justify-content:center;height:100%;cursor:default;}
+  .trend-bars .bar{width:56%;max-width:64px;background:var(--accent);border-radius:5px 5px 2px 2px;opacity:.88;transition:opacity .1s;}
+  .trend-bars .col:hover .bar{opacity:1;}
+  .trend-line-svg{position:absolute;left:0;top:0;width:100%;height:100%;z-index:2;pointer-events:none;overflow:visible;}
+  .trend-line-svg polyline{fill:none;stroke:var(--series-2);stroke-width:4;stroke-linejoin:round;stroke-linecap:round;}
+  .trend-line-svg circle{fill:var(--series-2);stroke:var(--surface);stroke-width:2;}
+  .trend-labels{display:flex;gap:18px;margin-top:8px;}
+  .trend-labels span{flex:1;text-align:center;font-size:calc(12px * var(--fs-mult));color:var(--ink-muted);white-space:nowrap;}
+  .trend-legend{display:flex;gap:16px;margin-top:16px;padding-top:12px;border-top:1px solid var(--surface-2);font-size:calc(12px * var(--fs-mult));color:var(--ink-muted);}
+  .trend-legend span{display:inline-flex;align-items:center;gap:6px;}
+  .swatch{width:9px;height:9px;border-radius:2px;display:inline-block;}
+  .swatch.dot{border-radius:50%;}
+
+  /* Table */
+  .table-scroll{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);}
+  table{border-collapse:collapse;width:100%;min-width:520px;background:var(--surface);}
+  thead th{
+    position:sticky;top:0;background:var(--surface-2);text-align:right;font-size:calc(11.5px * var(--fs-mult));
+    color:var(--ink-muted);font-weight:600;padding:10px 14px;white-space:nowrap;
+    border-bottom:1px solid var(--border);
+  }
+  thead th:first-child{text-align:left;}
+  tbody td{padding:9px 14px;font-size:calc(13px * var(--fs-mult));text-align:right;border-bottom:1px solid var(--surface-2);white-space:nowrap;}
+  tbody td.txt{text-align:left;color:var(--ink);font-weight:600;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr.total-row td{background:var(--surface-2);font-weight:700;}
+  tbody tr:hover td{background:var(--surface-2);}
+
+  .footnote{
+    margin-top:32px;padding-top:16px;border-top:1px solid var(--border);
+    color:var(--ink-faint);font-size:calc(11.5px * var(--fs-mult));line-height:1.7;
+  }
+  .footnote b{color:var(--ink-muted);}
+
+  #tooltip{
+    position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);
+    font-size:calc(12px * var(--fs-mult));padding:8px 10px;border-radius:8px;box-shadow:var(--shadow);
+    z-index:50;max-width:240px;line-height:1.6;transform:translate(-50%,-100%);margin-top:-10px;
+  }
+  #tooltip.hidden{display:none;}
+  #tooltip .t-title{font-weight:700;margin-bottom:2px;}
+
+  /* 화면 오른쪽 아래 조정 버튼: 글씨 크기 / 폭 크기를 네모 상자 두 개로 세로로 쌓는다 */
+  .ctl-stack{position:fixed;right:18px;bottom:18px;z-index:60;display:flex;flex-direction:column;gap:6px;}
+  .font-size-ctl{
+    display:flex;align-items:center;justify-content:space-between;gap:2px;
+    background:var(--surface);border:1px solid var(--border);border-radius:6px;
+    box-shadow:var(--shadow);padding:3px;
+  }
+  .font-size-ctl button{
+    height:28px;padding:0 8px;border:none;border-radius:4px;background:transparent;white-space:nowrap;
+    color:var(--ink-muted);font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;
+  }
+  .font-size-ctl button:hover{background:var(--surface-2);color:var(--ink);}
+  .font-size-ctl span{font-size:11px;color:var(--ink-faint);width:38px;text-align:center;font-variant-numeric:tabular-nums;}
+  .font-size-ctl button.wide{flex:1;}
+  /* 아직 파일에 저장하지 않은 변경이 있을 때 */
+  .font-size-ctl button.dirty{color:var(--accent-ink);background:var(--accent-soft);}
+  .font-size-ctl span{cursor:text;border-radius:4px;line-height:24px;}
+  .font-size-ctl span:hover{background:var(--surface-2);color:var(--ink);}
+  .font-size-ctl span input{
+    width:100%;height:24px;padding:0;border:1px solid var(--accent);border-radius:4px;background:var(--surface);
+    color:var(--ink);font-family:inherit;font-size:11px;text-align:center;outline:none;
+  }
+  /* 표 오른쪽 위의 엑셀 내려받기 버튼 (윗줄 내용과 겹치지 않게 한 줄을 따로 차지한다) */
+  .tbl-export{display:flex;justify-content:flex-end;margin:0 0 6px;}
+  .tbl-export button{
+    display:inline-flex;align-items:center;justify-content:center;
+    box-sizing:border-box;flex:0 0 28px;min-width:28px;width:28px;height:28px;padding:0;
+    border:1px solid var(--border);border-radius:6px;background:var(--surface);
+    color:var(--ink-muted);cursor:pointer;
+  }
+  .tbl-export button:hover{background:var(--surface-2);color:var(--ink);}
+
+  @media print{
+    /* 광고 보고서와 같은 방식 (ad-report.template.html 인쇄 참고): 여백 0이라 머리글·바닥글이 찍히지 않고, 종이 여백은 쪽마다 반복되는 body 안쪽 여백 */
+    @page{ size:A4 landscape; margin:0; }
+    body{ padding:12mm; -webkit-box-decoration-break:clone; box-decoration-break:clone; }
+    :root, :root[data-theme]{
+      color-scheme: light;
+      --bg:#FFFFFF; --surface:#FFFFFF; --surface-2:#EEF1ED; --border:#DDE4DD;
+      --ink:#1B231F; --ink-muted:#5C685F; --ink-faint:#8A968D;
+      --accent:#00805D; --accent-ink:#00583F; --series-2:#0072B2;
+    }
+    *{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    /* 화면과 같은 구성: 화면 내용 폭(1100px - 좌우 여백 48px = 1052px)으로 배치한 뒤 A4 가로(약 1032px)에 맞게 줄인다 */
+    .wrap{ max-width:none; width:1052px; padding:0; zoom:0.98; }
+    #tooltip{ display:none !important; }
+    .ctl-stack, .tbl-export{ display:none; }
+    /* 화면에서는 옆으로 스크롤되는 표라, 인쇄할 때는 스크롤 없이 표 전체를 줄여서 종이 폭에 넣는다 (fitTableForPrint) */
+    .table-scroll{ overflow:visible; box-shadow:none; }
+    thead th{ position:static; }
+    section{ page-break-inside:avoid; }
+  }
+  /* 다크모드 켜기/끄기 (오른쪽 위, 2.035). 고른 값은 이 브라우저에 기억해 모든 보고서에 같이 쓴다. 고른 적이 없으면 윈도우 설정을 따른다.
+     색은 모두 CSS 변수라 html의 data-theme만 바꾸면 차트까지 바로 바뀐다 (다시 그리지 않는다) */
+  .theme-toggle{display:inline-flex;align-items:center;gap:7px;height:26px;padding:0 10px 0 6px;border:1px solid var(--border);border-radius:999px;
+    background:var(--surface);color:var(--ink-muted);font-family:inherit;font-size:12px;font-weight:600;line-height:1;cursor:pointer;}
+  .theme-toggle:hover{color:var(--ink);}
+  .theme-toggle .sw{position:relative;flex:none;width:26px;height:14px;border-radius:999px;background:var(--border);transition:background .15s;}
+  .theme-toggle .sw::after{content:'';position:absolute;left:2px;top:2px;width:10px;height:10px;border-radius:50%;background:#fff;transition:transform .15s;}
+  .theme-toggle[aria-pressed="true"] .sw{background:var(--accent);}
+  .theme-toggle[aria-pressed="true"] .sw::after{transform:translateX(12px);}
+  @media print{ .theme-toggle{display:none;} }
+</style>
+<script>
+// 다크모드: 오른쪽 위 버튼으로 고른 값(이 브라우저에 기억)을 쓰고, 고른 적이 없으면 윈도우 설정을 따른다. 화면을 그리기 전에 정해서 깜빡이지 않게 한다
+(function(){
+  var t = null;
+  try { t = localStorage.getItem('reportTheme'); } catch (e) {}
+  if (t !== 'dark' && t !== 'light') t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <span class="eyebrow">월별 성과 추이</span>
+      <h1 id="report-heading">__REPORT_TITLE__</h1>
+      <div class="meta">포함 기간 : <b id="period-range">-</b> · <b id="month-count">-</b>개 기간</div>
+    </div>
+    <div class="header-right">
+      <button id="themeBtn" class="theme-toggle" type="button" aria-pressed="false"><span class="sw"></span>다크모드</button>
+      <img class="brand-logo" id="brand-logo" src="__LOGO_DATA_URI__" alt="로고" hidden>
+      <div class="genstamp" id="author-line" hidden>작성자 : <span id="author-info">-</span></div>
+    </div>
+  </header>
+
+  <section id="summary">
+    <h2>전체 합계</h2>
+    <div class="section-sub">포함된 전체 기간 합산 수치</div>
+    <div class="kpi-grid" id="kpi-grid"></div>
+  </section>
+
+  <section id="trend">
+    <h2>월별 추이</h2>
+    <div class="section-sub">막대 = 총비용 · 꺾은선 = 전환매출액 (각각 별도 축 기준)</div>
+    <div class="trend-card">
+      <div class="trend-chart">
+        <div class="trend-bars" id="trend-bars"></div>
+        <svg class="trend-line-svg" id="trend-line-svg"></svg>
+      </div>
+      <div class="trend-labels" id="trend-labels"></div>
+      <div class="trend-legend">
+        <span><i class="swatch" style="background:var(--accent)"></i>총비용</span>
+        <span><i class="swatch dot" style="background:var(--series-2)"></i><span id="trend-line-label">전환매출액</span></span>
+      </div>
+    </div>
+  </section>
+
+  <section id="table">
+    <h2>기간별 상세 지표</h2>
+    <div class="tbl-export"><button type="button" id="tableExportBtn" title="이 표를 엑셀 파일로 내려받기"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v8M4.5 6.5 8 10l3.5-3.5M2.5 13.5h11"/></svg></button></div>
+    <div class="table-scroll">
+      <table id="trend-table">
+        <thead><tr id="trend-table-head"></tr></thead>
+        <tbody id="trend-table-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="footnote" id="footnote"></div>
+</div>
+
+<div id="tooltip" class="hidden"><div class="t-title"></div><div class="t-body"></div></div>
+
+<div class="ctl-stack">
+  <div class="font-size-ctl">
+    <button id="fsDown" title="글자 작게">가−</button>
+    <span id="fsLabel">100%</span>
+    <button id="fsUp" title="글자 크게">가+</button>
+  </div>
+  <div class="font-size-ctl">
+    <button id="wdDown" title="화면 폭 좁게 (좌우 여백 늘리기)">폭−</button>
+    <span id="wdLabel">1100</span>
+    <button id="wdUp" title="화면 폭 넓게 (좌우 여백 줄이기)">폭+</button>
+  </div>
+</div>
+
+<script id="report-data" type="application/json">__REPORT_DATA_JSON__</script>
+<script>
+  const DATA = JSON.parse(document.getElementById('report-data').textContent);
+
+  const fmtInt = n => Math.round(n).toLocaleString('ko-KR');
+  const fmtWon = n => '₩' + Math.round(n).toLocaleString('ko-KR');
+  const fmtPct = n => n.toFixed(2) + '%';
+  const fmtRoas = n => Math.round(n) + '%';   // ROAS는 정수로만 보여준다
+  const fmtConv = n => (Math.round(n * 100) / 100).toLocaleString('ko-KR');   // 구글 전환은 소수로 나온다
+  function escapeHtml(s){
+    return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  // ---------- Header ----------
+  document.getElementById('report-heading').textContent = DATA.clientName + ' 월별 성과 추이';
+  document.getElementById('period-range').textContent =
+    (DATA.months[0].periodLabel) + ' ~ ' + (DATA.months[DATA.months.length - 1].periodLabel);
+  document.getElementById('month-count').textContent = DATA.months.length;
+
+  const logoEl = document.getElementById('brand-logo');
+  if (logoEl.getAttribute('src') && !logoEl.getAttribute('src').startsWith('__')) { logoEl.hidden = false; }
+  if (DATA.authorInfo) {
+    document.getElementById('author-line').hidden = false;
+    document.getElementById('author-info').textContent = DATA.authorInfo;
+  }
+
+  // 매출 없이 문의, 신청을 전환으로 받는 업체는 전환매출액, ROAS 대신 전환수, 전환율(CVR), 전환당 비용(CPA)을 보여준다.
+  const LEAD = DATA.total.revenue === 0 && DATA.total.conversions > 0;
+  const cvrOf = m => m.clicks > 0 ? m.conversions / m.clicks * 100 : 0;
+  const fmtCpa = m => m.conversions > 0 ? fmtWon(m.cost / m.conversions) : '-';
+  // 달러로 집행한 매체는 환율로 바꾸지 않아서 원화 합계에 더하지 않고 따로 보여준다.
+  const HAS_USD = DATA.total.usdCost > 0;
+  const fmtUsd = n => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  if (LEAD) {
+    document.querySelector('#trend .section-sub').textContent = '막대 = 총비용 · 꺾은선 = 전환수 (각각 별도 축 기준)';
+    document.getElementById('trend-line-label').textContent = '전환수';
+  }
+
+  // ---------- KPI ----------
+  const kpiGrid = document.getElementById('kpi-grid');
+  const kpiDefs = [
+    ['노출수', fmtInt(DATA.total.impressions)],
+    ['클릭수', fmtInt(DATA.total.clicks)],
+    ['총비용', fmtWon(DATA.total.cost)],
+    ['전환수', fmtConv(DATA.total.conversions)],
+    LEAD ? ['전환율(CVR)', fmtPct(cvrOf(DATA.total))] : ['전환매출액', fmtWon(DATA.total.revenue)],
+    LEAD ? ['전환당 비용(CPA)', fmtCpa(DATA.total)] : ['평균 ROAS', fmtRoas(DATA.total.roas)]
+  ].concat(HAS_USD ? [['달러 매체 광고비', fmtUsd(DATA.total.usdCost)], ['달러 매체 전환수', fmtConv(DATA.total.usdConversions)]] : []);
+  if (HAS_USD) kpiGrid.style.gridTemplateColumns = 'repeat(4, 1fr)';   // 8칸이라 두 줄에 맞춘다
+  kpiGrid.innerHTML = kpiDefs.map(([label, value]) =>
+    `<div class="kpi-tile"><div class="label">${label}</div><div class="value num">${value}</div></div>`
+  ).join('');
+
+  // ---------- Tooltip ----------
+  const tooltip = document.getElementById('tooltip');
+  function showTip(evt, title, lines){
+    tooltip.querySelector('.t-title').textContent = title;
+    tooltip.querySelector('.t-body').innerHTML = lines.join('<br>');
+    tooltip.classList.remove('hidden');
+    moveTip(evt);
+  }
+  function moveTip(evt){
+    tooltip.style.left = evt.clientX + 'px';
+    tooltip.style.top = evt.clientY + 'px';
+  }
+  function hideTip(){ tooltip.classList.add('hidden'); }
+
+  // ---------- Trend chart (dual-axis bar + line) ----------
+  const months = DATA.months;
+  const maxCost = Math.max(...months.map(m => m.cost), 1);
+  const lineValue = m => LEAD ? m.conversions : m.revenue;
+  const maxRevenue = Math.max(...months.map(lineValue), 1);
+
+  const barsEl = document.getElementById('trend-bars');
+  const labelsEl = document.getElementById('trend-labels');
+  barsEl.innerHTML = ''; labelsEl.innerHTML = '';
+
+  months.forEach(m => {
+    const col = document.createElement('div');
+    col.className = 'col';
+    const barH = Math.max((m.cost / maxCost * 100), 2);
+    col.innerHTML = `<div class="bar" style="height:${barH}%"></div>`;
+    col.addEventListener('mouseenter', e => showTip(e, m.periodLabel, [
+      '총비용 ' + fmtWon(m.cost),
+      LEAD ? 'CVR ' + fmtPct(cvrOf(m)) + ' · CPA ' + fmtCpa(m) : '전환매출액 ' + fmtWon(m.revenue) + ' · ROAS ' + fmtRoas(m.roas),
+      '노출 ' + fmtInt(m.impressions) + ' · 클릭 ' + fmtInt(m.clicks) + ' · 전환 ' + fmtConv(m.conversions) + '건'
+    ]));
+    col.addEventListener('mousemove', moveTip);
+    col.addEventListener('mouseleave', hideTip);
+    barsEl.appendChild(col);
+
+    const lbl = document.createElement('span');
+    lbl.textContent = m.periodLabel;
+    labelsEl.appendChild(lbl);
+  });
+
+  // 꺾은선은 차트의 실제 픽셀 크기로 그린다. 예전에는 0~100 좌표를 차트 크기에 맞게 늘려(preserveAspectRatio="none")
+  // 원이 타원이 되고 선 굵기가 기울기마다 달라졌으며, 점이 막대 가운데가 아니라 차트 양 끝 기준으로 놓였다(2026-11-03).
+  // 점은 각 막대 칸의 가운데에 찍고, 창 크기가 바뀌거나 인쇄할 때 다시 그린다.
+  const svg = document.getElementById('trend-line-svg');
+  const chartEl = svg.parentElement;
+  const svgNs = 'http://www.w3.org/2000/svg';
+  const DOT_R = 6;
+  function drawLine(){
+    const W = chartEl.clientWidth, H = chartEl.clientHeight;
+    if (!W || !H) return;
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    svg.innerHTML = '';
+    const top = DOT_R + 2;   // 가장 큰 점이 위로 잘리지 않게
+    // 위치는 offsetLeft/offsetWidth로 잰다. 인쇄 때 zoom이 걸리면 getBoundingClientRect는 줄어든 값이라 clientWidth와 단위가 달라진다.
+    const points = Array.from(barsEl.children).map((col, i) => {
+      const x = barsEl.offsetLeft + col.offsetLeft + col.offsetWidth / 2;
+      const y = H - Math.max(lineValue(months[i]) / maxRevenue, 0) * (H - top);
+      return [x.toFixed(1), y.toFixed(1)];
+    });
+    const polyline = document.createElementNS(svgNs, 'polyline');
+    polyline.setAttribute('points', points.map(p => p.join(',')).join(' '));
+    svg.appendChild(polyline);
+    points.forEach(([x, y]) => {
+      const c = document.createElementNS(svgNs, 'circle');
+      c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', DOT_R);
+      svg.appendChild(c);
+    });
+  }
+  drawLine();
+  let lineRaf = 0;
+  window.addEventListener('resize', () => { if (!lineRaf) lineRaf = requestAnimationFrame(() => { lineRaf = 0; drawLine(); }); });
+  // 인쇄: 기간이 많으면 상세 지표 표가 종이보다 넓어 오른쪽이 잘린다. 넘치는 만큼만 표를 줄인다.
+  function fitTableForPrint(on){
+    const t = document.getElementById('trend-table');
+    t.style.zoom = '';
+    if (!on) return;
+    const ratio = t.parentElement.clientWidth / t.scrollWidth;
+    if (ratio < 1) t.style.zoom = ratio.toFixed(3);
+  }
+  function onPrintChange(on){ fitTableForPrint(on); drawLine(); }
+  window.addEventListener('beforeprint', () => onPrintChange(true));
+  window.addEventListener('afterprint', () => onPrintChange(false));
+  const trendPrintMq = window.matchMedia ? window.matchMedia('print') : null;
+  if (trendPrintMq && trendPrintMq.addEventListener) trendPrintMq.addEventListener('change', e => onPrintChange(e.matches));
+
+  // ---------- Table ----------
+  const headRow = document.getElementById('trend-table-head');
+  headRow.innerHTML = '<th class="txt">지표</th>' +
+    months.map(m => `<th>${escapeHtml(m.periodLabel)}</th>`).join('') + '<th>합계 / 평균</th>';
+
+  const metricRows = [
+    ['노출수', m => fmtInt(m.impressions), () => fmtInt(DATA.total.impressions)],
+    ['클릭수', m => fmtInt(m.clicks), () => fmtInt(DATA.total.clicks)],
+    ['CTR', m => fmtPct(m.ctr), () => fmtPct(DATA.total.ctr)],
+    ['CPC', m => fmtWon(m.cpc), () => fmtWon(DATA.total.cpc)],
+    ['총비용', m => fmtWon(m.cost), () => fmtWon(DATA.total.cost)],
+    ['전환수', m => fmtConv(m.conversions), () => fmtConv(DATA.total.conversions)],
+    LEAD ? ['CVR', m => fmtPct(cvrOf(m)), () => fmtPct(cvrOf(DATA.total))] : ['전환매출액', m => fmtWon(m.revenue), () => fmtWon(DATA.total.revenue)],
+    LEAD ? ['CPA', fmtCpa, () => fmtCpa(DATA.total)] : ['ROAS', m => fmtRoas(m.roas), () => fmtRoas(DATA.total.roas)]
+  ].concat(HAS_USD ? [
+    ['달러 매체 광고비', m => fmtUsd(m.usdCost || 0), () => fmtUsd(DATA.total.usdCost)],
+    ['달러 매체 전환수', m => fmtConv(m.usdConversions || 0), () => fmtConv(DATA.total.usdConversions)]
+  ] : []);
+  const bodyEl = document.getElementById('trend-table-body');
+  bodyEl.innerHTML = metricRows.map(([label, cellFn, totalFn], idx) => {
+    const cells = months.map(m => `<td class="num">${cellFn(m)}</td>`).join('');
+    const rowCls = label === '총비용' || label === '전환매출액' ? ' class="total-row"' : '';
+    return `<tr${rowCls}><td class="txt">${label}</td>${cells}<td class="num">${totalFn()}</td></tr>`;
+  }).join('');
+
+  // ---------- Footnote ----------
+  const sourceList = months.map(m => escapeHtml(m.periodLabel) + ' (' + escapeHtml(m.sourceFile) + ')').join(' · ');
+  document.getElementById('footnote').innerHTML =
+    '<b>포함된 보고서</b> : ' + sourceList + '<br>' +
+    '생성 : ' + escapeHtml(DATA.generatedAt) + ' · 매체가 2개 이상인 기간은 전체 매체 합산 수치입니다.'
+    + (HAS_USD ? ' 달러로 집행한 매체는 합산에서 빼고 따로 적었습니다.' : '');
+
+  // ---------- 글자 크기, 화면 폭 조절 (광고 보고서와 같은 버튼) ----------
+  // 조정 버튼의 숫자를 누르면 그 자리에서 직접 입력할 수 있다. Enter 또는 바깥 클릭 = 적용, Esc = 취소.
+  function editCtlValue(label, current, onCommit){
+    if (label.querySelector('input')) return;
+    const shown = label.textContent;
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = current;
+    label.textContent = '';
+    label.appendChild(input);
+    input.focus();
+    input.select();
+    let done = false;
+    function finish(commit){
+      if (done) return;
+      done = true;
+      const text = input.value.trim();
+      label.textContent = shown;
+      if (commit && text !== '') onCommit(text);
+    }
+    input.addEventListener('keydown', function(e){
+      if (e.key === 'Enter') finish(true);
+      else if (e.key === 'Escape') finish(false);
+    });
+    input.addEventListener('blur', function(){ finish(true); });
+  }
+  (function(){
+    const WIDTHS = [1100, 1400, 1600, 1900, 2300];   // 버튼으로 오르내리는 단계. 그 위는 '전체'(0)
+    const MIN = 800, MAX = 4000;
+    const KEY = 'trendReportWidthPx';                // 보는 사람마다 모니터가 달라 이 PC의 브라우저에만 기억한다
+    let width = 1100;                                 // 0 = 화면 전체
+    try { const saved = parseInt(localStorage.getItem(KEY), 10); if (!isNaN(saved)) width = saved; } catch (e) {}
+    const label = document.getElementById('wdLabel');
+    function apply(){
+      if (width !== 0) width = Math.min(MAX, Math.max(MIN, Math.round(width)));
+      document.documentElement.style.setProperty('--wrap-w', width ? width + 'px' : 'none');
+      label.textContent = width ? width : '전체';
+      try { localStorage.setItem(KEY, String(width)); } catch (e) {}
+      drawLine();
+    }
+    document.getElementById('wdUp').addEventListener('click', function(){
+      if (width === 0) return;
+      width = WIDTHS.filter(w => w > width)[0] || 0;
+      apply();
+    });
+    document.getElementById('wdDown').addEventListener('click', function(){
+      const lower = WIDTHS.filter(w => width === 0 || w < width);
+      if (!lower.length) return;
+      width = lower[lower.length - 1];
+      apply();
+    });
+    label.title = '눌러서 직접 입력 (' + MIN + '~' + MAX + ', 전체는 0)';
+    label.addEventListener('click', function(){
+      editCtlValue(label, width, function(text){
+        if (text === '전체') { width = 0; apply(); return; }
+        const n = parseFloat(text);
+        if (!isNaN(n)) { width = n; apply(); }
+      });
+    });
+    apply();
+  })();
+  (function(){
+    const MIN = 70, MAX = 160, STEP = 5;
+    let pct = 100;
+    const label = document.getElementById('fsLabel');
+    function apply(){
+      pct = Math.min(MAX, Math.max(MIN, Math.round(pct)));
+      document.documentElement.style.setProperty('--fs-mult', pct / 100);
+      label.textContent = pct + '%';
+      drawLine();
+    }
+    document.getElementById('fsUp').addEventListener('click', function(){ pct += STEP; apply(); });
+    document.getElementById('fsDown').addEventListener('click', function(){ pct -= STEP; apply(); });
+    label.title = '눌러서 직접 입력 (' + MIN + '~' + MAX + ')';
+    label.addEventListener('click', function(){
+      editCtlValue(label, pct, function(text){
+        const n = parseFloat(text.replace('%', ''));
+        if (!isNaN(n)) { pct = n; apply(); }
+      });
+    });
+  })();
+
+  // ---------- 기간별 상세 지표 표를 엑셀(.xlsx)로 내려받기 ----------
+  // 광고 보고서의 표 내려받기와 같은 방법(외부 라이브러리 없이 무압축 zip으로 xlsx를 직접 만든다).
+  // 화면의 표 글자를 그대로 읽어 숫자, 백분율은 엑셀 숫자로 바꾼다.
+  (function(){
+    const enc = new TextEncoder();
+    const CRC = (function(){
+      const t = new Uint32Array(256);
+      for (let n = 0; n < 256; n++){ let c = n; for (let k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1); t[n] = c >>> 0; }
+      return t;
+    })();
+    // 2.036: 줄이 수십만 개인 표(네이버 검색어)도 내려받게, 파일 내용을 조각(chunks)으로 받아 조각마다 바이트로 바꾸고,
+    // 브라우저에 압축 기능(CompressionStream 'deflate-raw', Edge · Chrome 103 이상)이 있으면 압축한다. 없으면 예전처럼 무압축.
+    // 예전에는 250MB 글자 하나를 한 번에 바꿔 30만 줄에서 20초 넘게 걸리고 파일도 249MB였다.
+    function crc32Into(c, u8){ for (let i = 0; i < u8.length; i++) c = CRC[(c ^ u8[i]) & 0xFF] ^ (c >>> 8); return c; }
+    async function deflateRaw(parts){
+      if (typeof CompressionStream !== 'function') return null;
+      try {
+        const cs = new CompressionStream('deflate-raw');
+        const w = cs.writable.getWriter();
+        parts.forEach(p => w.write(p));
+        w.close();
+        return new Uint8Array(await new Response(cs.readable).arrayBuffer());
+      } catch (e) { return null; }
+    }
+    async function zip(files){
+      const parts = [], central = [];
+      let offset = 0;
+      for (const f of files){
+        const name = enc.encode(f.name);
+        const raw = (f.chunks || [f.text]).map(s => enc.encode(s));
+        let crc = 0xFFFFFFFF, size = 0;
+        raw.forEach(u8 => { crc = crc32Into(crc, u8); size += u8.length; });
+        crc = (crc ^ 0xFFFFFFFF) >>> 0;
+        const packed = size > 1024 ? await deflateRaw(raw) : null;
+        const method = packed ? 8 : 0, stored = packed ? packed.length : size;
+        const head = new DataView(new ArrayBuffer(30));
+        head.setUint32(0, 0x04034b50, true); head.setUint16(4, 20, true); head.setUint16(8, method, true);
+        head.setUint16(12, 0x21, true);   // 날짜 1980-01-01
+        head.setUint32(14, crc, true); head.setUint32(18, stored, true); head.setUint32(22, size, true);
+        head.setUint16(26, name.length, true);
+        const cen = new DataView(new ArrayBuffer(46));
+        cen.setUint32(0, 0x02014b50, true); cen.setUint16(4, 20, true); cen.setUint16(6, 20, true); cen.setUint16(10, method, true);
+        cen.setUint16(14, 0x21, true);
+        cen.setUint32(16, crc, true); cen.setUint32(20, stored, true); cen.setUint32(24, size, true);
+        cen.setUint16(28, name.length, true); cen.setUint32(42, offset, true);
+        parts.push(new Uint8Array(head.buffer), name);
+        if (packed) parts.push(packed); else raw.forEach(u8 => parts.push(u8));
+        central.push(new Uint8Array(cen.buffer), name);
+        offset += 30 + name.length + stored;
+      }
+      const cenSize = central.reduce((s, p) => s + p.length, 0);
+      const end = new DataView(new ArrayBuffer(22));
+      end.setUint32(0, 0x06054b50, true); end.setUint16(8, files.length, true); end.setUint16(10, files.length, true);
+      end.setUint32(12, cenSize, true); end.setUint32(16, offset, true);
+      return new Blob(parts.concat(central, [new Uint8Array(end.buffer)]), {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    }
+    const xmlEsc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '');
+    function colName(i){ let s = ''; for (i = i + 1; i > 0; i = Math.floor((i - 1) / 26)) s = String.fromCharCode(65 + (i - 1) % 26) + s; return s; }
+    // 칸 글자를 엑셀 값으로: '1,234' → 숫자, '1.49%' → 백분율, 그 밖(상품번호 · 이름 등)은 문자 그대로
+    function toCell(text, isNum){
+      text = String(text).replace(/\s+/g, ' ').trim();
+      if (isNum){
+        if (/^\$[\d,]+(\.\d+)?$/.test(text)) return {n: parseFloat(text.replace(/[$,]/g, '')), s: 5, len: text.length};
+        const raw = text.replace(/[₩,원건]/g, '').trim();
+        if (/^-?\d+(\.\d+)?%$/.test(raw)) return {n: Math.round(parseFloat(raw) * 10000) / 1000000, s: raw.indexOf('.') >= 0 ? 2 : 3, len: text.length};
+        if (/^-?\d+(\.\d+)?$/.test(raw)) return {n: parseFloat(raw), s: raw.indexOf('.') >= 0 ? 0 : 1, len: text.length};
+      }
+      return {t: text, s: 0, len: text.length};
+    }
+    function tableRows(t){
+      const head = t.shown.map(c => ({t: c.label, s: 4, len: c.label.length}));
+      return [head].concat(t.rows.map(r => t.shown.map(c => toCell(cellText(c, r), !c.txt))));
+    }
+    function buildXlsx(rows){
+      const widths = [];
+      // 칸 위치(r="A1")는 적지 않는다(생략하면 엑셀이 순서대로 채운다. 30만 줄에서 파일이 수십 MB 줄었다). 2,000줄씩 조각으로 모은다
+      const sheetRows = [];
+      let buf = [];
+      rows.forEach((row, r) => {
+        buf.push('<row r="' + (r + 1) + '">' + row.map((c, i) => {
+          // 한글은 영문보다 넓어서 글자 수의 1.8배 정도로 잡는다.
+          widths[i] = Math.min(Math.max(widths[i] || 6, (c.t !== undefined ? c.len * 1.8 : c.len + 3)), 70);
+          return c.t !== undefined
+            ? '<c s="' + c.s + '" t="inlineStr"><is><t xml:space="preserve">' + xmlEsc(c.t) + '</t></is></c>'
+            : '<c s="' + c.s + '"><v>' + c.n + '</v></c>';
+        }).join('') + '</row>');
+        if (buf.length >= 2000){ sheetRows.push(buf.join('')); buf = []; }
+      });
+      if (buf.length) sheetRows.push(buf.join(''));
+      const cols = widths.map((w, i) => '<col min="' + (i + 1) + '" max="' + (i + 1) + '" width="' + w.toFixed(1) + '" customWidth="1"/>').join('');
+      const NS = 'http://schemas.openxmlformats.org/spreadsheetml/2006/main';
+      const REL = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships';
+      const PKG = 'http://schemas.openxmlformats.org/package/2006/';
+      const X = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
+      return zip([
+        {name: '[Content_Types].xml', text: X + '<Types xmlns="' + PKG + 'content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>'},
+        {name: '_rels/.rels', text: X + '<Relationships xmlns="' + PKG + 'relationships"><Relationship Id="rId1" Type="' + REL + '/officeDocument" Target="xl/workbook.xml"/></Relationships>'},
+        {name: 'xl/workbook.xml', text: X + '<workbook xmlns="' + NS + '" xmlns:r="' + REL + '"><sheets><sheet name="Sheet1" sheetId="1" r:id="rId1"/></sheets></workbook>'},
+        {name: 'xl/_rels/workbook.xml.rels', text: X + '<Relationships xmlns="' + PKG + 'relationships"><Relationship Id="rId1" Type="' + REL + '/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="' + REL + '/styles" Target="styles.xml"/></Relationships>'},
+        // 서식 번호: 0 기본, 1 천단위 구분, 2 백분율(소수 둘째), 3 백분율(정수), 4 제목(굵게), 5 달러
+        {name: 'xl/styles.xml', text: X + '<styleSheet xmlns="' + NS + '"><numFmts count="1"><numFmt numFmtId="164" formatCode="&quot;$&quot;#,##0.00"/></numFmts><fonts count="2"><font><sz val="10"/><name val="맑은 고딕"/></font><font><b/><sz val="10"/><name val="맑은 고딕"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="6"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="3" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/><xf numFmtId="10" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/><xf numFmtId="9" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/><xf numFmtId="164" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/></cellXfs></styleSheet>'},
+        {name: 'xl/worksheets/sheet1.xml', chunks: [X + '<worksheet xmlns="' + NS + '"><sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews><cols>' + cols + '</cols><sheetData>'].concat(sheetRows, ['</sheetData></worksheet>'])}
+      ]);
+    }
+    document.getElementById('tableExportBtn').addEventListener('click', async function(){
+      const table = document.getElementById('trend-table');
+      const rows = Array.from(table.rows).map((tr, r) => Array.from(tr.cells).map((td, i) => {
+        const text = td.textContent.replace(/\s+/g, ' ').trim();
+        return r === 0 ? {t: text, s: 4, len: text.length} : toCell(text, i > 0);
+      }));
+      const base = (decodeURIComponent(location.pathname.split('/').pop()) || 'report').replace(/\.html?$/i, '');
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(await buildXlsx(rows));
+      link.download = (base + '_기간별 상세 지표').replace(/[\\/:*?"<>|]/g, ' ') + '.xlsx';
+      link.click();
+    });
+  })();
+</script>
+<script>
+// 다크모드 버튼 (머리의 스크립트가 정한 data-theme를 바꾸고 이 브라우저에 기억한다)
+(function(){
+  var root = document.documentElement, btn = document.getElementById('themeBtn');
+  if (!btn) return;
+  function show(){
+    var dark = root.getAttribute('data-theme') === 'dark';
+    btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+    btn.title = dark ? '다크모드 끄기' : '다크모드 켜기';
+  }
+  btn.addEventListener('click', function(){
+    var t = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', t);
+    try { localStorage.setItem('reportTheme', t); } catch (e) {}
+    show();
+  });
+  show();
+})();
+</script>
+</body>
+</html>
