@@ -524,6 +524,7 @@
     <nav class="jump" id="gm-jump" hidden>
       <a href="#gm-summary">요약</a>
       <a href="#gm-compare" id="gm-nav-compare">캠페인 유형 비교</a>
+      <a href="#gm-campaign" id="gm-nav-campaign" hidden>캠페인별 성과</a>
       <a href="#gm-product" id="gm-nav-product">상품별 성과</a>
       <a href="#gm-keywords" id="gm-nav-keywords">키워드</a>
       <a href="#gm-old-product" id="gm-nav-old-product" hidden>구 광고센터 상품별</a>
@@ -867,6 +868,29 @@
       <h2>캠페인 유형 비교</h2>
       <div class="section-sub" id="gm-compare-sub">같은 기간 성과 비교</div>
       <div class="compare-grid" id="gm-compare-grid"></div>
+    </section>
+
+    <!-- 신 광고센터 캠페인별 리포트 (2.039) -->
+    <section id="gm-campaign" hidden>
+      <h2>캠페인별 성과 <span class="badge info gm-center-badge" hidden>신 광고센터</span></h2>
+      <div class="section-sub">비용 기준 정렬, 전체 <span id="gm-campaign-count">0</span>개 캠페인</div>
+      <div class="table-scroll">
+        <table id="gm-campaign-table">
+          <thead><tr>
+            <th class="txt" data-key="campaignType">캠페인유형</th>
+            <th class="txt" data-key="campaign">캠페인명</th>
+            <th data-key="impressions">노출수</th>
+            <th data-key="clicks">클릭수</th>
+            <th data-key="ctr">CTR</th>
+            <th data-key="cpc">CPC</th>
+            <th data-key="cost">광고비용</th>
+            <th data-key="conversions">전환수</th>
+            <th data-key="revenue">전환매출액</th>
+            <th data-key="roas">ROAS</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </section>
 
     <section id="gm-product">
@@ -2525,7 +2549,9 @@
     const GL = GM.legacy || null;
     const hasNew = GM.hasNewCenter !== false;   // 2.037 이하 보고서에는 이 값이 없다(신 광고센터만 있던 때)
     renderKpis('gm-kpi-grid', overviewKpis(GM.overview, { cost: '광고비용' }));
-    const sumLabel = GL ? (hasNew ? '신 광고센터 + 구 광고센터(옥션 광고센터에서 받은 지마켓) 합계' : '구 광고센터(옥션 광고센터에서 받은 지마켓) AI매출업, 파워클릭 합계') : '해당 기간 상품별 리포트 합계';
+    // 합계를 만든 리포트 (2.039부터 overviewSource. 캠페인별 > 상품별 > 키워드별 순으로 하나만 씀, 2.038 이하는 상품별로 봄)
+    const srcName = { campaign: '캠페인별', item: '상품별', keyword: '키워드별' }[GM.overviewSource] || '상품별';
+    const sumLabel = GL ? (hasNew ? '신 광고센터 + 구 광고센터(옥션 광고센터에서 받은 지마켓) 합계' : '구 광고센터(옥션 광고센터에서 받은 지마켓) AI매출업, 파워클릭 합계') : '해당 기간 ' + srcName + ' 리포트 합계';
     const sumPeriod = GM.period || (GL ? DATA.period : null);
     if (sumPeriod || GL) $('gm-summary-sub').textContent = sumLabel + (sumPeriod ? ', ' + formatPeriodWithDays(sumPeriod) : '');
     if (GL && GL.hasImpressionGap) $('gm-impression-warning').hidden = false;
@@ -2540,6 +2566,13 @@
     if (isMetricVisible('conversions') && isMetricVisible('cost') && (newKw.length || oldKw.length) && GM.overview.cost>0){
       const zeroSpend = (newKw.length ? GM.keywordStats.zeroConversionSpend : 0) + (oldKw.length ? GL.keywordStats.zeroConversionSpend : 0);
       ins.push('전환이 발생하지 않은 키워드에 <b>'+fmtWon(zeroSpend)+'</b>이 소진되어, 전체 광고비의 <b>'+(zeroSpend/GM.overview.cost*100).toFixed(1)+'%</b>를 차지합니다.');
+    }
+    const camps = GM.byCampaign || [];
+    if (isMetricVisible('cost') && camps.length > 1 && camps[0].cost > 0){
+      const c = camps[0];
+      const convPart = isMetricVisible('conversions') ? ', 전환 '+c.conversions+'건' : '';
+      const roasPart = isMetricVisible('roas') && c.cost > 0 ? ', ROAS '+fmtRoas(c.roas) : '';
+      ins.push('광고비가 가장 많이 투입된 캠페인은 <b>‘'+escapeHtml(c.campaign)+'’</b>('+fmtWon(c.cost)+convPart+roasPart+')입니다.');
     }
     // 가장 비용이 큰 상품 · 키워드는 두 센터를 통틀어 고른다. 구 광고센터 상품은 상품번호뿐이라 그렇게 적는다.
     const newTopP = (GM.byProduct || [])[0], oldTopP = GL ? (GL.byProduct || [])[0] : null;
@@ -2562,6 +2595,14 @@
       renderCompareCards('gm-compare-grid', types, r => r.type, cycleColor, { cost: '광고비용' });
     } else {
       hideSection('gm-nav-compare', 'gm-compare');
+    }
+    if (camps.length){
+      $('gm-campaign').hidden = false; $('gm-nav-campaign').hidden = false;
+      $('gm-campaign-count').textContent = camps.length;
+      createTable('gm-campaign-table', camps, {
+        cell: { campaignType: r => r.campaignType || '' },
+        minW: { campaignType: 100, campaign: 280 }
+      });
     }
     if (GM.byProduct && GM.byProduct.length){
       renderBarList($('gm-product-chart'), GM.byProduct.slice(0,10), {

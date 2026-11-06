@@ -119,18 +119,18 @@ function Read-XlsxHead([string]$Path, [int]$MaxRows) {
             while ($ok) {
                 if ($r.NodeType -eq 'Element') {
                     if ($r.LocalName -eq 'row') { $cur = New-Object System.Collections.Generic.List[object] }
-                    elseif ($r.LocalName -eq 'c' -and $cur) {
+                    elseif ($r.LocalName -eq 'c' -and $null -ne $cur) {
                         $ref = $r.GetAttribute('r'); $type = $r.GetAttribute('t')
                         $col = 0; if ($ref) { foreach ($ch in ($ref -replace '\d', '').ToCharArray()) { $col = $col * 26 + ([int][char]$ch - 64) }; $col-- } else { $col = $cur.Count }
                         while ($cur.Count -le $col) { $cur.Add('') }
                     }
-                    elseif (($r.LocalName -eq 'v' -or $r.LocalName -eq 't') -and $cur) {
+                    elseif (($r.LocalName -eq 'v' -or $r.LocalName -eq 't') -and $null -ne $cur) {
                         $v = $r.ReadElementContentAsString()
                         $cur[$col] = if ($type -eq 's') { [int]$v } else { [string]$v }   # 공유 문자열 번호는 int, 나머지는 글자
                         $ok = -not $r.EOF
                         continue   # 이미 다음 칸에 있다
                     }
-                } elseif ($r.NodeType -eq 'EndElement' -and $r.LocalName -eq 'row' -and $cur) {
+                } elseif ($r.NodeType -eq 'EndElement' -and $r.LocalName -eq 'row' -and $null -ne $cur) {
                     $rows.Add($cur); $cur = $null
                     if ($rows.Count -ge $MaxRows) { break }
                 }
@@ -173,7 +173,7 @@ function Get-XlsxKind([string]$Path) {
     }
     foreach ($row in $rows) {
         $row = @($row)
-        if ($row.Count -ge 2 -and "$($row[0])" -eq '리포트 종류') { return "지마켓 $($row[1])" }
+        if ($row.Count -ge 2 -and "$($row[0])" -eq '리포트 종류') { return "지마켓 $("$($row[1])".Trim())" }
     }
     if ($first -contains '판매자기준-광고수익률') { return $(if ($first -contains '상품번호') { '옥션 AI매출업 상품별' } else { '옥션 AI매출업 일별 (엑셀 보고서용)' }) }
     if ($first -contains '광고상품번호') { return '옥션 파워클릭 상품별' }

@@ -1097,6 +1097,7 @@ $hasDow       = [bool]$dowFile
 # Get-ReportKinds.ps1, Build-ExcelReport.ps1도 같은 규칙. 규칙을 바꾸면 함께 고칠 것.
 $gmarketItem = $null
 $gmarketKeyword = $null
+$gmarketCampaign = $null
 $auctionAI = $null
 $auctionGoods = $null
 $auctionKeyword = $null
@@ -1110,6 +1111,7 @@ foreach ($xlsx in (Get-ChildItem -LiteralPath $InputDir -Filter "*.xlsx" -File -
         $parsed = Get-GmarketXlsx -Path $xlsx.FullName
         if ($parsed.ReportType -match '상품') { if (-not $gmarketItem) { $gmarketItem = $parsed }; $matched = $true }
         elseif ($parsed.ReportType -match '키워드') { if (-not $gmarketKeyword) { $gmarketKeyword = $parsed }; $matched = $true }
+        elseif ($parsed.ReportType -match '캠페인') { if (-not $gmarketCampaign) { $gmarketCampaign = $parsed }; $matched = $true }   # 캠페인별 리포트 (2.039)
     } catch { }
     if ($matched) { continue }
     $aParsed = $null
@@ -1134,7 +1136,8 @@ foreach ($xlsx in (Get-ChildItem -LiteralPath $InputDir -Filter "*.xlsx" -File -
 }
 $hasGmarketItem = [bool]$gmarketItem
 $hasGmarketKeyword = [bool]$gmarketKeyword
-$gmNewAvailable = ($hasGmarketItem -or $hasGmarketKeyword)
+$hasGmarketCampaign = [bool]$gmarketCampaign
+$gmNewAvailable = ($hasGmarketItem -or $hasGmarketKeyword -or $hasGmarketCampaign)
 $gmOldAvailable = [bool]($gmOldAI -or $gmOldGoods -or $gmOldKeyword)
 $gmarketAvailable = ($gmNewAvailable -or $gmOldAvailable)
 
@@ -1204,7 +1207,7 @@ foreach ($csv in (Get-ChildItem -LiteralPath $InputDir -Filter "*.csv" -File -Er
 $ohouseAvailable = ($ohKeywordFiles.Count -gt 0) -or ($ohProductFiles.Count -gt 0) -or ($ohProductTotalFiles.Count -gt 0) -or ($ohCategoryFiles.Count -gt 0) -or [bool]$ohCampaignDailyFile -or [bool]$ohCampaignFile -or [bool]$ohDailyFile
 
 if (-not ($hasPlacement -or $hasKeyword -or $hasHourly -or $hasRegion -or $gfaAvailable -or $hasDow -or $gmarketAvailable -or $auctionAvailable -or $elevenstAvailable -or $googleAvailable -or $metaAvailable -or $ohouseAvailable)) {
-    throw "'$sourceInputDir' 폴더에서 인식 가능한 리포트 파일을 하나도 찾지 못했습니다 (네이버: 지면별/캠페인별/검색어/시간대별/지역/GFA/요일_일자_기기별, 지마켓: 상품별/키워드별, 옥션: AI매출업/파워클릭 상품별/키워드별, 11번가: 광고상품별 일별, 구글, 메타, 오늘의집: 캠페인/상품/카테고리/검색어)."
+    throw "'$sourceInputDir' 폴더에서 인식 가능한 리포트 파일을 하나도 찾지 못했습니다 (네이버: 지면별/캠페인별/검색어/시간대별/지역/GFA/요일_일자_기기별, 지마켓: 캠페인별/상품별/키워드별, 옥션: AI매출업/파워클릭 상품별/키워드별, 11번가: 광고상품별 일별, 구글, 메타, 오늘의집: 캠페인/상품/카테고리/검색어)."
 }
 
 # ---------- 지면별 ----------
@@ -1582,9 +1585,54 @@ $gmTopKeywordsByCost = @()
 $gmKeywordUniqueCount = 0
 $gmZeroConvSpend = 0
 $gmPeriod = $null
+$gmByCampaign = @()
 
 if ($gmNewAvailable) {
-    $gmPeriod = if ($gmarketItem) { $gmarketItem.Period } else { $gmarketKeyword.Period }
+    $gmPeriod = if ($gmarketCampaign) { $gmarketCampaign.Period } elseif ($gmarketItem) { $gmarketItem.Period } else { $gmarketKeyword.Period }
+
+    # 캠페인별 리포트 (2.039, 사용자: "신 지마켓 광고센터에서 캠페인별 합계 데이터도 인식"). 보기 방식이 '합계'면 캠페인마다 한 줄,
+    # '날짜별'이면 캠페인 × 날짜 줄이라 캠페인유형 + 캠페인명으로 묶는다. 캠페인 단위가 광고비 전체라서,
+    # 이 파일이 있으면 요약 합계 · 캠페인 유형 비교는 이 파일로 만든다(상품별 리포트와 같은 광고비를 두 번 더하지 않게).
+    if ($hasGmarketCampaign) {
+        $gcAgg = [ordered]@{}
+        $gcTypeAgg = @{}
+        $gcTotalAgg = New-Agg
+        foreach ($r in $gmarketCampaign.Rows) {
+            $name = "$($r.'캠페인명')".Trim(); $ct = "$($r.'캠페인타입')".Trim()
+            if (-not $name -and -not $ct) { continue }
+            if ("$($r.'날짜')" -match '^\s*(합계|총계|전체)') { continue }   # 합계 줄이 있으면 뺀다(샘플에는 없음)
+            $imp = ToNum $r.'노출 수'; $clk = ToNum $r.'클릭 수'; $cost = ToNum $r.'광고 비용'
+            $conv = ToNum $r.'판매자 전환 수'; $rev = ToNum $r.'판매자 전환 금액'   # 상품별 리포트와 같은 기준(지마켓 '광고수익률'과 같은 계산)
+            $key = "$ct`t$name"
+            if (-not $gcAgg.Contains($key)) { $gcAgg[$key] = [PSCustomObject]@{ type = $ct; name = $name; agg = (New-Agg) } }
+            Add-Agg -Agg $gcAgg[$key].agg -Imp $imp -Clk $clk -Cost $cost -Conv $conv -Rev $rev
+            if (-not $gcTypeAgg.ContainsKey($ct)) { $gcTypeAgg[$ct] = New-Agg }
+            Add-Agg -Agg $gcTypeAgg[$ct] -Imp $imp -Clk $clk -Cost $cost -Conv $conv -Rev $rev
+            Add-Agg -Agg $gcTotalAgg -Imp $imp -Clk $clk -Cost $cost -Conv $conv -Rev $rev
+        }
+        $gmByCampaign = @(foreach ($e in $gcAgg.Values) {
+            $m = Metrics-FromAgg $e.agg
+            [PSCustomObject]@{
+                campaignType = $e.type
+                campaign     = $e.name
+                impressions  = $m.impressions; clicks = $m.clicks; ctr = $m.ctr
+                cost         = $m.cost; cpc = $m.cpc; conversions = $m.conversions
+                revenue      = $m.revenue; roas = $m.roas
+            }
+        })
+        $gmByCampaign = @($gmByCampaign | Sort-Object -Property cost -Descending)
+        $gmByCampaignType = @(foreach ($ct in $gcTypeAgg.Keys) {
+            $m = Metrics-FromAgg $gcTypeAgg[$ct]
+            [PSCustomObject]@{
+                type        = $ct
+                impressions = $m.impressions; clicks = $m.clicks; ctr = $m.ctr
+                cost        = $m.cost; cpc = $m.cpc; conversions = $m.conversions
+                revenue     = $m.revenue; roas = $m.roas
+            }
+        })
+        $gmByCampaignType = @($gmByCampaignType | Sort-Object -Property cost -Descending)
+        $gmOverview = Metrics-FromAgg $gcTotalAgg
+    }
 
     if ($hasGmarketItem) {
         $gmCampaignTypeAgg = @{}
@@ -1613,6 +1661,7 @@ if ($gmNewAvailable) {
         }
         $gmByProduct = @($gmList | Sort-Object -Property cost -Descending)
 
+        if (-not $hasGmarketCampaign) {   # 캠페인별 리포트가 있으면 합계 · 유형 비교는 그쪽 것을 쓴다
         $gmByCampaignType = @(foreach ($ct in $gmCampaignTypeAgg.Keys) {
             $m = Metrics-FromAgg $gmCampaignTypeAgg[$ct]
             [PSCustomObject]@{
@@ -1624,6 +1673,7 @@ if ($gmNewAvailable) {
         })
         $gmByCampaignType = @($gmByCampaignType | Sort-Object -Property cost -Descending)
         $gmOverview = Metrics-FromAgg $gmTotalAgg
+        }
     }
 
     if ($hasGmarketKeyword) {
@@ -2361,6 +2411,8 @@ $result = [PSCustomObject]@{
         period            = $gmPeriod
         overview          = $gmOverview
         byCampaignType    = $gmByCampaignType
+        byCampaign        = $gmByCampaign      # 신 광고센터 캠페인별 리포트 (2.039)
+        overviewSource    = $(if ($hasGmarketCampaign) { 'campaign' } elseif ($hasGmarketItem) { 'item' } elseif ($hasGmarketKeyword) { 'keyword' } else { $null })
         byProduct         = $gmByProduct
         topKeywordsByCost = $gmTopKeywordsByCost
         keywordStats      = [PSCustomObject]@{
