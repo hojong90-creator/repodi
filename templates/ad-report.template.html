@@ -527,6 +527,7 @@
       <a href="#gm-campaign" id="gm-nav-campaign" hidden>캠페인별 성과</a>
       <a href="#gm-product" id="gm-nav-product">상품별 성과</a>
       <a href="#gm-keywords" id="gm-nav-keywords">키워드</a>
+      <a href="#gm-old-daily" id="gm-nav-old-daily" hidden>구 광고센터 일별</a>
       <a href="#gm-old-product" id="gm-nav-old-product" hidden>구 광고센터 상품별</a>
       <a href="#gm-old-keywords" id="gm-nav-old-keywords" hidden>구 광고센터 키워드</a>
     </nav>
@@ -534,6 +535,7 @@
     <nav class="jump" id="auction-jump" hidden>
       <a href="#au-summary">요약</a>
       <a href="#au-compare" id="au-nav-compare">광고상품 비교</a>
+      <a href="#au-daily" id="au-nav-daily" hidden>일별 성과</a>
       <a href="#au-product" id="au-nav-product">상품별 성과</a>
       <a href="#au-keywords" id="au-nav-keywords">키워드</a>
     </nav>
@@ -940,6 +942,13 @@
     </section>
 
     <!-- 구 광고센터(옥션 광고센터에서 받은 지마켓, 파일 이름에 '구지마켓') 상품 · 키워드. 옥션 표와 같은 모양 (2.038) -->
+    <!-- 구 광고센터 파워클릭 기간별 리포트 (2.040) -->
+    <section id="gm-old-daily" hidden>
+      <h2>구 광고센터 일별 성과</h2>
+      <div class="section-sub" id="gm-old-daily-sub">옥션 광고센터에서 받은 지마켓 파워클릭 기간별 리포트 기준. 영역을 고르면 그 영역의 일별 성과만 봅니다</div>
+      <div id="gm-old-daily-body"></div>
+    </section>
+
     <section id="gm-old-product" hidden>
       <h2>상품별 성과 <span class="badge info">구 광고센터</span></h2>
       <div class="section-sub">옥션 광고센터에서 받은 지마켓 리포트, 비용 기준 상위 상품, 전체 <span id="gm-old-product-count">0</span>개 상품 (표는 스크롤하여 전체 확인 가능)</div>
@@ -991,7 +1000,7 @@
     <section id="au-summary">
       <h2>전체 요약</h2>
       <div class="section-sub" id="au-summary-sub">AI매출업, 파워클릭 합계</div>
-      <div class="warning-banner" id="au-impression-warning" hidden style="margin-bottom:16px;">⚠️ AI매출업 리포트는 노출수를 제공하지 않아, 위 노출수·클릭률은 파워클릭 데이터만 반영된 값입니다.</div>
+      <div class="warning-banner" id="au-impression-warning" hidden style="margin-bottom:16px;">⚠️ AI매출업 리포트는 노출수를 제공하지 않아, 위 노출수에는 AI매출업 노출이 빠져 있습니다(클릭률도 그만큼 높게 나옵니다).</div>
       <div class="kpi-grid" id="au-kpi-grid"></div>
       <div class="insights">
         <h3>이번 기간 눈에 띄는 포인트 <span class="insights-hint">(문구를 클릭해 수정하거나 지울 수 있습니다)</span></h3>
@@ -1004,6 +1013,13 @@
       <h2>광고상품 비교</h2>
       <div class="section-sub" id="au-compare-sub"></div>
       <div class="compare-grid" id="au-compare-grid"></div>
+    </section>
+
+    <!-- 파워클릭 기간별 리포트 (2.040) -->
+    <section id="au-daily" hidden>
+      <h2>일별 성과</h2>
+      <div class="section-sub" id="au-daily-sub">파워클릭 기간별 리포트 기준. 영역을 고르면 그 영역의 일별 성과만 봅니다</div>
+      <div id="au-daily-body"></div>
     </section>
 
     <section id="au-product">
@@ -2030,7 +2046,7 @@
   // 매체 공통: 캠페인별 표, 일별 성과
   // 네이버 검색광고, GFA, 구글, 메타가 같은 모양의 데이터(DATA.channels)로 그린다.
   // =====================================================================
-  const CH_COLOR = { naver: 'var(--ch-naver)', gfa: 'var(--ch-gfa)', google: 'var(--ch-google)', meta: 'var(--ch-meta)', ohouse: 'var(--accent)' };
+  const CH_COLOR = { naver: 'var(--ch-naver)', gfa: 'var(--ch-gfa)', google: 'var(--ch-google)', meta: 'var(--ch-meta)', ohouse: 'var(--accent)', auction: 'var(--accent)', gmold: 'var(--accent)' };
   const sumBy = (rows, key) => rows.reduce((s, r) => s + (r[key] || 0), 0);
   // 여러 줄을 합치고 비율 지표를 합계로 다시 계산한다. 금액은 같은 통화 줄끼리 합칠 때만 뜻이 있다.
   function totalsOf(rows){
@@ -2126,7 +2142,8 @@
 
   // 일별 성과: 매체, 캠페인 고르기 + 비용과 전환 막대 + 표
   // 고른 매체에 원화와 달러가 섞이면 비용 막대를 통화별로 나누고, 표에는 달러 금액 컬럼을 따로 보여준다.
-  function renderDailyBlock(box, id, channels){
+  function renderDailyBlock(box, id, channels, campLabel){
+    campLabel = campLabel || '캠페인';   // 옥션 파워클릭 기간별은 '영역' (2.040)
     const dates = Array.from(new Set(channels.reduce((a, c) => a.concat(c.byDate.map(d => d.date)), []))).sort();
     if (!dates.length) return false;
     const multi = channels.length > 1;
@@ -2134,7 +2151,7 @@
     const typeCols = convTypeCols(channels);
     box.innerHTML = '<div class="daily-ctl">'
       + (multi ? '<label>매체 <select id="' + id + '-media"></select></label>' : '')
-      + '<label>캠페인 <select id="' + id + '-camp"></select></label></div>'
+      + '<label>' + campLabel + ' <select id="' + id + '-camp"></select></label></div>'
       + '<div class="hourly-chart" style="margin-bottom:16px;">'
       + '<div id="' + id + '-cost-wrap"></div>'
       + '<div class="hourly-labels" id="' + id + '-labels"></div>'
@@ -2155,7 +2172,7 @@
       + channels.map(c => '<option value="' + c.key + '">' + escapeHtml(c.name) + '</option>').join('');
     function fillCampaigns(){
       const list = pickedChannels();
-      campSel.innerHTML = '<option value="">전체 캠페인</option>' + list.map(ch => ch.byCampaign.map((c, i) =>
+      campSel.innerHTML = '<option value="">전체 ' + campLabel + '</option>' + list.map(ch => ch.byCampaign.map((c, i) =>
         '<option value="' + ch.key + '|' + i + '">' + escapeHtml((list.length > 1 ? ch.name + ' / ' : '') + c.campaign) + '</option>').join('')).join('');
     }
     function currentRows(){
@@ -2543,6 +2560,35 @@
   // =====================================================================
   // 지마켓
   // =====================================================================
+  // 일별 데이터(옥션 광고센터 파워클릭 기간별)로 만드는 포인트 (2.040): 광고비가 가장 많은 날, ROAS가 가장 높은 날
+  function dailyPeakInsights(ch, prefix){
+    const days = ((ch && ch.byDate) || []).filter(d => d.cost > 0);
+    if (days.length < 2 || !isMetricVisible('cost')) return [];
+    const label = d => { const m = d.date.match(/(\d{4})\.(\d{2})\.(\d{2})/); return m ? (+m[2])+'월 '+(+m[3])+'일('+weekdayOf(d.date)+')' : d.date; };
+    const out = [];
+    const top = days.reduce((a, b) => b.cost > a.cost ? b : a);
+    out.push(prefix+'광고비가 가장 많았던 날은 <b>'+label(top)+'</b>로 '+fmtWon(top.cost)
+      +(isMetricVisible('conversions') ? ', 구매 '+fmtConv(top.conversions)+'건' : '')+'입니다.');
+    if (isMetricVisible('roas')){
+      const best = days.reduce((a, b) => b.roas > a.roas ? b : a);
+      out.push(prefix+'ROAS가 가장 높았던 날은 <b>'+label(best)+'</b>로 <b>'+fmtRoas(best.roas)+'</b>('+fmtWon(best.cost)+' 사용)입니다.');
+    }
+    return out;
+  }
+
+  // 옥션 광고센터 일별 섹션 (2.040): 설명 문구와 고르기 이름. kinds = ['AI매출업 일별', '파워클릭 기간별'] 중 들어간 것
+  function oldCenterDaily(boxId, subId, id, x, prefix){
+    const kinds = x.dailyKinds && x.dailyKinds.length ? x.dailyKinds : ['파워클릭 기간별'];   // 앞 버전 데이터는 파워클릭만
+    const pcOnly = kinds.length === 1 && kinds[0] === '파워클릭 기간별';
+    const label = pcOnly ? '영역' : '광고';
+    if (!renderDailyBlock($(boxId), id, [x.daily], label)) return false;
+    let t = prefix + kinds.join(', ') + ' 리포트 기준. ' + (pcOnly ? '영역을' : '광고를') + ' 고르면 그 일별 성과만 봅니다';
+    if (kinds.indexOf('AI매출업 일별') >= 0) t += '. AI매출업은 노출수가 없어 노출수에서 빠지고, CTR은 그만큼 높게 나옵니다';
+    if (x.pcSource === 'goods') t += '. 요약 합계는 상품별 리포트 기준이라 일별 합과 다를 수 있습니다';
+    $(subId).textContent = t;
+    return true;
+  }
+
   const GM = DATA.gmarket || { available:false };
   if (GM.available){
     // 구 광고센터(옥션 광고센터에서 받은 지마켓, 2.038): 요약 · 캠페인 유형 비교에는 이미 더해져 있고, 상품 · 키워드 표만 따로 그린다.
@@ -2551,7 +2597,7 @@
     renderKpis('gm-kpi-grid', overviewKpis(GM.overview, { cost: '광고비용' }));
     // 합계를 만든 리포트 (2.039부터 overviewSource. 캠페인별 > 상품별 > 키워드별 순으로 하나만 씀, 2.038 이하는 상품별로 봄)
     const srcName = { campaign: '캠페인별', item: '상품별', keyword: '키워드별' }[GM.overviewSource] || '상품별';
-    const sumLabel = GL ? (hasNew ? '신 광고센터 + 구 광고센터(옥션 광고센터에서 받은 지마켓) 합계' : '구 광고센터(옥션 광고센터에서 받은 지마켓) AI매출업, 파워클릭 합계') : '해당 기간 ' + srcName + ' 리포트 합계';
+    const sumLabel = GL ? (hasNew ? '신 광고센터 + 구 광고센터(옥션 광고센터에서 받은 지마켓) 합계' : '구 광고센터(옥션 광고센터에서 받은 지마켓) ' + ((GL.byAdType || []).map(t => t.type).join(', ') || 'AI매출업, 파워클릭') + ' 합계') : '해당 기간 ' + srcName + ' 리포트 합계';
     const sumPeriod = GM.period || (GL ? DATA.period : null);
     if (sumPeriod || GL) $('gm-summary-sub').textContent = sumLabel + (sumPeriod ? ', ' + formatPeriodWithDays(sumPeriod) : '');
     if (GL && GL.hasImpressionGap) $('gm-impression-warning').hidden = false;
@@ -2588,9 +2634,10 @@
       const convPart = isMetricVisible('conversions') ? ', 전환 '+topKw.conversions+'건' : '';
       ins.push('광고비가 가장 많이 투입된 키워드는 <b>‘'+escapeHtml(topKw.keyword)+'’</b>('+fmtWon(topKw.cost)+convPart+')'+(GL && hasNew && topKw === oldKw[0] ? ', 구 광고센터' : '')+'입니다.');
     }
+    if (GL && GL.daily) dailyPeakInsights(GL.daily, hasNew ? '구 광고센터에서 ' : '').forEach(x => ins.push(x));
     renderInsights('gm-insights-list', 'gmInsightAddBtn', ins);
 
-    if (types.length){
+    if (types.length > 1){   // 한 유형뿐이면 비교할 것이 없다 (2.040)
       $('gm-compare-sub').textContent = types.map(t=>t.type).join(', ') + ' 비교. 줄마다 가장 좋은 값은 초록 바탕으로 표시했습니다.';
       renderCompareCards('gm-compare-grid', types, r => r.type, cycleColor, { cost: '광고비용' });
     } else {
@@ -2624,6 +2671,9 @@
     } else {
       hideSection('gm-nav-keywords', 'gm-keywords');
     }
+    if (GL && GL.daily && oldCenterDaily('gm-old-daily-body', 'gm-old-daily-sub', 'gm-old-day', GL, '옥션 광고센터에서 받은 지마켓 ')){
+      $('gm-old-daily').hidden = false; $('gm-nav-old-daily').hidden = false;
+    }
     if (GL && GL.byProduct && GL.byProduct.length){
       $('gm-old-product').hidden = false; $('gm-nav-old-product').hidden = false;
       renderBarList($('gm-old-product-chart'), GL.byProduct.slice(0,10), {
@@ -2651,7 +2701,10 @@
   if (AU.available){
     if (AU.hasImpressionGap) $('au-impression-warning').hidden = false;
     renderKpis('au-kpi-grid', overviewKpis(AU.overview, { cost: '광고비용', conversions: '구매수', revenue: '구매금액' }));
-    if (DATA.period) $('au-summary-sub').textContent = 'AI매출업, 파워클릭 합계, ' + formatPeriodWithDays(DATA.period);
+    const auPeriod = DATA.period || AU.period;
+    const auKinds = (AU.byAdType || []).map(t => t.type).join(', ') || 'AI매출업, 파워클릭';
+    if (auPeriod) $('au-summary-sub').textContent = auKinds + ' 합계, ' + formatPeriodWithDays(auPeriod);
+    if (AU.aiCombined) $('au-summary-sub').textContent += '. AI매출업은 리포트가 지마켓과 옥션을 합쳐 나와 나눌 수 없어, 합친 숫자를 옥션에만 넣었습니다';
     const types = AU.byAdType || [];
     const ins = [];
     const gap = roasGapInsight(types, '');
@@ -2672,14 +2725,18 @@
       const convPart = isMetricVisible('conversions') ? ', 구매 '+topKw.conversions+'건' : '';
       ins.push('광고비가 가장 많이 투입된 키워드는 <b>‘'+escapeHtml(topKw.keyword)+'’</b>('+fmtWon(topKw.cost)+convPart+')입니다.');
     }
+    if (AU.daily) dailyPeakInsights(AU.daily, '').forEach(x => ins.push(x));
     renderInsights('au-insights-list', 'auInsightAddBtn', ins);
 
     const L = { cost: '광고비용', conversions: '구매수', revenue: '구매금액' };
-    if (types.length){
+    if (types.length > 1){   // 한 광고상품뿐이면 비교할 것이 없다 (2.040)
       $('au-compare-sub').textContent = types.map(t=>t.type).join(', ') + ' 비교. 줄마다 가장 좋은 값은 초록 바탕으로 표시했습니다.';
       renderCompareCards('au-compare-grid', types, r => r.type, cycleColor, L);
     } else {
       hideSection('au-nav-compare', 'au-compare');
+    }
+    if (AU.daily && oldCenterDaily('au-daily-body', 'au-daily-sub', 'au-day', AU, '')){
+      $('au-daily').hidden = false; $('au-nav-daily').hidden = false;
     }
     if (AU.byProduct && AU.byProduct.length){
       renderBarList($('au-product-chart'), AU.byProduct.slice(0,10), {

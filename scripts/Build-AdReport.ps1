@@ -232,8 +232,11 @@ function Get-AuctionXlsx {
     $headers = $rows[0]
     $reportType = $null
     if ($headers -contains '판매자기준-광고수익률' -and $headers -contains '상품번호') { $reportType = 'AI매출업_상품별' }
+    elseif ($headers -contains '판매자기준-광고수익률' -and $headers -contains '날짜별') { $reportType = 'AI매출업_일별' }   # 날짜마다 한 줄 (2.040)
     elseif ($headers -contains '광고상품번호') { $reportType = '파워클릭_상품별' }
     elseif ($headers -contains '키워드' -and $headers -contains '영역명') { $reportType = '파워클릭_키워드별' }
+    elseif ($headers -contains '그룹명' -and $headers -contains '영역명') { $reportType = $null }   # 파워클릭 그룹별은 캐츠온 엑셀에만 쓴다
+    elseif ($headers -contains '날짜' -and $headers -contains '영역명') { $reportType = '파워클릭_기간별' }   # 날짜마다 한 줄 (2.040)
     if (-not $reportType) { return $null }
 
     $dataRows = New-Object System.Collections.Generic.List[object]   # 줄마다 += 하면 배열을 매번 새로 만들어 줄이 많을 때 느려진다
@@ -1101,9 +1104,13 @@ $gmarketCampaign = $null
 $auctionAI = $null
 $auctionGoods = $null
 $auctionKeyword = $null
+$auctionPC = $null
+$auctionAIDaily = $null
 $gmOldAI = $null
 $gmOldGoods = $null
 $gmOldKeyword = $null
+$gmOldPC = $null
+$gmOldAIDaily = $null
 $oldCenterSeen = @{}   # '옥션|AI매출업_상품별' 같은 자리 → 파일 이름. 같은 자리에 파일이 둘이면 하나가 말없이 빠지므로 멈춘다.
 foreach ($xlsx in (Get-ChildItem -LiteralPath $InputDir -Filter "*.xlsx" -File -ErrorAction SilentlyContinue)) {
     $matched = $false
@@ -1129,22 +1136,26 @@ foreach ($xlsx in (Get-ChildItem -LiteralPath $InputDir -Filter "*.xlsx" -File -
         '옥션|AI매출업_상품별'     { $auctionAI = $aParsed }
         '옥션|파워클릭_상품별'     { $auctionGoods = $aParsed }
         '옥션|파워클릭_키워드별'   { $auctionKeyword = $aParsed }
+        '옥션|파워클릭_기간별'     { $auctionPC = $aParsed }
+        '옥션|AI매출업_일별'       { $auctionAIDaily = $aParsed }
         '구지마켓|AI매출업_상품별'   { $gmOldAI = $aParsed }
         '구지마켓|파워클릭_상품별'   { $gmOldGoods = $aParsed }
         '구지마켓|파워클릭_키워드별' { $gmOldKeyword = $aParsed }
+        '구지마켓|파워클릭_기간별'   { $gmOldPC = $aParsed }
+        '구지마켓|AI매출업_일별'     { $gmOldAIDaily = $aParsed }
     }
 }
 $hasGmarketItem = [bool]$gmarketItem
 $hasGmarketKeyword = [bool]$gmarketKeyword
 $hasGmarketCampaign = [bool]$gmarketCampaign
 $gmNewAvailable = ($hasGmarketItem -or $hasGmarketKeyword -or $hasGmarketCampaign)
-$gmOldAvailable = [bool]($gmOldAI -or $gmOldGoods -or $gmOldKeyword)
+$gmOldAvailable = [bool]($gmOldAI -or $gmOldGoods -or $gmOldKeyword -or $gmOldPC -or $gmOldAIDaily)
 $gmarketAvailable = ($gmNewAvailable -or $gmOldAvailable)
 
 $hasAuctionAI = [bool]$auctionAI
 $hasAuctionGoods = [bool]$auctionGoods
 $hasAuctionKeyword = [bool]$auctionKeyword
-$auctionAvailable = ($hasAuctionAI -or $hasAuctionGoods -or $hasAuctionKeyword)
+$auctionAvailable = ($hasAuctionAI -or $hasAuctionGoods -or $hasAuctionKeyword -or [bool]$auctionPC -or [bool]$auctionAIDaily)
 
 # ---------- 11번가 (광고상품별 일별 리포트 CSV) ----------
 # 네이버 CSV와 확장자가 같아 헤더('날짜' + '총 전환 금액')로 구분한다.
@@ -1207,7 +1218,7 @@ foreach ($csv in (Get-ChildItem -LiteralPath $InputDir -Filter "*.csv" -File -Er
 $ohouseAvailable = ($ohKeywordFiles.Count -gt 0) -or ($ohProductFiles.Count -gt 0) -or ($ohProductTotalFiles.Count -gt 0) -or ($ohCategoryFiles.Count -gt 0) -or [bool]$ohCampaignDailyFile -or [bool]$ohCampaignFile -or [bool]$ohDailyFile
 
 if (-not ($hasPlacement -or $hasKeyword -or $hasHourly -or $hasRegion -or $gfaAvailable -or $hasDow -or $gmarketAvailable -or $auctionAvailable -or $elevenstAvailable -or $googleAvailable -or $metaAvailable -or $ohouseAvailable)) {
-    throw "'$sourceInputDir' 폴더에서 인식 가능한 리포트 파일을 하나도 찾지 못했습니다 (네이버: 지면별/캠페인별/검색어/시간대별/지역/GFA/요일_일자_기기별, 지마켓: 캠페인별/상품별/키워드별, 옥션: AI매출업/파워클릭 상품별/키워드별, 11번가: 광고상품별 일별, 구글, 메타, 오늘의집: 캠페인/상품/카테고리/검색어)."
+    throw "'$sourceInputDir' 폴더에서 인식 가능한 리포트 파일을 하나도 찾지 못했습니다 (네이버: 지면별/캠페인별/검색어/시간대별/지역/GFA/요일_일자_기기별, 지마켓: 캠페인별/상품별/키워드별, 옥션: AI매출업 상품별/일별, 파워클릭 상품별/키워드별/기간별, 11번가: 광고상품별 일별, 구글, 메타, 오늘의집: 캠페인/상품/카테고리/검색어)."
 }
 
 # ---------- 지면별 ----------
@@ -1708,8 +1719,16 @@ if ($gmNewAvailable) {
 
 # ---------- 옥션 광고센터 리포트 (AI매출업 + 파워클릭 상품별/키워드별) ----------
 # 옥션과 지마켓(구 광고센터, 파일 이름에 '구지마켓')이 같은 양식이라 같은 함수로 묶는다 (2.038).
+function ConvertTo-AuctionDate($v) {
+    # 옥션 광고센터 '날짜' 칸: 엑셀 날짜 일련번호(45658 = 2025-01-01)이거나 '2025-01-01' 같은 글자. 보고서 날짜 모양 'YYYY.MM.DD.'로 바꾼다.
+    $t = "$v".Trim()
+    if ($t -match '^\d{5}(\.\d+)?$') { return [DateTime]::FromOADate([double]$t).ToString('yyyy.MM.dd.') }
+    if ($t -match '(\d{4})\D(\d{1,2})\D(\d{1,2})') { return '{0}.{1:D2}.{2:D2}.' -f $matches[1], [int]$matches[2], [int]$matches[3] }
+    return $null
+}
+
 function Get-OldCenterData {
-    param($AI, $Goods, $Keyword)
+    param($AI, $Goods, $Keyword, $PC, $AIDaily)
     $auOverview = $null
     $auByAdType = @()
     $auByProduct = @()
@@ -1745,6 +1764,56 @@ function Get-OldCenterData {
         }
     }
 
+    # 일별 데이터 (2.040): 파워클릭 기간별(날짜마다 한 줄, 영역별), AI매출업 일별(날짜마다 한 줄, 노출수 없음).
+    # 일별 차트에 쓰고, 같은 광고상품의 상품별 리포트가 없을 때만 합계도 이 파일로 낸다(둘 다 있으면 같은 광고비라 상품별로만 더한다).
+    # 둘 다 있으면 차트의 고르기 목록이 'AI매출업', '파워클릭 (영역)'이 된다.
+    $pcChannel = $null; $pcPeriod = $null
+    if ($PC -or $AIDaily) {
+        $pcChannel = New-Channel
+        if ($AIDaily) {
+            foreach ($r in $AIDaily.Rows) {
+                $d = ConvertTo-AuctionDate $r.'날짜별'
+                if (-not $d) { continue }   # 합계 줄 등
+                $clk = ToNum $r.'클릭수'; $cost = ToNum $r.'총비용'
+                $conv = ToNum $r.'판매자기준-구매수'; $rev = ToNum $r.'판매자기준-구매금액'   # AI매출업 상품별과 같은 '판매자기준'
+                [AdFast]::AddChannelRow($pcChannel, 'AI매출업', 'AI매출업', $d, 0, $clk, $cost, $conv, $rev)
+                if (-not $AI) {
+                    $auHasImpressionGap = $true
+                    if (-not $auAdTypeAgg.ContainsKey('AI매출업')) { $auAdTypeAgg['AI매출업'] = New-Agg }
+                    Add-Agg -Agg $auAdTypeAgg['AI매출업'] -Imp 0 -Clk $clk -Cost $cost -Conv $conv -Rev $rev
+                    Add-Agg -Agg $auTotalAgg -Imp 0 -Clk $clk -Cost $cost -Conv $conv -Rev $rev
+                }
+            }
+        }
+        if ($PC) {
+            foreach ($r in $PC.Rows) {
+                $d = ConvertTo-AuctionDate $r.'날짜'
+                if (-not $d) { continue }
+                $imp = ToNum $r.'노출수'; $clk = ToNum $r.'클릭수'; $cost = ToNum $r.'총비용'
+                $conv = ToNum $r.'구매수'; $rev = ToNum $r.'구매금액'
+                $area = "$($r.'영역명')".Trim()
+                $name = if ($AIDaily) { "파워클릭 ($area)" } else { $area }
+                [AdFast]::AddChannelRow($pcChannel, '파워클릭', $name, $d, $imp, $clk, $cost, $conv, $rev)
+                if (-not $Goods) {
+                    if (-not $auAdTypeAgg.ContainsKey('파워클릭')) { $auAdTypeAgg['파워클릭'] = New-Agg }
+                    Add-Agg -Agg $auAdTypeAgg['파워클릭'] -Imp $imp -Clk $clk -Cost $cost -Conv $conv -Rev $rev
+                    Add-Agg -Agg $auTotalAgg -Imp $imp -Clk $clk -Cost $cost -Conv $conv -Rev $rev
+                }
+            }
+        }
+        $days = @($pcChannel.day.Keys | Sort-Object)
+        if ($days.Count) {
+            $pcPeriod = "$($days[0])~$($days[-1])"
+            # 이 리포트는 광고가 돈 날만 담는다(AI매출업 일별 2월 파일이 2/5부터). 한 달 안에서 15일 이상이고 1일에 시작하거나
+            # 말일에 끝나면 그달 전체로 본다. 그대로 두면 25일 미만이라 'N주차' 주간 보고서 이름이 붙었다 (2026-11-06).
+            $d0 = [DateTime]::ParseExact($days[0], 'yyyy.MM.dd.', $null); $d1 = [DateTime]::ParseExact($days[-1], 'yyyy.MM.dd.', $null)
+            $monthEnd = $d0.AddDays(1 - $d0.Day).AddMonths(1).AddDays(-1)
+            if ($d0.Year -eq $d1.Year -and $d0.Month -eq $d1.Month -and ($d1 - $d0).TotalDays -ge 14 -and ($d0.Day -eq 1 -or $d1.Date -eq $monthEnd.Date)) {
+                $pcPeriod = $d0.ToString('yyyy.MM.') + '01.~' + $monthEnd.ToString('yyyy.MM.dd.')
+            }
+        } else { $pcChannel = $null }
+    }
+
     if ($Goods) {
         foreach ($r in $Goods.Rows) {
             $imp = ToNum $r.'노출수'; $clk = ToNum $r.'클릭수'; $cost = ToNum $r.'총비용'
@@ -1778,7 +1847,7 @@ function Get-OldCenterData {
     })
     $auByAdType = @($auByAdType | Sort-Object -Property cost -Descending)
 
-    if ($AI -or $Goods) {
+    if ($AI -or $Goods -or $pcChannel) {
         $auOverview = Metrics-FromAgg $auTotalAgg
     }
 
@@ -1819,6 +1888,11 @@ function Get-OldCenterData {
         keywordUniqueCount = $auKeywordUniqueCount
         zeroConvSpend      = [int64]$auZeroConvSpend
         hasImpressionGap   = $auHasImpressionGap
+        pcChannel          = $pcChannel   # 파워클릭 기간별 일별 (아래에서 ConvertTo-ChannelData로 바꿈)
+        pcPeriod           = $pcPeriod
+        # 상품별 리포트가 있으면 합계는 그쪽이 내서 일별 합과 다를 수 있다 → 'goods'. 일별 파일만으로 합계를 냈으면 'period'
+        pcSource           = $(if ($pcChannel -and ($AI -or $Goods)) { 'goods' } elseif ($pcChannel) { 'period' } else { $null })
+        dailyKinds         = @(@($(if ($AIDaily) { 'AI매출업 일별' }), $(if ($PC) { '파워클릭 기간별' })) | Where-Object { $_ })
     }
 }
 
@@ -1831,7 +1905,7 @@ $auKeywordUniqueCount = 0
 $auZeroConvSpend = 0
 $auHasImpressionGap = $false
 if ($auctionAvailable) {
-    $au = Get-OldCenterData -AI $auctionAI -Goods $auctionGoods -Keyword $auctionKeyword
+    $au = Get-OldCenterData -AI $auctionAI -Goods $auctionGoods -Keyword $auctionKeyword -PC $auctionPC -AIDaily $auctionAIDaily
     $auOverview = $au.overview; $auByAdType = $au.byAdType; $auByProduct = $au.byProduct
     $auTopKeywordsByCost = $au.topKeywordsByCost; $auKeywordUniqueCount = $au.keywordUniqueCount
     $auZeroConvSpend = $au.zeroConvSpend; $auHasImpressionGap = $au.hasImpressionGap
@@ -1842,7 +1916,7 @@ if ($auctionAvailable) {
 # (구 광고센터 상품은 상품번호만 있고, 지표 이름도 달라 한 표로 섞지 않는다). 두 센터는 서로 다른 캠페인을 운영한다고 보고 더한다.
 $gmOld = $null
 if ($gmOldAvailable) {
-    $gmOld = Get-OldCenterData -AI $gmOldAI -Goods $gmOldGoods -Keyword $gmOldKeyword
+    $gmOld = Get-OldCenterData -AI $gmOldAI -Goods $gmOldGoods -Keyword $gmOldKeyword -PC $gmOldPC -AIDaily $gmOldAIDaily
     $oldTypes = @(foreach ($t in $gmOld.byAdType) {
         $c = $t.PSObject.Copy(); $c.type = "구 광고센터 $($t.type)"; $c
     })
@@ -2227,6 +2301,23 @@ if ($ohouseAvailable) {
     $ohChannelData = ConvertTo-ChannelData -Key 'ohouse' -Name '오늘의집' -Period $ohPeriod -Overview $ohOverview -Channel $ohChannel
 }
 
+# ---------- 옥션 광고센터 파워클릭 기간별 → 일별 데이터 (2.040) ----------
+# ConvertTo-ChannelData가 위에서 정의된 뒤라 여기서 바꾼다. 화면은 오늘의집과 같은 일별 성과 블록(renderDailyBlock)으로 그린다.
+$auDaily = $null; $auPeriod = $null
+if ($auctionAvailable -and $au.pcChannel) {
+    $auPeriod = $au.pcPeriod
+    $auDaily = ConvertTo-ChannelData -Key 'auction' -Name '옥션' -Period $au.pcPeriod -Overview (Metrics-FromAgg $au.pcChannel.total) -Channel $au.pcChannel
+}
+$gmOldDaily = $null
+if ($gmOld -and $gmOld.pcChannel) {
+    $gmOldDaily = ConvertTo-ChannelData -Key 'gmold' -Name '구 광고센터' -Period $gmOld.pcPeriod -Overview (Metrics-FromAgg $gmOld.pcChannel.total) -Channel $gmOld.pcChannel
+}
+# 지마켓 신 광고센터 기간 '2026-10-01 ~ 2026-10-31'을 보고서 기간 모양으로 (지마켓 · 옥션만 넣었을 때 제목의 월, 파일 이름에 쓴다)
+$gmPeriodDots = $null
+if ($gmPeriod -and "$gmPeriod" -match '(\d{4})\D(\d{2})\D(\d{2})\D+(\d{4})\D(\d{2})\D(\d{2})') {
+    $gmPeriodDots = "$($matches[1]).$($matches[2]).$($matches[3]).~$($matches[4]).$($matches[5]).$($matches[6])."
+}
+
 # ---------- 대표 기간 결정 (지면별 > 시간대별 > 검색어 > 지역별 순 우선) ----------
 $canonicalPeriod = $null
 $periodSourceLabel = $null
@@ -2240,6 +2331,9 @@ elseif ($stPeriod)         { $canonicalPeriod = $stPeriod;        $periodSourceL
 elseif ($ohPeriod)         { $canonicalPeriod = $ohPeriod;        $periodSourceLabel = "오늘의집" }
 elseif ($googlePeriod)     { $canonicalPeriod = $googlePeriod;    $periodSourceLabel = "구글" }
 elseif ($metaPeriod)       { $canonicalPeriod = $metaPeriod;      $periodSourceLabel = "메타" }
+elseif ($gmPeriodDots)     { $canonicalPeriod = $gmPeriodDots;    $periodSourceLabel = "지마켓" }
+elseif ($gmOld -and $gmOld.pcPeriod) { $canonicalPeriod = $gmOld.pcPeriod; $periodSourceLabel = "구지마켓 일별" }
+elseif ($auPeriod)         { $canonicalPeriod = $auPeriod;        $periodSourceLabel = "옥션 일별" }
 
 if ($gfaPeriod -and $canonicalPeriod -and ($gfaPeriod -ne $canonicalPeriod) -and $periodSourceLabel -ne "GFA") {
     $gfaPeriodDiffNote = "GFA 리포트 기간($gfaPeriod)이 검색광고 리포트 기간($canonicalPeriod)과 다릅니다. 다운로드 시 기간 설정을 확인해주세요."
@@ -2251,6 +2345,21 @@ $periodDiffs = @()
 if ($googlePeriod -and $canonicalPeriod -and $googlePeriod -ne $canonicalPeriod) { $periodDiffs += "구글 $googlePeriod" }
 if ($metaPeriod -and $canonicalPeriod -and $metaPeriod -ne $canonicalPeriod) { $periodDiffs += "메타 $metaPeriod" }
 if ($gfaPeriod -and $canonicalPeriod -and $gfaPeriod -ne $canonicalPeriod) { $periodDiffs += "GFA $gfaPeriod" }
+# ---------- 옥션 AI매출업: 2026년 10월까지는 지마켓 + 옥션 합친 숫자 (2.040) ----------
+# 사용자(2026-11-06): AI매출업 리포트는 지마켓과 옥션이 합쳐져 나와 사이트별로 나눌 수 없다. 옥션 탭에만 한 번 넣고 합친 숫자라고 적는다.
+# 2026년 11월부터는 AI매출업이 옥션뿐이라 그냥 'AI매출업'. 기준은 보고서 기간 시작일(AI매출업 일별만 넣었으면 그 날짜). 기간을 모르면 옥션으로 본다.
+# 이름에 '구지마켓'을 넣은 AI매출업 파일은 사용자가 정한 것이라 예전처럼 지마켓 탭으로 간다.
+$auAiCombined = $false
+if ($auctionAvailable -and @($auByAdType | Where-Object { $_.type -eq 'AI매출업' }).Count -gt 0 -and "$canonicalPeriod" -match '^(\d{4})\.(\d{2})\.') {
+    $auAiCombined = (([int]$matches[1]) * 100 + [int]$matches[2]) -lt 202611
+}
+if ($auAiCombined) {
+    $aiLabel = 'AI매출업 (지마켓+옥션)'
+    foreach ($t in $auByAdType) { if ($t.type -eq 'AI매출업') { $t.type = $aiLabel } }
+    foreach ($p in $auByProduct) { if ($p.adType -eq 'AI매출업') { $p.adType = $aiLabel } }
+    if ($auDaily) { foreach ($c in $auDaily.byCampaign) { if ($c.campaignType -eq 'AI매출업') { $c.campaignType = $aiLabel; $c.campaign = $aiLabel } } }
+}
+
 if ($periodDiffs.Count -gt 0) { $channelPeriodNote = "매체별 데이터 기간이 다릅니다 (기준 $canonicalPeriod, $($periodDiffs -join ', ')). 해당 기간에 집행이 없었던 것이 아니라면 파일 기간을 확인해 주세요." }
 
 # ---------- 전체 요약 (검색광고 + GFA 통합) ----------
@@ -2427,6 +2536,9 @@ $result = [PSCustomObject]@{
             byProduct         = $gmOld.byProduct
             topKeywordsByCost = $gmOld.topKeywordsByCost
             hasImpressionGap  = $gmOld.hasImpressionGap
+            daily             = $gmOldDaily   # 파워클릭 기간별 (2.040)
+            pcSource          = $gmOld.pcSource
+            dailyKinds        = $gmOld.dailyKinds
             keywordStats      = [PSCustomObject]@{
                 totalUniqueKeywords = $gmOld.keywordUniqueCount
                 zeroConversionSpend = [int64]$gmOld.zeroConvSpend
@@ -2440,6 +2552,11 @@ $result = [PSCustomObject]@{
         byProduct         = $auByProduct
         topKeywordsByCost = $auTopKeywordsByCost
         hasImpressionGap  = $auHasImpressionGap
+        period            = $auPeriod     # 파워클릭 기간별이 있을 때만 (2.040)
+        daily             = $auDaily
+        pcSource          = $(if ($auctionAvailable) { $au.pcSource } else { $null })
+        dailyKinds        = $(if ($auctionAvailable) { $au.dailyKinds } else { @() })
+        aiCombined        = $auAiCombined   # AI매출업이 지마켓 + 옥션 합친 숫자 (2026년 10월까지)
         keywordStats      = [PSCustomObject]@{
             totalUniqueKeywords = $auKeywordUniqueCount
             zeroConversionSpend = [int64]$auZeroConvSpend

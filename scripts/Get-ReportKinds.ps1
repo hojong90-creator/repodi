@@ -175,11 +175,11 @@ function Get-XlsxKind([string]$Path) {
         $row = @($row)
         if ($row.Count -ge 2 -and "$($row[0])" -eq '리포트 종류') { return "지마켓 $("$($row[1])".Trim())" }
     }
-    if ($first -contains '판매자기준-광고수익률') { return $(if ($first -contains '상품번호') { '옥션 AI매출업 상품별' } else { '옥션 AI매출업 일별 (엑셀 보고서용)' }) }
+    if ($first -contains '판매자기준-광고수익률') { return $(if ($first -contains '상품번호') { '옥션 AI매출업 상품별' } else { '옥션 AI매출업 일별' }) }
     if ($first -contains '광고상품번호') { return '옥션 파워클릭 상품별' }
     if (($first -contains '영역명') -and ($first -contains '키워드')) { return '옥션 파워클릭 키워드별' }
     if (($first -contains '영역명') -and ($first -contains '그룹명')) { return '옥션 파워클릭 그룹별 (엑셀 보고서용)' }
-    if (($first -contains '영역명') -and ($first -contains '날짜')) { return '옥션 파워클릭 기간별 (엑셀 보고서용)' }
+    if (($first -contains '영역명') -and ($first -contains '날짜')) { return '옥션 파워클릭 기간별' }   # 2.040부터 HTML 보고서에도 쓴다
     return '? 인식 못 함'
 }
 
