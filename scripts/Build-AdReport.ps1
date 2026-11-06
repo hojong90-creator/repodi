@@ -1092,11 +1092,18 @@ $hasDow       = [bool]$dowFile
 
 # ---------- 지마켓 (상품별/키워드별) / 옥션 (AI매출업/파워클릭 상품별/키워드별) xlsx ----------
 # 지마켓은 xlsx 내부의 '리포트 종류' 값으로, 옥션은 헤더의 고유 컬럼명으로 구분한다.
+# 지마켓 광고센터가 새로 바뀐 뒤에도 예전 광고센터(옥션 광고센터)에서 지마켓 광고를 함께 운영한다(2.038).
+# 그곳에서 받은 지마켓 리포트는 옥션 리포트와 컬럼이 같아 내용으로는 구별할 수 없어서, 파일 이름에 '구지마켓'(띄어 써도 됨)이 있으면 지마켓(구 광고센터)으로 본다.
+# Get-ReportKinds.ps1, Build-ExcelReport.ps1도 같은 규칙. 규칙을 바꾸면 함께 고칠 것.
 $gmarketItem = $null
 $gmarketKeyword = $null
 $auctionAI = $null
 $auctionGoods = $null
 $auctionKeyword = $null
+$gmOldAI = $null
+$gmOldGoods = $null
+$gmOldKeyword = $null
+$oldCenterSeen = @{}   # '옥션|AI매출업_상품별' 같은 자리 → 파일 이름. 같은 자리에 파일이 둘이면 하나가 말없이 빠지므로 멈춘다.
 foreach ($xlsx in (Get-ChildItem -LiteralPath $InputDir -Filter "*.xlsx" -File -ErrorAction SilentlyContinue)) {
     $matched = $false
     try {
@@ -1104,22 +1111,32 @@ foreach ($xlsx in (Get-ChildItem -LiteralPath $InputDir -Filter "*.xlsx" -File -
         if ($parsed.ReportType -match '상품') { if (-not $gmarketItem) { $gmarketItem = $parsed }; $matched = $true }
         elseif ($parsed.ReportType -match '키워드') { if (-not $gmarketKeyword) { $gmarketKeyword = $parsed }; $matched = $true }
     } catch { }
-    if (-not $matched) {
-        try {
-            $aParsed = Get-AuctionXlsx -Path $xlsx.FullName
-            if ($aParsed) {
-                switch ($aParsed.ReportType) {
-                    'AI매출업_상품별'   { if (-not $auctionAI) { $auctionAI = $aParsed } }
-                    '파워클릭_상품별'   { if (-not $auctionGoods) { $auctionGoods = $aParsed } }
-                    '파워클릭_키워드별' { if (-not $auctionKeyword) { $auctionKeyword = $aParsed } }
-                }
-            }
-        } catch { }
+    if ($matched) { continue }
+    $aParsed = $null
+    try { $aParsed = Get-AuctionXlsx -Path $xlsx.FullName } catch { }
+    if (-not $aParsed) { continue }
+    $isOldGm = (($xlsx.BaseName -replace '\s', '') -match '구지마켓')
+    $slot = $(if ($isOldGm) { '구지마켓' } else { '옥션' }) + '|' + $aParsed.ReportType
+    if ($oldCenterSeen.ContainsKey($slot)) {
+        $kindName = ($slot -replace '\|', ' ') -replace '_', ' '
+        Stop-WithMessage ("같은 종류의 리포트가 두 개 있습니다 ($kindName):`n$($oldCenterSeen[$slot])`n$($xlsx.Name)`n`n" +
+            "옥션 광고센터에서 받은 지마켓 리포트라면 파일 이름에 '구지마켓'을 넣어 주세요. 같은 파일을 두 번 넣었다면 하나를 빼 주세요.")
+    }
+    $oldCenterSeen[$slot] = $xlsx.Name
+    switch ($slot) {
+        '옥션|AI매출업_상품별'     { $auctionAI = $aParsed }
+        '옥션|파워클릭_상품별'     { $auctionGoods = $aParsed }
+        '옥션|파워클릭_키워드별'   { $auctionKeyword = $aParsed }
+        '구지마켓|AI매출업_상품별'   { $gmOldAI = $aParsed }
+        '구지마켓|파워클릭_상품별'   { $gmOldGoods = $aParsed }
+        '구지마켓|파워클릭_키워드별' { $gmOldKeyword = $aParsed }
     }
 }
 $hasGmarketItem = [bool]$gmarketItem
 $hasGmarketKeyword = [bool]$gmarketKeyword
-$gmarketAvailable = ($hasGmarketItem -or $hasGmarketKeyword)
+$gmNewAvailable = ($hasGmarketItem -or $hasGmarketKeyword)
+$gmOldAvailable = [bool]($gmOldAI -or $gmOldGoods -or $gmOldKeyword)
+$gmarketAvailable = ($gmNewAvailable -or $gmOldAvailable)
 
 $hasAuctionAI = [bool]$auctionAI
 $hasAuctionGoods = [bool]$auctionGoods
@@ -1566,7 +1583,7 @@ $gmKeywordUniqueCount = 0
 $gmZeroConvSpend = 0
 $gmPeriod = $null
 
-if ($gmarketAvailable) {
+if ($gmNewAvailable) {
     $gmPeriod = if ($gmarketItem) { $gmarketItem.Period } else { $gmarketKeyword.Period }
 
     if ($hasGmarketItem) {
@@ -1639,23 +1656,25 @@ if ($gmarketAvailable) {
     }
 }
 
-# ---------- 옥션 (AI매출업 + 파워클릭 상품별/키워드별, 네이버·지마켓과 완전히 별개 매체) ----------
-$auOverview = $null
-$auByAdType = @()
-$auByProduct = @()
-$auTopKeywordsByCost = @()
-$auKeywordUniqueCount = 0
-$auZeroConvSpend = 0
-$auHasImpressionGap = $false
+# ---------- 옥션 광고센터 리포트 (AI매출업 + 파워클릭 상품별/키워드별) ----------
+# 옥션과 지마켓(구 광고센터, 파일 이름에 '구지마켓')이 같은 양식이라 같은 함수로 묶는다 (2.038).
+function Get-OldCenterData {
+    param($AI, $Goods, $Keyword)
+    $auOverview = $null
+    $auByAdType = @()
+    $auByProduct = @()
+    $auTopKeywordsByCost = @()
+    $auKeywordUniqueCount = 0
+    $auZeroConvSpend = 0
+    $auHasImpressionGap = $false
 
-if ($auctionAvailable) {
     $auTotalAgg = New-Agg
     $auAdTypeAgg = @{}
     $auList = New-Object System.Collections.Generic.List[object]
 
-    if ($hasAuctionAI) {
+    if ($AI) {
         $auHasImpressionGap = $true  # AI매출업 리포트에는 노출수 컬럼 자체가 없음
-        foreach ($r in $auctionAI.Rows) {
+        foreach ($r in $AI.Rows) {
             $imp = 0
             $clk = ToNum $r.'클릭수'; $cost = ToNum $r.'총비용'
             # '판매자기준' 지표를 쓴다 (옥션 자체 '판매자기준-광고수익률' 컬럼과 동일한 계산식).
@@ -1676,8 +1695,8 @@ if ($auctionAvailable) {
         }
     }
 
-    if ($hasAuctionGoods) {
-        foreach ($r in $auctionGoods.Rows) {
+    if ($Goods) {
+        foreach ($r in $Goods.Rows) {
             $imp = ToNum $r.'노출수'; $clk = ToNum $r.'클릭수'; $cost = ToNum $r.'총비용'
             $conv = ToNum $r.'구매수'; $rev = ToNum $r.'구매금액'
 
@@ -1709,13 +1728,13 @@ if ($auctionAvailable) {
     })
     $auByAdType = @($auByAdType | Sort-Object -Property cost -Descending)
 
-    if ($hasAuctionAI -or $hasAuctionGoods) {
+    if ($AI -or $Goods) {
         $auOverview = Metrics-FromAgg $auTotalAgg
     }
 
-    if ($hasAuctionKeyword) {
+    if ($Keyword) {
         $auKwAgg = @{}
-        foreach ($r in $auctionKeyword.Rows) {
+        foreach ($r in $Keyword.Rows) {
             $k = $r.'키워드'
             $imp = ToNum $r.'노출수'; $clk = ToNum $r.'클릭수'; $cost = ToNum $r.'총비용'
             $conv = ToNum $r.'구매수'; $rev = ToNum $r.'구매금액'
@@ -1741,6 +1760,49 @@ if ($auctionAvailable) {
             $auOverview = New-Metrics -Impressions ($auAllKeywords | Measure-Object -Property impressions -Sum).Sum -Clicks ($auAllKeywords | Measure-Object -Property clicks -Sum).Sum -Cost ($auAllKeywords | Measure-Object -Property cost -Sum).Sum -Conversions ($auAllKeywords | Measure-Object -Property conversions -Sum).Sum -Revenue ($auAllKeywords | Measure-Object -Property revenue -Sum).Sum
         }
     }
+
+    [PSCustomObject]@{
+        overview           = $auOverview
+        byAdType           = $auByAdType
+        byProduct          = $auByProduct
+        topKeywordsByCost  = $auTopKeywordsByCost
+        keywordUniqueCount = $auKeywordUniqueCount
+        zeroConvSpend      = [int64]$auZeroConvSpend
+        hasImpressionGap   = $auHasImpressionGap
+    }
+}
+
+# ---------- 옥션 (네이버·지마켓과 완전히 별개 매체) ----------
+$auOverview = $null
+$auByAdType = @()
+$auByProduct = @()
+$auTopKeywordsByCost = @()
+$auKeywordUniqueCount = 0
+$auZeroConvSpend = 0
+$auHasImpressionGap = $false
+if ($auctionAvailable) {
+    $au = Get-OldCenterData -AI $auctionAI -Goods $auctionGoods -Keyword $auctionKeyword
+    $auOverview = $au.overview; $auByAdType = $au.byAdType; $auByProduct = $au.byProduct
+    $auTopKeywordsByCost = $au.topKeywordsByCost; $auKeywordUniqueCount = $au.keywordUniqueCount
+    $auZeroConvSpend = $au.zeroConvSpend; $auHasImpressionGap = $au.hasImpressionGap
+}
+
+# ---------- 지마켓 구 광고센터 (옥션 광고센터에서 받은 지마켓 리포트, 파일 이름에 '구지마켓') ----------
+# 신 광고센터와 같은 지마켓 탭에 넣는다: 요약 합계 · 캠페인 유형 비교는 두 센터를 더하고, 상품별 · 키워드 표는 센터별로 따로 둔다
+# (구 광고센터 상품은 상품번호만 있고, 지표 이름도 달라 한 표로 섞지 않는다). 두 센터는 서로 다른 캠페인을 운영한다고 보고 더한다.
+$gmOld = $null
+if ($gmOldAvailable) {
+    $gmOld = Get-OldCenterData -AI $gmOldAI -Goods $gmOldGoods -Keyword $gmOldKeyword
+    $oldTypes = @(foreach ($t in $gmOld.byAdType) {
+        $c = $t.PSObject.Copy(); $c.type = "구 광고센터 $($t.type)"; $c
+    })
+    if ($gmOverview -and $gmOld.overview) {
+        $a = $gmOverview; $b = $gmOld.overview
+        $gmOverview = New-Metrics -Impressions ($a.impressions + $b.impressions) -Clicks ($a.clicks + $b.clicks) -Cost ($a.cost + $b.cost) -Conversions ($a.conversions + $b.conversions) -Revenue ($a.revenue + $b.revenue)
+    } elseif ($gmOld.overview) {
+        $gmOverview = $gmOld.overview
+    }
+    $gmByCampaignType = @(@($gmByCampaignType) + $oldTypes | Sort-Object -Property cost -Descending)
 }
 
 # ---------- 11번가 (광고상품별 일별 리포트, 다른 매체와 완전히 별개 매체) ----------
@@ -2305,6 +2367,19 @@ $result = [PSCustomObject]@{
             totalUniqueKeywords = $gmKeywordUniqueCount
             zeroConversionSpend = [int64]$gmZeroConvSpend
         }
+        hasNewCenter      = $gmNewAvailable
+        # 구 광고센터(옥션 광고센터에서 받은 지마켓). overview는 위 합계에 이미 더했다.
+        legacy            = $(if ($gmOld) { [PSCustomObject]@{
+            overview          = $gmOld.overview
+            byAdType          = $gmOld.byAdType
+            byProduct         = $gmOld.byProduct
+            topKeywordsByCost = $gmOld.topKeywordsByCost
+            hasImpressionGap  = $gmOld.hasImpressionGap
+            keywordStats      = [PSCustomObject]@{
+                totalUniqueKeywords = $gmOld.keywordUniqueCount
+                zeroConversionSpend = [int64]$gmOld.zeroConvSpend
+            }
+        } } else { $null })
     }
     auction          = [PSCustomObject]@{
         available         = $auctionAvailable

@@ -151,8 +151,11 @@ try {
     $xl.DisplayAlerts = $false
 
     # ---------- 입력 파일 분류 ----------
-    # 지마켓은 파일 안의 '리포트 종류' 값으로, 옥션은 1행 헤더의 컬럼명으로 구분한다. 같은 종류가 여러 개면 첫 파일만 쓴다.
-    $gm = @{}; $au = @{}
+    # 지마켓은 파일 안의 '리포트 종류' 값으로, 옥션은 1행 헤더의 컬럼명으로 구분한다. 지마켓은 같은 종류가 여러 개면 첫 파일만 쓴다.
+    # 옥션 광고센터에서 받은 지마켓 리포트(구 광고센터)는 옥션과 양식이 같아, 파일 이름에 '구지마켓'(띄어 써도 됨)이 있으면 따로 모은다 (2.038).
+    # 옥션 양식 파일은 같은 종류가 둘이면 하나가 말없이 빠지므로 멈춘다. Build-AdReport.ps1 · Get-ReportKinds.ps1과 같은 규칙.
+    $gm = @{}; $au = @{}; $gmo = @{}
+    $oldSeen = @{}
     $gmPeriod = $null
     foreach ($f in (Get-ChildItem -LiteralPath $InputDir -Filter '*.xlsx' -File | Where-Object { $_.Name -notlike '~$*' })) {
         $rows = Read-Sheet $xl $f.FullName
@@ -182,17 +185,103 @@ try {
         elseif ($h -contains '영역명' -and $h -contains '키워드') { $key = 'keyword' }
         elseif ($h -contains '영역명' -and $h -contains '그룹명') { $key = 'group' }
         elseif ($h -contains '영역명' -and $h -contains '날짜') { $key = 'daily' }
-        if ($key -and -not $au.ContainsKey($key)) { $au[$key] = To-Records $rows 0 }
+        if (-not $key) { continue }
+        $isOldGm = (($f.BaseName -replace '\s', '') -match '구지마켓')
+        $slot = $(if ($isOldGm) { '구지마켓' } else { '옥션' }) + " $key"
+        if ($oldSeen.ContainsKey($slot)) {
+            throw ("같은 종류의 리포트가 두 개 있습니다:`n$($oldSeen[$slot])`n$($f.Name)`n`n" +
+                "옥션 광고센터에서 받은 지마켓 리포트라면 파일 이름에 '구지마켓'을 넣어 주세요. 같은 파일을 두 번 넣었다면 하나를 빼 주세요.")
+        }
+        $oldSeen[$slot] = $f.Name
+        if ($isOldGm) { $gmo[$key] = To-Records $rows 0 } else { $au[$key] = To-Records $rows 0 }
     }
 
-    if ($gm.Count -eq 0 -and $au.Count -eq 0) {
+    if ($gm.Count -eq 0 -and $au.Count -eq 0 -and $gmo.Count -eq 0) {
         [Console]::Error.WriteLine("지마켓 · 옥션 리포트 파일(xlsx)을 찾지 못했습니다.")
         exit 2
     }
     if (-not (Test-Path -LiteralPath $OutputDir)) { New-Item -ItemType Directory -Path $OutputDir | Out-Null }
     $std = '노출 수', '클릭 수', '판매자 전환 수', '광고 비용', '판매자 전환 금액'
 
+    # ---------- 옥션 광고센터 양식 (옥션, 구지마켓) ----------
+    # 옥션 양식(excel-auction.template.xlsx)을 열어 값을 채운 통합 문서를 돌려준다. 저장은 부르는 쪽에서.
+    function Fill-OldCenterWorkbook($src, [string]$Media) {
+        # 옥션 리포트에는 기간 정보가 없어 일별 리포트의 날짜 범위를 쓴다. 일별 리포트가 없으면 지난달로 본다.
+        $allDates = @()
+        foreach ($pair in @(@('daily', '날짜'), @('aiDaily', '날짜별'))) {
+            if ($src.ContainsKey($pair[0])) { $allDates += @($src[$pair[0]] | ForEach-Object { ToDate $_[$pair[1]] } | Where-Object { $_ }) }
+        }
+        if ($allDates.Count -gt 0) {
+            $sorted = @($allDates | Sort-Object)
+            $from = $sorted[0].Date; $to = $sorted[-1].Date
+        } else {
+            $from = (Get-Date -Day 1).Date.AddMonths(-1); $to = $from.AddMonths(1).AddDays(-1)
+        }
+        $pc = '노출수', '클릭수', '구매수', '총비용', '구매금액'
+        $ai = '클릭수', '총비용', '광고상품기준-주문수', '광고상품기준-구매수', '광고상품기준-구매금액', '판매자기준-주문수', '판매자기준-구매수', '판매자기준-구매금액'
+        $wb = $xl.Workbooks.Open((Join-Path $TemplateDir 'excel-auction.template.xlsx'), 0, $true)
+
+        if ($Media -ne '옥션') {
+            # 구지마켓: 옥션 양식의 제목 글자에서 '옥션'만 바꾼다 (양식에서 '옥션'은 시트 제목 칸에만 있다)
+            foreach ($wsR in $wb.Worksheets) { [void]$wsR.UsedRange.Replace('옥션', $Media, 2) }
+        }
+        $ws = $wb.Worksheets.Item('월간 사이트 요약')
+        $ws.Range('B20').Value2 = "지난달 $Media 현황 ($($from.ToString('yyyy-MM-dd')) ~ $($to.ToString('yyyy-MM-dd')))"
+        Set-MonthLabels $ws 25 $from
+        Set-MonthLabels $ws 53 $from
+
+        $recs = if ($src.ContainsKey('daily')) { $src['daily'] } else { @() }
+        Fill-Table $wb.Worksheets.Item('기간별(파워클릭)') 23 (Daily-Rows $recs '날짜' $pc $from $to) @('B') @('C', 'D', 'E', 'H', 'I') 'B' 'L' $false
+        if ($src.ContainsKey('group')) {
+            $items = Sort-Rows (Sum-By $src['group'] @('그룹명') $pc) @(4, 3, 1, 0)
+            Fill-Table $wb.Worksheets.Item('그룹별(파워클릭)') 8 $items @('B') @('C', 'D', 'E', 'H', 'I') 'B' 'L'
+        }
+        if ($src.ContainsKey('goods')) {
+            $items = Sort-Rows (Sum-By $src['goods'] @('광고상품번호') $pc) @(4, 3, 1, 0)
+            Fill-Table $wb.Worksheets.Item('상품별(파워클릭)') 8 $items @('B') @('C', 'D', 'E', 'H', 'I') 'B' 'L'
+        }
+        if ($src.ContainsKey('keyword')) {
+            # 완성본 기준: 클릭이 1회 이상 있었던 키워드만 싣는다.
+            $all = Sum-By $src['keyword'] @('키워드') $pc
+            $items = @($all | Where-Object { $_.nums[1] -gt 0 })
+            Fill-Table $wb.Worksheets.Item('키워드별(파워클릭)') 8 (Sort-Rows $items @(4, 3, 1, 0)) @('B') @('C', 'D', 'E', 'H', 'I') 'B' 'L'
+        }
+
+        $recs = if ($src.ContainsKey('aiDaily')) { $src['aiDaily'] } else { @() }
+        Fill-Table $wb.Worksheets.Item('기간별(AI매출업)') 24 (Daily-Rows $recs '날짜별' $ai $from $to) @('B') @('C', 'E', 'F', 'G', 'H', 'I', 'J', 'K') 'B' 'M' $false
+        if ($src.ContainsKey('aiGoods')) {
+            $items = Sort-Rows (Sum-By $src['aiGoods'] @('판매자 ID', '그룹명', '상품번호') $ai) @(7, 1, 0)
+            Fill-Table $wb.Worksheets.Item('상품별(AI매출업)') 9 $items @('B', 'C', 'D') @('E', 'G', 'H', 'I', 'J', 'K', 'L', 'M') 'B' 'O'
+            # 그룹별(AI매출업)은 옥션에서 받는 리포트가 따로 없어, 수치는 기간별 합계를 참조하고 이름만 채운다.
+            if ($items.Count -gt 0) {
+                $wsG = $wb.Worksheets.Item('그룹별(AI매출업)')
+                $wsG.Range('B9').Value2 = "$($items[0].keys[0])"
+                $wsG.Range('C9').Value2 = "$($items[0].keys[1])"
+            }
+        }
+
+        return @{ wb = $wb; from = $from }
+    }
+
+    # ---------- 구지마켓: 지마켓 엑셀에 시트를 따로 붙인다 ----------
+    # 사용자: "구지마켓 데이터 탭을 따로 만들자" (2.038). 신 광고센터 시트는 그대로 두고, 옥션 양식 시트 전부를 '구지마켓 ' 이름으로 뒤에 붙인다.
+    # 시트끼리 서로 참조하는 수식 · 차트가 있어서, 이름을 먼저 바꾸고(같은 통합 문서 안에서는 수식이 따라간다) 한 번에 함께 복사한다.
+    # 함께 복사한 시트끼리의 참조는 복사본을 가리킨다. 혹시 남은 원본 통합 문서 연결은 값으로 끊는다.
+    $gmOld = $null
+    if ($gmo.Count -gt 0) {
+        $gmOld = @(Fill-OldCenterWorkbook $gmo '구 지마켓')[-1]
+        foreach ($wsR in @($gmOld.wb.Worksheets)) { $wsR.Name = "구지마켓 $($wsR.Name)" }
+    }
+
     # ---------- 지마켓 ----------
+    if ($gm.Count -eq 0 -and $gmOld) {
+        # 구지마켓 리포트만 있으면 구지마켓 시트만 담아 지마켓 파일로 저장한다
+        $out = Get-OutputPath '지마켓' $gmOld.from
+        $gmOld.wb.Worksheets.Item(1).Activate()
+        $gmOld.wb.SaveAs($out, 51)
+        $gmOld.wb.Close($false)
+        $created += $out
+    }
     if ($gm.Count -gt 0) {
         if (-not $gmPeriod) { throw "지마켓 리포트에서 기간을 읽지 못했습니다." }
         $from = $gmPeriod[0]; $to = $gmPeriod[1]
@@ -226,6 +315,14 @@ try {
             Fill-Table $wb.Worksheets.Item('키워드별 리포트') 8 $items @('B', 'C', 'D', 'E') @('F', 'G', 'H', 'K', 'L') 'B' 'O'
         }
 
+        if ($gmOld) {
+            $oldSheets = $gmOld.wb.Worksheets
+            $oldSheets.Copy([System.Reflection.Missing]::Value, $wb.Worksheets.Item($wb.Worksheets.Count))
+            $gmOld.wb.Close($false)
+            $links = $wb.LinkSources(1)   # xlExcelLinks
+            if ($links) { foreach ($l in @($links)) { $wb.BreakLink($l, 1) } }
+        }
+
         $out = Get-OutputPath '지마켓' $from
         $wb.Worksheets.Item(1).Activate()
         $wb.SaveAs($out, 51)
@@ -233,62 +330,14 @@ try {
         $created += $out
     }
 
+
     # ---------- 옥션 ----------
     if ($au.Count -gt 0) {
-        # 옥션 리포트에는 기간 정보가 없어 일별 리포트의 날짜 범위를 쓴다. 일별 리포트가 없으면 지난달로 본다.
-        $allDates = @()
-        foreach ($pair in @(@('daily', '날짜'), @('aiDaily', '날짜별'))) {
-            if ($au.ContainsKey($pair[0])) { $allDates += @($au[$pair[0]] | ForEach-Object { ToDate $_[$pair[1]] } | Where-Object { $_ }) }
-        }
-        if ($allDates.Count -gt 0) {
-            $sorted = @($allDates | Sort-Object)
-            $from = $sorted[0].Date; $to = $sorted[-1].Date
-        } else {
-            $from = (Get-Date -Day 1).Date.AddMonths(-1); $to = $from.AddMonths(1).AddDays(-1)
-        }
-        $pc = '노출수', '클릭수', '구매수', '총비용', '구매금액'
-        $ai = '클릭수', '총비용', '광고상품기준-주문수', '광고상품기준-구매수', '광고상품기준-구매금액', '판매자기준-주문수', '판매자기준-구매수', '판매자기준-구매금액'
-        $wb = $xl.Workbooks.Open((Join-Path $TemplateDir 'excel-auction.template.xlsx'), 0, $true)
-
-        $ws = $wb.Worksheets.Item('월간 사이트 요약')
-        $ws.Range('B20').Value2 = "지난달 옥션 현황 ($($from.ToString('yyyy-MM-dd')) ~ $($to.ToString('yyyy-MM-dd')))"
-        Set-MonthLabels $ws 25 $from
-        Set-MonthLabels $ws 53 $from
-
-        $recs = if ($au.ContainsKey('daily')) { $au['daily'] } else { @() }
-        Fill-Table $wb.Worksheets.Item('기간별(파워클릭)') 23 (Daily-Rows $recs '날짜' $pc $from $to) @('B') @('C', 'D', 'E', 'H', 'I') 'B' 'L' $false
-        if ($au.ContainsKey('group')) {
-            $items = Sort-Rows (Sum-By $au['group'] @('그룹명') $pc) @(4, 3, 1, 0)
-            Fill-Table $wb.Worksheets.Item('그룹별(파워클릭)') 8 $items @('B') @('C', 'D', 'E', 'H', 'I') 'B' 'L'
-        }
-        if ($au.ContainsKey('goods')) {
-            $items = Sort-Rows (Sum-By $au['goods'] @('광고상품번호') $pc) @(4, 3, 1, 0)
-            Fill-Table $wb.Worksheets.Item('상품별(파워클릭)') 8 $items @('B') @('C', 'D', 'E', 'H', 'I') 'B' 'L'
-        }
-        if ($au.ContainsKey('keyword')) {
-            # 완성본 기준: 클릭이 1회 이상 있었던 키워드만 싣는다.
-            $all = Sum-By $au['keyword'] @('키워드') $pc
-            $items = @($all | Where-Object { $_.nums[1] -gt 0 })
-            Fill-Table $wb.Worksheets.Item('키워드별(파워클릭)') 8 (Sort-Rows $items @(4, 3, 1, 0)) @('B') @('C', 'D', 'E', 'H', 'I') 'B' 'L'
-        }
-
-        $recs = if ($au.ContainsKey('aiDaily')) { $au['aiDaily'] } else { @() }
-        Fill-Table $wb.Worksheets.Item('기간별(AI매출업)') 24 (Daily-Rows $recs '날짜별' $ai $from $to) @('B') @('C', 'E', 'F', 'G', 'H', 'I', 'J', 'K') 'B' 'M' $false
-        if ($au.ContainsKey('aiGoods')) {
-            $items = Sort-Rows (Sum-By $au['aiGoods'] @('판매자 ID', '그룹명', '상품번호') $ai) @(7, 1, 0)
-            Fill-Table $wb.Worksheets.Item('상품별(AI매출업)') 9 $items @('B', 'C', 'D') @('E', 'G', 'H', 'I', 'J', 'K', 'L', 'M') 'B' 'O'
-            # 그룹별(AI매출업)은 옥션에서 받는 리포트가 따로 없어, 수치는 기간별 합계를 참조하고 이름만 채운다.
-            if ($items.Count -gt 0) {
-                $wsG = $wb.Worksheets.Item('그룹별(AI매출업)')
-                $wsG.Range('B9').Value2 = "$($items[0].keys[0])"
-                $wsG.Range('C9').Value2 = "$($items[0].keys[1])"
-            }
-        }
-
-        $out = Get-OutputPath '옥션' $from
-        $wb.Worksheets.Item(1).Activate()
-        $wb.SaveAs($out, 51)
-        $wb.Close($false)
+        $r = @(Fill-OldCenterWorkbook $au '옥션')[-1]
+        $out = Get-OutputPath '옥션' $r.from
+        $r.wb.Worksheets.Item(1).Activate()
+        $r.wb.SaveAs($out, 51)
+        $r.wb.Close($false)
         $created += $out
     }
 } catch {

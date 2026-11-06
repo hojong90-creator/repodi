@@ -153,21 +153,24 @@
   @keyframes busySpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
   #status.err{color:#AE4A18;}
   #status.ok{color:#00583F;font-weight:600;}
-  #resultActions{display:none;margin-top:8px;overflow:hidden;}
+  /* '폴더 열기'는 항상 보이고, '보고서 열기'는 이번에 만든 보고서가 있을 때만 왼쪽에 나온다(has-report). */
+  #resultActions{margin-top:8px;overflow:hidden;}
   #resultActions button{
-    float:left;width:50%;height:36px;
+    float:left;width:100%;height:36px;
     border:1px solid #00805D;border-radius:4px;
     background:#FFFFFF;color:#00583F;font-weight:600;font-size:12.5px;
     cursor:pointer;font-family:inherit;
   }
-  #resultActions button:first-child{width:49%;margin-right:1%;}
+  #openReportBtn{display:none;}
+  #resultActions.has-report #openReportBtn{display:block;width:49%;margin-right:1%;}
+  #resultActions.has-report #openFolderBtn{width:50%;}
 </style>
 </head>
 <body onload="init()">
 <div class="wrap">
   <div id="appHead">
     <img id="logo" src="assets/logo.png">
-    <h1>레포디<span id="appVersion">ver 2.037</span></h1>
+    <h1>레포디<span id="appVersion">ver 2.038</span></h1>
     <button id="shortcutBtn" type="button" onclick="makeDesktopShortcut()" title="바탕화면에 레포디 바로가기를 다시 만듭니다">바탕화면 바로가기</button>
     <button id="guideBtn" type="button" onclick="openGuide()" title="사용가이드 PDF를 엽니다">사용가이드</button>
   </div>
@@ -229,8 +232,8 @@
 
       <div id="status"></div>
       <div id="resultActions">
-        <button onclick="openReport()">보고서 열기</button>
-        <button onclick="openFolder()">폴더 열기</button>
+        <button id="openReportBtn" onclick="openReport()">보고서 열기</button>
+        <button id="openFolderBtn" onclick="openFolder()">폴더 열기</button>
       </div>
     </div>
   </div>
@@ -867,7 +870,7 @@ function generateReport(){
   }
 
   document.getElementById("generateBtn").disabled = true;
-  document.getElementById("resultActions").style.display = "none";
+  showReportBtn(false);
   if (!wantHtml) {
     setStatus("", "");
     generateExcelReport(outputDir);
@@ -914,7 +917,7 @@ function resolvePendingReport(){
     if (ok) {
       fso.CopyFile(pending, target, true);
       lastOutputPath = target;
-      document.getElementById("resultActions").style.display = "block";
+      showReportBtn(true);
       setStatus("기존 보고서를 덮어써서 완료되었습니다!", "ok");
     } else {
       setStatus("생성을 취소했습니다. 기존 보고서는 그대로 남아 있습니다.", "");
@@ -936,7 +939,7 @@ function pollExec(exec, outputDir, beforeTime){
 
   if (exec.ExitCode === 0) {
     lastOutputPath = findLatestHtml(outputDir, beforeTime);
-    document.getElementById("resultActions").style.display = "block";
+    showReportBtn(true);
     if (lastOutputPath) {
       setStatus("완료되었습니다!", "ok");
     } else {
@@ -995,7 +998,7 @@ function pollExcelExec(exec, prevText, prevCls){
         if (!document.getElementById("htmlChk").checked && names.length === 1) { lastOutputPath = lines[i]; }
       }
     }
-    document.getElementById("resultActions").style.display = "block";
+    showReportBtn(true);
     setStatus(prevText + "엑셀 보고서 " + names.length + "개 생성: " + names.join(", "), prevCls);
   } else {
     var errText = "";
@@ -1030,7 +1033,7 @@ function generateTrendReport(){
 
   document.getElementById("generateBtn").disabled = true;
   document.getElementById("trendBtn").disabled = true;
-  document.getElementById("resultActions").style.display = "none";
+  showReportBtn(false);
   setStatus("'" + clientName + "' 업체의 기존 보고서를 모아 월별 추이 보고서를 만드는 중입니다...", "");
 
   var beforeTime = new Date();
@@ -1058,7 +1061,7 @@ function pollTrendExec(exec, outputDir, beforeTime){
 
   if (exec.ExitCode === 0) {
     lastOutputPath = findLatestHtml(outputDir, beforeTime);
-    document.getElementById("resultActions").style.display = "block";
+    showReportBtn(true);
     if (lastOutputPath) {
       setStatus("월별 추이 보고서가 완료되었습니다!", "ok");
     } else {
@@ -1090,6 +1093,13 @@ function findLatestHtml(outputDir, beforeTime){
   return latestPath;
 }
 
+// '보고서 열기' 버튼: 생성을 시작하면 숨기고(지난 결과 경로도 지움), 끝나서 열 파일이 있을 때만 보인다.
+// '폴더 열기'는 이와 관계없이 항상 보인다.
+function showReportBtn(show){
+  if (!show) { lastOutputPath = ""; }
+  document.getElementById("resultActions").className = (show && lastOutputPath) ? "has-report" : "";
+}
+
 function openReport(){
   if (!lastOutputPath) { return; }
   var shell = new ActiveXObject("WScript.Shell");
@@ -1108,8 +1118,11 @@ function openGuide(){
 }
 
 function openFolder(){
+  var dir = scriptDir + "\\생성된 보고서";
+  // 버튼이 항상 보이므로 보고서를 한 번도 만들지 않은 PC에서도 누를 수 있다. 폴더가 없으면 만들어서 연다.
+  try { if (!fso.FolderExists(dir)) { fso.CreateFolder(dir); } } catch (e) {}
   var shell = new ActiveXObject("WScript.Shell");
-  shell.Run('explorer.exe "' + scriptDir + '\\생성된 보고서"');
+  shell.Run('explorer.exe "' + dir + '"');
 }
 </script>
 </body>

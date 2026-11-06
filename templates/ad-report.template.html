@@ -309,6 +309,14 @@
     color:var(--ink-faint);font-size:calc(11.5px * var(--fs-mult));line-height:1.7;
   }
   .footnote b{color:var(--ink-muted);}
+  /* 하단 주석(데이터 출처, 전환 기준 등)은 기본으로 접어 두고 눌러서 펼친다 (2.037). 인쇄도 화면에서 펼친 상태 그대로 찍힌다. */
+  .badge[hidden]{display:none;}   /* 지마켓 '신 광고센터' 표시처럼 상황에 따라 숨기는 배지 (.badge의 display가 hidden 속성을 이기지 않게) */
+  .footnote-box summary{
+    cursor:pointer;width:max-content;color:var(--ink-muted);font-weight:600;
+    font-size:calc(12px * var(--fs-mult));user-select:none;
+  }
+  .footnote-box summary:hover{color:var(--ink);}
+  .footnote-box[open] summary{margin-bottom:6px;}
 
   /* tooltip */
   #tooltip{
@@ -518,6 +526,8 @@
       <a href="#gm-compare" id="gm-nav-compare">캠페인 유형 비교</a>
       <a href="#gm-product" id="gm-nav-product">상품별 성과</a>
       <a href="#gm-keywords" id="gm-nav-keywords">키워드</a>
+      <a href="#gm-old-product" id="gm-nav-old-product" hidden>구 광고센터 상품별</a>
+      <a href="#gm-old-keywords" id="gm-nav-old-keywords" hidden>구 광고센터 키워드</a>
     </nav>
 
     <nav class="jump" id="auction-jump" hidden>
@@ -844,6 +854,7 @@
     <section id="gm-summary">
       <h2>전체 요약</h2>
       <div class="section-sub" id="gm-summary-sub">해당 기간 상품별 리포트 합계</div>
+      <div class="warning-banner" id="gm-impression-warning" hidden style="margin-bottom:16px;">⚠️ 구 광고센터 AI매출업 리포트는 노출수를 제공하지 않아, 위 노출수에는 구 광고센터 AI매출업 노출이 빠져 있습니다(클릭률도 그만큼 높게 나옵니다).</div>
       <div class="kpi-grid" id="gm-kpi-grid"></div>
       <div class="insights">
         <h3>이번 기간 눈에 띄는 포인트 <span class="insights-hint">(문구를 클릭해 수정하거나 지울 수 있습니다)</span></h3>
@@ -859,7 +870,7 @@
     </section>
 
     <section id="gm-product">
-      <h2>상품별 성과</h2>
+      <h2>상품별 성과 <span class="badge info gm-center-badge" hidden>신 광고센터</span></h2>
       <div class="section-sub">비용 기준 상위 상품, 전체 <span id="gm-product-count">0</span>개 상품 (표는 스크롤하여 전체 확인 가능)</div>
       <div class="barlist barlist-wide" id="gm-product-chart" style="margin-bottom:20px;"></div>
       <div class="table-scroll">
@@ -883,7 +894,7 @@
     </section>
 
     <section id="gm-keywords">
-      <h2>인기 키워드 TOP 20</h2>
+      <h2>인기 키워드 TOP 20 <span class="badge info gm-center-badge" hidden>신 광고센터</span></h2>
       <div class="section-sub">비용 기준 상위 20개 키워드 (전체 <span id="gm-kw-total">0</span>개 키워드 중)</div>
       <div class="table-scroll">
         <table id="gm-keyword-table">
@@ -896,6 +907,53 @@
             <th data-key="cost">광고비용</th>
             <th data-key="conversions">전환수</th>
             <th data-key="revenue">전환매출액</th>
+            <th data-key="roas">ROAS</th>
+            <th class="txt" data-metric="conversions">상태</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 구 광고센터(옥션 광고센터에서 받은 지마켓, 파일 이름에 '구지마켓') 상품 · 키워드. 옥션 표와 같은 모양 (2.038) -->
+    <section id="gm-old-product" hidden>
+      <h2>상품별 성과 <span class="badge info">구 광고센터</span></h2>
+      <div class="section-sub">옥션 광고센터에서 받은 지마켓 리포트, 비용 기준 상위 상품, 전체 <span id="gm-old-product-count">0</span>개 상품 (표는 스크롤하여 전체 확인 가능)</div>
+      <div class="barlist barlist-wide" id="gm-old-product-chart" style="margin-bottom:20px;"></div>
+      <div class="table-scroll">
+        <table id="gm-old-product-table">
+          <thead><tr>
+            <th class="txt" data-key="adType">광고상품</th>
+            <th class="txt" data-key="group">그룹/영역</th>
+            <th class="txt" data-key="product">상품번호</th>
+            <th data-key="impressions">노출수</th>
+            <th data-key="clicks">클릭수</th>
+            <th data-key="ctr">CTR</th>
+            <th data-key="cpc">CPC</th>
+            <th data-key="cost">광고비용</th>
+            <th data-key="conversions">구매수</th>
+            <th data-key="revenue">구매금액</th>
+            <th data-key="roas">ROAS</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="gm-old-keywords" hidden>
+      <h2>인기 키워드 TOP 20 <span class="badge info">구 광고센터 파워클릭</span></h2>
+      <div class="section-sub">비용 기준 상위 20개 키워드 (전체 <span id="gm-old-kw-total">0</span>개 키워드 중)</div>
+      <div class="table-scroll">
+        <table id="gm-old-keyword-table">
+          <thead><tr>
+            <th class="txt" data-key="keyword">키워드</th>
+            <th data-key="impressions">노출수</th>
+            <th data-key="clicks">클릭수</th>
+            <th data-key="ctr">CTR</th>
+            <th data-key="cpc">CPC</th>
+            <th data-key="cost">광고비용</th>
+            <th data-key="conversions">구매수</th>
+            <th data-key="revenue">구매금액</th>
             <th data-key="roas">ROAS</th>
             <th class="txt" data-metric="conversions">상태</th>
           </tr></thead>
@@ -1111,7 +1169,10 @@
     </section>
   </div><!-- /panel-ohouse -->
 
-  <div class="footnote" id="footnote"></div>
+  <details class="footnote footnote-box">
+    <summary>참고 사항 (데이터 출처, 전환 기준)</summary>
+    <div id="footnote"></div>
+  </details>
 </div>
 
 <div id="tooltip" class="hidden"></div>
@@ -2460,27 +2521,39 @@
   // =====================================================================
   const GM = DATA.gmarket || { available:false };
   if (GM.available){
+    // 구 광고센터(옥션 광고센터에서 받은 지마켓, 2.038): 요약 · 캠페인 유형 비교에는 이미 더해져 있고, 상품 · 키워드 표만 따로 그린다.
+    const GL = GM.legacy || null;
+    const hasNew = GM.hasNewCenter !== false;   // 2.037 이하 보고서에는 이 값이 없다(신 광고센터만 있던 때)
     renderKpis('gm-kpi-grid', overviewKpis(GM.overview, { cost: '광고비용' }));
-    if (GM.period) $('gm-summary-sub').textContent = '해당 기간 상품별 리포트 합계, ' + formatPeriodWithDays(GM.period);
+    const sumLabel = GL ? (hasNew ? '신 광고센터 + 구 광고센터(옥션 광고센터에서 받은 지마켓) 합계' : '구 광고센터(옥션 광고센터에서 받은 지마켓) AI매출업, 파워클릭 합계') : '해당 기간 상품별 리포트 합계';
+    const sumPeriod = GM.period || (GL ? DATA.period : null);
+    if (sumPeriod || GL) $('gm-summary-sub').textContent = sumLabel + (sumPeriod ? ', ' + formatPeriodWithDays(sumPeriod) : '');
+    if (GL && GL.hasImpressionGap) $('gm-impression-warning').hidden = false;
+    if (GL && hasNew) document.querySelectorAll('.gm-center-badge').forEach(b => { b.hidden = false; });
     const types = GM.byCampaignType || [];
     const ins = [];
-    const gap = roasGapInsight(types, ' 캠페인');
+    const gap = roasGapInsight(types, GL ? '' : ' 캠페인');
     if (gap) ins.push(gap);
     const share = topCostShare(types, GM.overview.cost);
     if (share) ins.push('광고비 비중이 가장 큰 캠페인 유형은 <b>'+escapeHtml(share.top.type)+'</b>로, 전체 광고비의 <b>'+share.pct+'%</b>('+fmtWon(share.top.cost)+')를 차지합니다.');
-    if (isMetricVisible('conversions') && isMetricVisible('cost') && GM.topKeywordsByCost && GM.topKeywordsByCost.length && GM.overview.cost>0){
-      const zeroSpend = GM.keywordStats.zeroConversionSpend;
+    const newKw = GM.topKeywordsByCost || [], oldKw = GL ? (GL.topKeywordsByCost || []) : [];
+    if (isMetricVisible('conversions') && isMetricVisible('cost') && (newKw.length || oldKw.length) && GM.overview.cost>0){
+      const zeroSpend = (newKw.length ? GM.keywordStats.zeroConversionSpend : 0) + (oldKw.length ? GL.keywordStats.zeroConversionSpend : 0);
       ins.push('전환이 발생하지 않은 키워드에 <b>'+fmtWon(zeroSpend)+'</b>이 소진되어, 전체 광고비의 <b>'+(zeroSpend/GM.overview.cost*100).toFixed(1)+'%</b>를 차지합니다.');
     }
-    const topProduct = (GM.byProduct || [])[0];
+    // 가장 비용이 큰 상품 · 키워드는 두 센터를 통틀어 고른다. 구 광고센터 상품은 상품번호뿐이라 그렇게 적는다.
+    const newTopP = (GM.byProduct || [])[0], oldTopP = GL ? (GL.byProduct || [])[0] : null;
+    const topProduct = (oldTopP && (!newTopP || oldTopP.cost > newTopP.cost)) ? oldTopP : newTopP;
     if (isMetricVisible('cost') && topProduct){
       const convPart = isMetricVisible('conversions') ? ', 전환 '+topProduct.conversions+'건' : '';
-      ins.push('광고비가 가장 많이 투입된 상품은 <b>‘'+escapeHtml(topProduct.product)+'’</b>('+fmtWon(topProduct.cost)+convPart+')입니다.');
+      const isOld = topProduct === oldTopP;
+      const name = isOld ? '상품번호 '+escapeHtml(topProduct.product) : escapeHtml(topProduct.product);
+      ins.push('광고비가 가장 많이 투입된 상품은 <b>‘'+name+'’</b>('+(isOld ? '구 광고센터 '+escapeHtml(topProduct.adType||'')+', ' : '')+fmtWon(topProduct.cost)+convPart+')입니다.');
     }
-    const topKw = (GM.topKeywordsByCost || [])[0];
+    const topKw = (oldKw[0] && (!newKw[0] || oldKw[0].cost > newKw[0].cost)) ? oldKw[0] : newKw[0];
     if (isMetricVisible('cost') && topKw){
       const convPart = isMetricVisible('conversions') ? ', 전환 '+topKw.conversions+'건' : '';
-      ins.push('광고비가 가장 많이 투입된 키워드는 <b>‘'+escapeHtml(topKw.keyword)+'’</b>('+fmtWon(topKw.cost)+convPart+')입니다.');
+      ins.push('광고비가 가장 많이 투입된 키워드는 <b>‘'+escapeHtml(topKw.keyword)+'’</b>('+fmtWon(topKw.cost)+convPart+')'+(GL && hasNew && topKw === oldKw[0] ? ', 구 광고센터' : '')+'입니다.');
     }
     renderInsights('gm-insights-list', 'gmInsightAddBtn', ins);
 
@@ -2509,6 +2582,24 @@
       createTable('gm-keyword-table', GM.topKeywordsByCost);
     } else {
       hideSection('gm-nav-keywords', 'gm-keywords');
+    }
+    if (GL && GL.byProduct && GL.byProduct.length){
+      $('gm-old-product').hidden = false; $('gm-nav-old-product').hidden = false;
+      renderBarList($('gm-old-product-chart'), GL.byProduct.slice(0,10), {
+        valueKey:'cost', colorFn: () => 'var(--accent)', formatValue: fmtWon, formatLabel: r => r.product,
+        tipLines: r => [(r.adType||'') + ', ' + (r.group||'')].concat(statTip(r, '구매', '구매금액'))
+      });
+      $('gm-old-product-count').textContent = GL.byProduct.length;
+      createTable('gm-old-product-table', GL.byProduct, {
+        muted: ['group'],
+        cell: { adType: r => r.adType || '', group: r => r.group || '' },
+        minW: { adType: 90, group: 200, product: 120 }
+      });
+    }
+    if (GL && GL.topKeywordsByCost && GL.topKeywordsByCost.length){
+      $('gm-old-keywords').hidden = false; $('gm-nav-old-keywords').hidden = false;
+      $('gm-old-kw-total').textContent = NUM_FMT.format(GL.keywordStats.totalUniqueKeywords);
+      createTable('gm-old-keyword-table', GL.topKeywordsByCost);
     }
   }
 
@@ -2973,9 +3064,14 @@
       return;
     }
     if (media === 'gmarket'){
+      const gl = GM.legacy, gmNew = GM.hasNewCenter !== false;
+      const src = [];
+      if (gmNew) src.push('지마켓 광고관리시스템 상품별, 키워드별 리포트 xlsx');
+      if (gl) src.push('옥션 광고센터(구 광고센터)에서 받은 지마켓 AI매출업, 파워클릭(상품별/키워드별) 리포트 xlsx');
       foot.innerHTML = `
-        <div><b>데이터 출처</b>: 지마켓 광고관리시스템 상품별, 키워드별 리포트 xlsx, 셀러 자체 다운로드 파일 기준.</div>
-        <div style="margin-top:6px;">본 보고서는 원본 파일의 '판매자 전환 금액/수' 기준으로 매출·전환을 재계산한 결과이며, 별도의 수동 보정을 거치지 않았습니다.</div>
+        <div><b>데이터 출처</b>: ${src.join(', ')}, 셀러 자체 다운로드 파일 기준.</div>
+        ${gl ? '<div>' + (gmNew ? '요약 합계와 캠페인 유형 비교는 신 광고센터와 구 광고센터를 더한 값입니다. ' : '') + "구 광고센터 AI매출업은 '판매자기준' 구매수 · 구매금액, 파워클릭은 구매수 · 구매금액 기준입니다." + (gl.hasImpressionGap ? ' AI매출업 리포트는 노출수를 제공하지 않습니다.' : '') + '</div>' : ''}
+        <div style="margin-top:6px;">본 보고서는 원본 파일의 ${gmNew ? "'판매자 전환 금액/수' 기준으로 " : ''}매출·전환을 재계산한 결과이며, 별도의 수동 보정을 거치지 않았습니다.</div>
       `;
       return;
     }

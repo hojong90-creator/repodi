@@ -203,7 +203,12 @@ foreach ($f in (Get-ChildItem -LiteralPath $InputDir -File -ErrorAction Silently
     try {
         switch -Regex ($f.Extension) {
             '^\.csv$'   { $kind = Get-CsvKind (Read-Head -Path $f.FullName -Count 6) $f.Name; break }
-            '^\.xlsx$'  { $kind = Get-XlsxKind $f.FullName; break }
+            '^\.xlsx$'  {
+                $kind = Get-XlsxKind $f.FullName
+                # 옥션 광고센터에서 받은 지마켓 리포트는 옥션과 양식이 같아, 파일 이름의 '구지마켓'으로 가른다 (2.038, Build-AdReport.ps1 · Build-ExcelReport.ps1과 같은 규칙)
+                if ($kind -like '옥션 *' -and (($f.BaseName -replace '\s', '') -match '구지마켓')) { $kind = '구지마켓' + $kind.Substring(2) }
+                break
+            }
             '^\.zip$'   { $kind = Get-ZipKind $f.FullName; break }
             '^\.html?$' { $kind = '보고서 (월별 추이용)'; break }
         }
