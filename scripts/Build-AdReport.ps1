@@ -235,7 +235,7 @@ function Get-AuctionXlsx {
     elseif ($headers -contains '판매자기준-광고수익률' -and $headers -contains '날짜별') { $reportType = 'AI매출업_일별' }   # 날짜마다 한 줄 (2.040)
     elseif ($headers -contains '광고상품번호') { $reportType = '파워클릭_상품별' }
     elseif ($headers -contains '키워드' -and $headers -contains '영역명') { $reportType = '파워클릭_키워드별' }
-    elseif ($headers -contains '그룹명' -and $headers -contains '영역명') { $reportType = $null }   # 파워클릭 그룹별은 캐츠온 엑셀에만 쓴다
+    elseif ($headers -contains '그룹명' -and $headers -contains '영역명') { $reportType = '파워클릭_그룹별' }   # 그룹 × 영역마다 한 줄. 2.040까지는 캐츠온 엑셀에만 썼다 (2.041)
     elseif ($headers -contains '날짜' -and $headers -contains '영역명') { $reportType = '파워클릭_기간별' }   # 날짜마다 한 줄 (2.040)
     if (-not $reportType) { return $null }
 
@@ -1101,6 +1101,10 @@ $hasDow       = [bool]$dowFile
 $gmarketItem = $null
 $gmarketKeyword = $null
 $gmarketCampaign = $null
+$gmarketGroup = $null    # 그룹별 리포트 (2.041)
+$gmarketSeller = $null   # 셀러별 리포트 = 계정 전체 일별 (2.041)
+$auctionGroup = $null
+$gmOldGroup = $null
 $auctionAI = $null
 $auctionGoods = $null
 $auctionKeyword = $null
@@ -1119,6 +1123,8 @@ foreach ($xlsx in (Get-ChildItem -LiteralPath $InputDir -Filter "*.xlsx" -File -
         if ($parsed.ReportType -match '상품') { if (-not $gmarketItem) { $gmarketItem = $parsed }; $matched = $true }
         elseif ($parsed.ReportType -match '키워드') { if (-not $gmarketKeyword) { $gmarketKeyword = $parsed }; $matched = $true }
         elseif ($parsed.ReportType -match '캠페인') { if (-not $gmarketCampaign) { $gmarketCampaign = $parsed }; $matched = $true }   # 캠페인별 리포트 (2.039)
+        elseif ($parsed.ReportType -match '그룹') { if (-not $gmarketGroup) { $gmarketGroup = $parsed }; $matched = $true }   # 그룹별 리포트 (2.041)
+        elseif ($parsed.ReportType -match '셀러') { if (-not $gmarketSeller) { $gmarketSeller = $parsed }; $matched = $true }   # 셀러별 리포트 (2.041)
     } catch { }
     if ($matched) { continue }
     $aParsed = $null
@@ -1138,6 +1144,8 @@ foreach ($xlsx in (Get-ChildItem -LiteralPath $InputDir -Filter "*.xlsx" -File -
         '옥션|파워클릭_키워드별'   { $auctionKeyword = $aParsed }
         '옥션|파워클릭_기간별'     { $auctionPC = $aParsed }
         '옥션|AI매출업_일별'       { $auctionAIDaily = $aParsed }
+        '옥션|파워클릭_그룹별'     { $auctionGroup = $aParsed }
+        '구지마켓|파워클릭_그룹별'   { $gmOldGroup = $aParsed }
         '구지마켓|AI매출업_상품별'   { $gmOldAI = $aParsed }
         '구지마켓|파워클릭_상품별'   { $gmOldGoods = $aParsed }
         '구지마켓|파워클릭_키워드별' { $gmOldKeyword = $aParsed }
@@ -1148,14 +1156,16 @@ foreach ($xlsx in (Get-ChildItem -LiteralPath $InputDir -Filter "*.xlsx" -File -
 $hasGmarketItem = [bool]$gmarketItem
 $hasGmarketKeyword = [bool]$gmarketKeyword
 $hasGmarketCampaign = [bool]$gmarketCampaign
-$gmNewAvailable = ($hasGmarketItem -or $hasGmarketKeyword -or $hasGmarketCampaign)
-$gmOldAvailable = [bool]($gmOldAI -or $gmOldGoods -or $gmOldKeyword -or $gmOldPC -or $gmOldAIDaily)
+$hasGmarketGroup = [bool]$gmarketGroup
+$hasGmarketSeller = [bool]$gmarketSeller
+$gmNewAvailable = ($hasGmarketItem -or $hasGmarketKeyword -or $hasGmarketCampaign -or $hasGmarketGroup -or $hasGmarketSeller)
+$gmOldAvailable = [bool]($gmOldAI -or $gmOldGoods -or $gmOldKeyword -or $gmOldPC -or $gmOldAIDaily -or $gmOldGroup)
 $gmarketAvailable = ($gmNewAvailable -or $gmOldAvailable)
 
 $hasAuctionAI = [bool]$auctionAI
 $hasAuctionGoods = [bool]$auctionGoods
 $hasAuctionKeyword = [bool]$auctionKeyword
-$auctionAvailable = ($hasAuctionAI -or $hasAuctionGoods -or $hasAuctionKeyword -or [bool]$auctionPC -or [bool]$auctionAIDaily)
+$auctionAvailable = ($hasAuctionAI -or $hasAuctionGoods -or $hasAuctionKeyword -or [bool]$auctionPC -or [bool]$auctionAIDaily -or [bool]$auctionGroup)
 
 # ---------- 11번가 (광고상품별 일별 리포트 CSV) ----------
 # 네이버 CSV와 확장자가 같아 헤더('날짜' + '총 전환 금액')로 구분한다.
@@ -1597,18 +1607,24 @@ $gmKeywordUniqueCount = 0
 $gmZeroConvSpend = 0
 $gmPeriod = $null
 $gmByCampaign = @()
+$gmByGroup = @()
+$gmSellerChannel = $null   # 셀러별 리포트 일별 (아래에서 ConvertTo-ChannelData로 바꿈)
+$gmOverviewSource = $null
 
 if ($gmNewAvailable) {
-    $gmPeriod = if ($gmarketCampaign) { $gmarketCampaign.Period } elseif ($gmarketItem) { $gmarketItem.Period } else { $gmarketKeyword.Period }
+    $gmPeriod = @($gmarketCampaign, $gmarketGroup, $gmarketSeller, $gmarketItem, $gmarketKeyword | Where-Object { $_ -and $_.Period } | ForEach-Object { $_.Period })[0]
 
     # 캠페인별 리포트 (2.039, 사용자: "신 지마켓 광고센터에서 캠페인별 합계 데이터도 인식"). 보기 방식이 '합계'면 캠페인마다 한 줄,
     # '날짜별'이면 캠페인 × 날짜 줄이라 캠페인유형 + 캠페인명으로 묶는다. 캠페인 단위가 광고비 전체라서,
     # 이 파일이 있으면 요약 합계 · 캠페인 유형 비교는 이 파일로 만든다(상품별 리포트와 같은 광고비를 두 번 더하지 않게).
-    if ($hasGmarketCampaign) {
+    # 그룹별 리포트(2.041)도 캠페인타입 · 캠페인명 컬럼이 같고 광고비 전체를 담아서, 캠페인별이 없으면 그룹별로 캠페인별 합계를 만든다.
+    $gcSrc = if ($hasGmarketCampaign) { $gmarketCampaign } elseif ($hasGmarketGroup) { $gmarketGroup } else { $null }
+    if ($gcSrc) {
+        $gmOverviewSource = $(if ($hasGmarketCampaign) { 'campaign' } else { 'group' })
         $gcAgg = [ordered]@{}
         $gcTypeAgg = @{}
         $gcTotalAgg = New-Agg
-        foreach ($r in $gmarketCampaign.Rows) {
+        foreach ($r in $gcSrc.Rows) {
             $name = "$($r.'캠페인명')".Trim(); $ct = "$($r.'캠페인타입')".Trim()
             if (-not $name -and -not $ct) { continue }
             if ("$($r.'날짜')" -match '^\s*(합계|총계|전체)') { continue }   # 합계 줄이 있으면 뺀다(샘플에는 없음)
@@ -1645,6 +1661,50 @@ if ($gmNewAvailable) {
         $gmOverview = Metrics-FromAgg $gcTotalAgg
     }
 
+    # 그룹별 리포트 (2.041, 사용자: 받은 파일을 HTML 보고서에). 캠페인 × 그룹마다 한 줄. '날짜별'로 받으면 그룹 × 날짜 줄이라 묶는다.
+    if ($hasGmarketGroup) {
+        $ggAgg = [ordered]@{}
+        foreach ($r in $gmarketGroup.Rows) {
+            $ct = "$($r.'캠페인타입')".Trim(); $cn = "$($r.'캠페인명')".Trim(); $gn = "$($r.'그룹명')".Trim()
+            if (-not $cn -and -not $gn) { continue }
+            if ("$($r.'날짜')" -match '^\s*(합계|총계|전체)') { continue }
+            $key = "$ct`t$cn`t$gn"
+            if (-not $ggAgg.Contains($key)) { $ggAgg[$key] = [PSCustomObject]@{ type = $ct; campaign = $cn; group = $gn; agg = (New-Agg) } }
+            Add-Agg -Agg $ggAgg[$key].agg -Imp (ToNum $r.'노출 수') -Clk (ToNum $r.'클릭 수') -Cost (ToNum $r.'광고 비용') -Conv (ToNum $r.'판매자 전환 수') -Rev (ToNum $r.'판매자 전환 금액')
+        }
+        $gmByGroup = @(foreach ($e in $ggAgg.Values) {
+            $m = Metrics-FromAgg $e.agg
+            [PSCustomObject]@{
+                campaignType = $e.type; campaign = $e.campaign; adGroup = $e.group
+                impressions  = $m.impressions; clicks = $m.clicks; ctr = $m.ctr
+                cost         = $m.cost; cpc = $m.cpc; conversions = $m.conversions
+                revenue      = $m.revenue; roas = $m.roas
+            }
+        })
+        $gmByGroup = @($gmByGroup | Sort-Object -Property cost -Descending)
+    }
+
+    # 셀러별 리포트 (2.041): 셀러(계정) 전체의 날짜마다 한 줄. 일별 성과 차트 · 표에 쓴다.
+    # '합계'로 받으면 날짜 칸이 '2026-11-02~2026-11-08'이라 일별로 쓸 수 없고 합계로만 쓴다.
+    if ($hasGmarketSeller) {
+        $gsTotal = New-Agg
+        $gsCh = New-Channel
+        foreach ($r in $gmarketSeller.Rows) {
+            $t = "$($r.'날짜')".Trim()
+            if (-not $t -or $t -match '^(합계|총계|전체)') { continue }
+            $imp = ToNum $r.'노출 수'; $clk = ToNum $r.'클릭 수'; $cost = ToNum $r.'광고 비용'
+            $conv = ToNum $r.'판매자 전환 수'; $rev = ToNum $r.'판매자 전환 금액'
+            Add-Agg -Agg $gsTotal -Imp $imp -Clk $clk -Cost $cost -Conv $conv -Rev $rev
+            if ($t -match '^(\d{4})\D(\d{1,2})\D(\d{1,2})$') {
+                $d = '{0}.{1:D2}.{2:D2}.' -f $matches[1], [int]$matches[2], [int]$matches[3]
+                [AdFast]::AddChannelRow($gsCh, '지마켓', '지마켓 전체', $d, $imp, $clk, $cost, $conv, $rev)
+            }
+        }
+        if ($gsCh.day.Count -gt 0) { $gmSellerChannel = $gsCh }
+        # 상품별 리포트가 있으면 캠페인 유형 비교와 맞게 상품별 합계를 쓴다(아래). 캠페인별 · 그룹별 · 상품별이 모두 없을 때만 셀러별 합계
+        if (-not $gmOverview -and -not $hasGmarketItem) { $gmOverview = Metrics-FromAgg $gsTotal; $gmOverviewSource = 'seller' }
+    }
+
     if ($hasGmarketItem) {
         $gmCampaignTypeAgg = @{}
         $gmTotalAgg = New-Agg
@@ -1672,7 +1732,7 @@ if ($gmNewAvailable) {
         }
         $gmByProduct = @($gmList | Sort-Object -Property cost -Descending)
 
-        if (-not $hasGmarketCampaign) {   # 캠페인별 리포트가 있으면 합계 · 유형 비교는 그쪽 것을 쓴다
+        if (-not $gcSrc) {   # 캠페인별 · 그룹별 리포트가 있으면 합계 · 유형 비교는 그쪽 것을 쓴다
         $gmByCampaignType = @(foreach ($ct in $gmCampaignTypeAgg.Keys) {
             $m = Metrics-FromAgg $gmCampaignTypeAgg[$ct]
             [PSCustomObject]@{
@@ -1683,7 +1743,7 @@ if ($gmNewAvailable) {
             }
         })
         $gmByCampaignType = @($gmByCampaignType | Sort-Object -Property cost -Descending)
-        $gmOverview = Metrics-FromAgg $gmTotalAgg
+        $gmOverview = Metrics-FromAgg $gmTotalAgg; $gmOverviewSource = 'item'
         }
     }
 
@@ -1705,13 +1765,15 @@ if ($gmNewAvailable) {
                 revenue     = $m.revenue; roas = $m.roas
             }
         })
-        $gmTopKeywordsByCost = @($gmAllKeywords | Sort-Object -Property cost -Descending | Select-Object -First 30)
+        # 2.041부터 키워드 전체를 싣는다(예전에는 비용 상위 30개). 이름은 예전 보고서와 같게 topKeywordsByCost 그대로
+        $gmTopKeywordsByCost = @($gmAllKeywords | Sort-Object -Property cost, impressions -Descending)
         $gmZeroConvSpend = ($gmAllKeywords | Where-Object { $_.conversions -eq 0 } | Measure-Object -Property cost -Sum).Sum
         if (-not $gmZeroConvSpend) { $gmZeroConvSpend = 0 }
         $gmKeywordUniqueCount = $gmKwAgg.Keys.Count
 
         if (-not $gmOverview) {
             # 상품별 파일이 없으면 키워드별 합계로 개요를 대신 계산한다.
+            $gmOverviewSource = 'keyword'
             $gmOverview = New-Metrics -Impressions ($gmAllKeywords | Measure-Object -Property impressions -Sum).Sum -Clicks ($gmAllKeywords | Measure-Object -Property clicks -Sum).Sum -Cost ($gmAllKeywords | Measure-Object -Property cost -Sum).Sum -Conversions ($gmAllKeywords | Measure-Object -Property conversions -Sum).Sum -Revenue ($gmAllKeywords | Measure-Object -Property revenue -Sum).Sum
         }
     }
@@ -1728,7 +1790,7 @@ function ConvertTo-AuctionDate($v) {
 }
 
 function Get-OldCenterData {
-    param($AI, $Goods, $Keyword, $PC, $AIDaily)
+    param($AI, $Goods, $Keyword, $PC, $AIDaily, $Group)
     $auOverview = $null
     $auByAdType = @()
     $auByProduct = @()
@@ -1836,6 +1898,34 @@ function Get-OldCenterData {
 
     $auByProduct = @($auList | Sort-Object -Property cost -Descending)
 
+    # 파워클릭 그룹별 (2.041): 그룹 × 영역마다 한 줄(그룹명 · 그룹(간편/일반) · 영역명). 표로만 싣고,
+    # 합계는 파워클릭 상품별 · 기간별이 모두 없을 때만 이 파일로 낸다(같은 광고비라 두 번 더하지 않게).
+    $auByGroup = @()
+    if ($Group) {
+        $grList = New-Object System.Collections.Generic.List[object]
+        foreach ($r in $Group.Rows) {
+            $gn = "$($r.'그룹명')".Trim()
+            if (-not $gn -or $gn -match '^(합계|총계|전체)$') { continue }
+            $imp = ToNum $r.'노출수'; $clk = ToNum $r.'클릭수'; $cost = ToNum $r.'총비용'
+            $conv = ToNum $r.'구매수'; $rev = ToNum $r.'구매금액'
+            $m = New-Metrics -Impressions $imp -Clicks $clk -Cost $cost -Conversions $conv -Revenue $rev
+            $grList.Add([PSCustomObject]@{
+                group       = $gn
+                groupType   = "$($r.'그룹')".Trim()
+                area        = "$($r.'영역명')".Trim()
+                impressions = $m.impressions; clicks = $m.clicks; ctr = $m.ctr
+                cost        = $m.cost; cpc = $m.cpc; conversions = $m.conversions
+                revenue     = $m.revenue; roas = $m.roas
+            })
+            if (-not $Goods -and -not $PC) {
+                if (-not $auAdTypeAgg.ContainsKey('파워클릭')) { $auAdTypeAgg['파워클릭'] = New-Agg }
+                Add-Agg -Agg $auAdTypeAgg['파워클릭'] -Imp $imp -Clk $clk -Cost $cost -Conv $conv -Rev $rev
+                Add-Agg -Agg $auTotalAgg -Imp $imp -Clk $clk -Cost $cost -Conv $conv -Rev $rev
+            }
+        }
+        $auByGroup = @($grList | Sort-Object -Property cost -Descending)
+    }
+
     $auByAdType = @(foreach ($t in $auAdTypeAgg.Keys) {
         $m = Metrics-FromAgg $auAdTypeAgg[$t]
         [PSCustomObject]@{
@@ -1847,7 +1937,7 @@ function Get-OldCenterData {
     })
     $auByAdType = @($auByAdType | Sort-Object -Property cost -Descending)
 
-    if ($AI -or $Goods -or $pcChannel) {
+    if ($AI -or $Goods -or $pcChannel -or $auByGroup.Count) {
         $auOverview = Metrics-FromAgg $auTotalAgg
     }
 
@@ -1869,7 +1959,8 @@ function Get-OldCenterData {
                 revenue     = $m.revenue; roas = $m.roas
             }
         })
-        $auTopKeywordsByCost = @($auAllKeywords | Sort-Object -Property cost -Descending | Select-Object -First 30)
+        # 2.041부터 키워드 전체를 싣는다(예전에는 비용 상위 30개). 이름은 예전 보고서와 같게 topKeywordsByCost 그대로
+        $auTopKeywordsByCost = @($auAllKeywords | Sort-Object -Property cost, impressions -Descending)
         $auZeroConvSpend = ($auAllKeywords | Where-Object { $_.conversions -eq 0 } | Measure-Object -Property cost -Sum).Sum
         if (-not $auZeroConvSpend) { $auZeroConvSpend = 0 }
         $auKeywordUniqueCount = $auKwAgg.Keys.Count
@@ -1884,6 +1975,7 @@ function Get-OldCenterData {
         overview           = $auOverview
         byAdType           = $auByAdType
         byProduct          = $auByProduct
+        byGroup            = $auByGroup   # 파워클릭 그룹별 (2.041)
         topKeywordsByCost  = $auTopKeywordsByCost
         keywordUniqueCount = $auKeywordUniqueCount
         zeroConvSpend      = [int64]$auZeroConvSpend
@@ -1905,7 +1997,7 @@ $auKeywordUniqueCount = 0
 $auZeroConvSpend = 0
 $auHasImpressionGap = $false
 if ($auctionAvailable) {
-    $au = Get-OldCenterData -AI $auctionAI -Goods $auctionGoods -Keyword $auctionKeyword -PC $auctionPC -AIDaily $auctionAIDaily
+    $au = Get-OldCenterData -AI $auctionAI -Goods $auctionGoods -Keyword $auctionKeyword -PC $auctionPC -AIDaily $auctionAIDaily -Group $auctionGroup
     $auOverview = $au.overview; $auByAdType = $au.byAdType; $auByProduct = $au.byProduct
     $auTopKeywordsByCost = $au.topKeywordsByCost; $auKeywordUniqueCount = $au.keywordUniqueCount
     $auZeroConvSpend = $au.zeroConvSpend; $auHasImpressionGap = $au.hasImpressionGap
@@ -1916,7 +2008,7 @@ if ($auctionAvailable) {
 # (구 광고센터 상품은 상품번호만 있고, 지표 이름도 달라 한 표로 섞지 않는다). 두 센터는 서로 다른 캠페인을 운영한다고 보고 더한다.
 $gmOld = $null
 if ($gmOldAvailable) {
-    $gmOld = Get-OldCenterData -AI $gmOldAI -Goods $gmOldGoods -Keyword $gmOldKeyword -PC $gmOldPC -AIDaily $gmOldAIDaily
+    $gmOld = Get-OldCenterData -AI $gmOldAI -Goods $gmOldGoods -Keyword $gmOldKeyword -PC $gmOldPC -AIDaily $gmOldAIDaily -Group $gmOldGroup
     $oldTypes = @(foreach ($t in $gmOld.byAdType) {
         $c = $t.PSObject.Copy(); $c.type = "구 광고센터 $($t.type)"; $c
     })
@@ -2312,6 +2404,11 @@ $gmOldDaily = $null
 if ($gmOld -and $gmOld.pcChannel) {
     $gmOldDaily = ConvertTo-ChannelData -Key 'gmold' -Name '구 광고센터' -Period $gmOld.pcPeriod -Overview (Metrics-FromAgg $gmOld.pcChannel.total) -Channel $gmOld.pcChannel
 }
+# 지마켓 신 광고센터 셀러별 리포트 → 일별 데이터 (2.041)
+$gmDaily = $null
+if ($gmSellerChannel) {
+    $gmDaily = ConvertTo-ChannelData -Key 'gmarket' -Name '지마켓' -Period $gmarketSeller.Period -Overview (Metrics-FromAgg $gmSellerChannel.total) -Channel $gmSellerChannel
+}
 # 지마켓 신 광고센터 기간 '2026-10-01 ~ 2026-10-31'을 보고서 기간 모양으로 (지마켓 · 옥션만 넣었을 때 제목의 월, 파일 이름에 쓴다)
 $gmPeriodDots = $null
 if ($gmPeriod -and "$gmPeriod" -match '(\d{4})\D(\d{2})\D(\d{2})\D+(\d{4})\D(\d{2})\D(\d{2})') {
@@ -2521,7 +2618,9 @@ $result = [PSCustomObject]@{
         overview          = $gmOverview
         byCampaignType    = $gmByCampaignType
         byCampaign        = $gmByCampaign      # 신 광고센터 캠페인별 리포트 (2.039)
-        overviewSource    = $(if ($hasGmarketCampaign) { 'campaign' } elseif ($hasGmarketItem) { 'item' } elseif ($hasGmarketKeyword) { 'keyword' } else { $null })
+        overviewSource    = $gmOverviewSource   # campaign / group / item / seller / keyword (group, seller는 2.041)
+        byGroup           = $gmByGroup         # 신 광고센터 그룹별 리포트 (2.041)
+        daily             = $gmDaily           # 신 광고센터 셀러별 리포트 일별 (2.041)
         byProduct         = $gmByProduct
         topKeywordsByCost = $gmTopKeywordsByCost
         keywordStats      = [PSCustomObject]@{
@@ -2534,6 +2633,7 @@ $result = [PSCustomObject]@{
             overview          = $gmOld.overview
             byAdType          = $gmOld.byAdType
             byProduct         = $gmOld.byProduct
+            byGroup           = $gmOld.byGroup   # 파워클릭 그룹별 (2.041)
             topKeywordsByCost = $gmOld.topKeywordsByCost
             hasImpressionGap  = $gmOld.hasImpressionGap
             daily             = $gmOldDaily   # 파워클릭 기간별 (2.040)
@@ -2550,6 +2650,7 @@ $result = [PSCustomObject]@{
         overview          = $auOverview
         byAdType          = $auByAdType
         byProduct         = $auByProduct
+        byGroup           = @(if ($auctionAvailable) { $au.byGroup })   # 파워클릭 그룹별 (2.041). $()는 한 줄짜리 목록을 풀어 버려서 @()
         topKeywordsByCost = $auTopKeywordsByCost
         hasImpressionGap  = $auHasImpressionGap
         period            = $auPeriod     # 파워클릭 기간별이 있을 때만 (2.040)
