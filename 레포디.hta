@@ -170,7 +170,7 @@
 <div class="wrap">
   <div id="appHead">
     <img id="logo" src="assets/logo.png">
-    <h1>레포디<span id="appVersion">ver 2.041</span></h1>
+    <h1>레포디<span id="appVersion">ver 2.042</span></h1>
     <button id="shortcutBtn" type="button" onclick="makeDesktopShortcut()" title="바탕화면에 레포디 바로가기를 다시 만듭니다">바탕화면 바로가기</button>
     <button id="guideBtn" type="button" onclick="openGuide()" title="사용가이드 PDF를 엽니다">사용가이드</button>
   </div>
@@ -705,7 +705,7 @@ function init(){
     document.body.innerHTML = '<div style="padding:30px;font-size:14px;">필요한 파일(scripts\\auth.js)이 없어서 열 수 없습니다.</div>';
     return;
   }
-  // 인증을 통과하면 새 버전이 있는지 본다 (일주일에 한 번)
+  // 인증을 통과하면 새 버전이 있는지 본다 (켤 때마다, 2.042)
   authGate("레포디", function(){ window.setTimeout(checkUpdate, 1500); });
 
   scriptDir = getScriptDir();
@@ -743,45 +743,48 @@ function setStatus(text, cls){
   resizeToContent();
 }
 
-// ---------- 자동 업데이트 (2.035, 사용자: "일주일에 1회 자동 업데이트") ----------
+// ---------- 자동 업데이트 (2.035, 2.042부터 켤 때마다) ----------
 // 공개 배포 저장소(hojong90-creator/repodi)에 '1. 레포디' 폴더에서 개발용(공유x)만 뺀 것과 version.txt를 올려 둔다(올리는 방법: 개발용(공유x)\도구\publish_repodi.sh).
-// 레포디를 켜서 인증을 통과하면, 마지막으로 확인한 뒤 7일이 지났을 때만 version.txt를 읽는다. 지금보다 높으면
-// scripts\Update-Repodi.ps1이 zip을 받아 이 폴더의 프로그램 파일을 덮어쓰고, 끝나면 창을 다시 연다.
+// 레포디를 켜서 인증을 통과할 때마다 version.txt를 읽는다(2.042, 사용자: "앱 실행시마다 확인하고 바로 될 수 있게". 2.041까지는 7일에 한 번).
+// 지금보다 높으면 scripts\Update-Repodi.ps1이 zip을 받아 이 폴더의 프로그램 파일을 덮어쓰고, 끝나면 창을 다시 연다.
 // '보고서 생성용 데이터', '생성된 보고서', '.last_author.txt'는 배포 저장소에 없고 업데이트도 건드리지 않는다. 배포 저장소에서 지운 파일은 PC에서 지우지 않는다.
-// 다음 확인 시각은 이 PC 사용자 폴더(%LOCALAPPDATA%\YejiSolution)에 적는다. 인터넷이 안 되거나 실패하면 하루 뒤 다시 시도한다.
+// 인터넷이 안 되면 조용히 넘어가고 다음에 켤 때 다시 본다. 설치에 실패하면 알리고 다음에 켤 때 다시 시도한다.
+// 되풀이 막기: 설치에 성공한 버전과 시각을 %LOCALAPPDATA%\YejiSolution\repodi_update_done.txt에 적는다. 다시 연 창이 아직 그 버전보다 낮으면
+// (배포 저장소의 version.txt와 받은 파일이 어긋난 경우 등) 10분 동안은 같은 버전을 다시 설치하지 않는다. 그러지 않으면 설치 → 다시 열기가 끝없이 되풀이된다.
 var UPDATE_VERSION_URL = "https://raw.githubusercontent.com/hojong90-creator/repodi/main/version.txt";
-var UPDATE_EVERY_DAYS = 7, UPDATE_RETRY_DAYS = 1;
+var UPDATE_LOOP_GUARD_MS = 10 * 60 * 1000;
 function appVersion(){
   var el = document.getElementById("appVersion");
   return el ? el.innerText.replace(/^\s*ver\s*/i, "") : "";
 }
-function updateStatePath(){
+function updateDonePath(){
   var sh = new ActiveXObject("WScript.Shell");
-  return sh.ExpandEnvironmentStrings("%LOCALAPPDATA%") + "\\YejiSolution\\repodi_update_next.txt";
+  return sh.ExpandEnvironmentStrings("%LOCALAPPDATA%") + "\\YejiSolution\\repodi_update_done.txt";
 }
-function updateNextTime(){
+function updateJustInstalled(ver){
+  // 10분 안에 이 버전을 이미 설치했으면 true
   try {
-    var p = updateStatePath();
-    if (!fso.FileExists(p)) return 0;
-    var ts = fso.OpenTextFile(p, 1); var v = Number(ts.ReadAll()); ts.Close();
-    return v || 0;
-  } catch (e) { return 0; }
+    var p = updateDonePath();
+    if (!fso.FileExists(p)) return false;
+    var ts = fso.OpenTextFile(p, 1); var t = ts.ReadAll().split("\t"); ts.Close();
+    return t[0] === ver && new Date().getTime() - Number(t[1]) < UPDATE_LOOP_GUARD_MS;
+  } catch (e) { return false; }
 }
-function updateCheckAgainIn(days){
+function updateMarkInstalled(ver){
   try {
-    var p = updateStatePath(), dir = fso.GetParentFolderName(p);
+    var p = updateDonePath(), dir = fso.GetParentFolderName(p);
     if (!fso.FolderExists(dir)) fso.CreateFolder(dir);
-    var ts = fso.CreateTextFile(p, true); ts.Write(String(new Date().getTime() + days * 86400000)); ts.Close();
+    var ts = fso.CreateTextFile(p, true); ts.Write(ver + "\t" + new Date().getTime()); ts.Close();
   } catch (e) { }
 }
 function checkUpdate(){
-  if (new Date().getTime() < updateNextTime()) return;
   var x = null, finished = false;
   function end(ver){
     if (finished) return;
     finished = true;
-    if (ver === null) { updateCheckAgainIn(UPDATE_RETRY_DAYS); return; }
-    if (!(parseFloat(ver) > parseFloat(appVersion()))) { updateCheckAgainIn(UPDATE_EVERY_DAYS); return; }
+    if (ver === null) return;   // 인터넷이 안 되는 등. 다음에 켤 때 다시 본다
+    if (!(parseFloat(ver) > parseFloat(appVersion()))) return;
+    if (updateJustInstalled(ver)) return;   // 방금 설치했는데도 버전이 그대로면 되풀이하지 않는다
     installUpdate(ver);
   }
   try {
@@ -829,11 +832,10 @@ function finishUpdate(ver, error){
   document.getElementById("generateBtn").disabled = false;
   document.getElementById("trendBtn").disabled = false;
   if (error) {
-    updateCheckAgainIn(UPDATE_RETRY_DAYS);
-    setStatus("업데이트하지 못했습니다: " + error + "\n지금 버전으로 계속 쓸 수 있고, 내일 다시 시도합니다.", "err");
+    setStatus("업데이트하지 못했습니다: " + error + "\n지금 버전으로 계속 쓸 수 있고, 다음에 켤 때 다시 시도합니다.", "err");
     return;
   }
-  updateCheckAgainIn(UPDATE_EVERY_DAYS);
+  updateMarkInstalled(ver);
   setStatus("새 버전(ver " + ver + ")으로 업데이트했습니다. 창을 다시 엽니다.", "ok");
   window.setTimeout(function(){ location.reload(); }, 1500);
 }
