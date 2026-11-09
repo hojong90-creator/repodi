@@ -1362,6 +1362,37 @@ if ($hasKeyword) {
     }
 }
 
+# 지면별 · 캠페인 보고서 없이 검색어(키워드) 보고서만 넣은 경우 (2.043, 사용자: "일자별 데이터가 안나오고 검색광고 글자도 없는 부분이 있어서 개선해줘".
+# 계정 보고서를 캠페인유형 · 캠페인 · 광고그룹 · 검색어 · 일별로 받은 파일 하나와 GFA를 넣었더니 캠페인 유형 비교에 GFA만, 요약에 '캠페인(GFA) 합계'만 나왔다):
+# 같은 파일로 캠페인 유형별, 캠페인별, 일별(일별 컬럼이 있을 때)을 만든다. 합계는 원래도 검색어 합계로 추정했으니(saTotalSource '검색어') 같은 숫자다.
+$naverKeywordBased = $false
+if (-not $hasPlacement -and $hasKeyword) {
+    $kbHead = @([NaverCsv]::Header($keywordFile))
+    if ($kbHead -contains '캠페인유형') {
+        $kbCols = @('캠페인유형', '캠페인') + $(if ($kbHead -contains '일별') { @('일별') } else { @() })
+        $kbMap = [OhouseCsv]::NewMap()
+        foreach ($one in $keywordFiles) { [void][NaverCsv]::Aggregate($one, $kbCols, $kbCols, $kbMap) }
+        $byCampaignTypeAgg = @{}
+        foreach ($r in $kbMap.Values) {
+            $ct = $r.'캠페인유형'
+            [AdFast]::AddChannelRow($naverChannel, $ct, $r.'캠페인', $r.'일별', $r.imp, $r.clk, $r.cost, $r.conv, $r.rev)
+            if (-not $byCampaignTypeAgg.ContainsKey($ct)) { $byCampaignTypeAgg[$ct] = New-Agg }
+            [AdFast]::AddAgg($byCampaignTypeAgg[$ct], $r.imp, $r.clk, $r.cost, $r.conv, $r.rev)
+        }
+        $byCampaignType = @(foreach ($ct in $byCampaignTypeAgg.Keys) {
+            $m = Metrics-FromAgg $byCampaignTypeAgg[$ct]
+            [PSCustomObject]@{
+                type        = $ct
+                impressions = $m.impressions; clicks = $m.clicks; ctr = $m.ctr
+                cost        = $m.cost; cpc = $m.cpc; conversions = $m.conversions
+                revenue     = $m.revenue; roas = $m.roas
+            }
+        })
+        $placementPeriod = $keywordPeriod
+        $naverKeywordBased = $true
+    }
+}
+
 # ---------- 시간대별 ----------
 $hourlyRows = @()
 $hourlyPeriod = $null
@@ -2513,7 +2544,7 @@ $qualityNotes = @()
 if ($hasRegion) { $qualityNotes += "지역별 리포트는 파워링크 캠페인 데이터만 포함합니다 (쇼핑검색 캠페인 제외)." }
 if ($keywordGapNote) { $qualityNotes += $keywordGapNote }
 if (-not $saOverview -and $saTotalSourceLabel) { $qualityNotes += "지면별 데이터가 없어 전체 요약의 검색광고 합계는 '$saTotalSourceLabel' 데이터를 기준으로 추정했습니다." }
-if (-not $hasPlacement -and -not $gfaAvailable) { $qualityNotes += "캠페인 유형별 비교에 사용할 데이터가 없습니다." }
+if (-not $hasPlacement -and -not $naverKeywordBased -and -not $gfaAvailable) { $qualityNotes += "캠페인 유형별 비교에 사용할 데이터가 없습니다." }
 
 $dataQuality = [PSCustomObject]@{
     placementVsHourlyCostDiff  = $costDiffHourly
@@ -2580,6 +2611,7 @@ $result = [PSCustomObject]@{
     byCampaignType   = $byCampaignType
     byPlacement      = $byPlacement
     naverCampaignOnly = $naverCampaignOnly
+    naverKeywordBased = $naverKeywordBased
     topKeywordsByCost = $topKeywordsByCost
     topKeywordsByConv = $topKeywordsByConv
     keywordDimension = $keywordDimension

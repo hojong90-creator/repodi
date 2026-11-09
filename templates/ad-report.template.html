@@ -2493,13 +2493,20 @@
     card.appendChild(btn);
   });
 
-  // ---------- 캠페인별 · 전환 유형 · 일별 (문의 전환 광고주, 또는 캠페인 단위 보고서만 넣은 경우) ----------
+  // ---------- 캠페인별 · 전환 유형 · 일별 (문의 전환 광고주, 캠페인 단위 보고서만 넣은 경우, 지면별 없이 검색어 보고서로 만든 경우) ----------
   const nvChannel = CHANNELS.find(c => c.key === 'naver');
   let nvDailyOn = false;
-  if ((LEAD || DATA.naverCampaignOnly) && nvChannel && nvChannel.byCampaign.length){
+  if ((LEAD || DATA.naverCampaignOnly || DATA.naverKeywordBased) && nvChannel && nvChannel.byCampaign.length){
     $('nav-campaign').hidden = false;
     $('campaign').hidden = false;
     renderCampaignBlock($('campaign-body'), 'nv-campaign', [nvChannel]);
+    // GFA가 함께 있으면 GFA 캠페인별, GFA 일별과 나란히 보이게 '검색광고'를 붙인다. 일별은 합치지 않고 따로 둔다 (2.043, 사용자: "일별 추이를 합치면 안되지")
+    if (GFA_ON){
+      $('campaign').querySelector('h2').textContent = '검색광고 캠페인별 성과';
+      $('nv-daily').querySelector('h2').textContent = '검색광고 일별 성과';
+      $('nav-campaign').textContent = '검색광고 캠페인별';
+      $('nav-nv-daily').textContent = '검색광고 일별';
+    }
     nvDailyOn = renderDailyBlock($('nv-daily-body'), 'nv-day', [nvChannel]);
     $('nav-nv-daily').hidden = !nvDailyOn;
     $('nv-daily').hidden = !nvDailyOn;
@@ -2575,7 +2582,7 @@
     $('nav-dow').hidden = false;
     $('dow').hidden = false;
     const dw = DATA.dow;
-    $('dow-sub').textContent = '기간 ' + formatPeriodWithDays(dw.period);
+    $('dow-sub').textContent = '기간 ' + formatPeriodWithDays(dw.period) + (DATA.gfa && DATA.gfa.available ? '. 검색광고만의 숫자입니다 (GFA 제외)' : '');
     const DEVICE_COLORS = ['var(--accent)', 'var(--series-2)', 'var(--series-3)'];
     // 통합 보고서에 일자/요일/기기 항목이 빠져 있으면 해당 블록(소제목 + 차트)을 통째로 숨긴다.
     const hideBlock = innerId => {
@@ -2593,6 +2600,12 @@
       renderTimeChart($('weekday-bars'), $('weekday-labels'), dw.byWeekday,
         { barColor: 'var(--series-3)', labelFn: w => w.weekday.replace('요일',''), tipTitleFn: w => w.weekday, lineColor: 'var(--series-2)' });
     } else { hideBlock('weekday-bars'); }
+    // 기기, 요일 칸이 없고 일자별은 위 '일별 성과'에 있어 숨긴 경우 섹션이 제목만 남으므로 메뉴와 함께 숨긴다 (2.043.
+    // 쇼핑검색 계정 보고서를 일부러 요일 없이 받는 경우가 있다. 사용자: "일부러 쇼핑검색 데이터에서 요일별을 뺀거라서 이건 빼")
+    if (['device-grid', 'date-bars', 'weekday-bars'].every(id => $(id).closest('.hourly-chart, .compare-grid').style.display === 'none')){
+      $('nav-dow').hidden = true;
+      $('dow').hidden = true;
+    }
   }
 
   // ---------- GFA ----------
@@ -2621,7 +2634,8 @@
       createTable('gfa-product-table', g.byProduct, { muted: ['campaign'] });
     }
     const gfaChannel = CHANNELS.find(c => c.key === 'gfa');
-    if (LEAD && gfaChannel && g.byDate && g.byDate.length){
+    // 일별은 검색광고 일별과 같은 모양(그래프 + 표 + 캠페인 고르기)으로. 예전엔 문의 전환 업체만 표가 있고 나머지는 그래프만 있었다 (2.043, 사용자: "GFA 쪽은 일별 그래프만 있고 테이블은 왜 없어?")
+    if (gfaChannel && g.byDate && g.byDate.length){
       $('gfa-daily-block').innerHTML = '<h3 class="sub-h">GFA 일별 성과</h3><div id="gfa-daily-body" style="margin-bottom:24px;"></div>';
       renderDailyBlock($('gfa-daily-body'), 'gfa-day', [gfaChannel]);
     } else if (g.byDate && g.byDate.length){
