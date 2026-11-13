@@ -173,23 +173,23 @@
   html.client-mode .insights-hint, html.client-mode .insight-add-btn, html.client-mode .insight-del,
   html.client-mode .edit-only, html.client-mode .col-panel, html.client-mode .cost-input-btn{ display:none !important; }
 
-  /* 비교: 같은 항목이 한 줄에 놓여 옆으로 바로 견줄 수 있다. best = 그 줄에서 가장 좋은 값 */
+  /* 비교: 비교할 것(캠페인 유형, 기기, 매체 등)이 줄, 지표가 칸 (2.047, 사용자: "행, 열 바꿔줘". 예전엔 비교할 것이 칸, 지표가 줄).
+     줄 묶음(.compare-card)은 display:contents라 칸이 바로 grid에 놓인다. best = 그 칸(지표)에서 가장 좋은 값 */
   .compare-grid{display:grid;overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);}
-  .compare-card{min-width:0;border-left:1px solid var(--border);}
-  .compare-card.lab{border-left:none;}
-  .compare-card .ctype{display:flex;align-items:center;justify-content:center;gap:7px;height:40px;padding:0 14px;background:var(--surface-2);white-space:nowrap;}
+  .compare-card{display:contents;}
+  .compare-card .ctype{display:flex;align-items:center;gap:7px;min-height:40px;padding:0 14px;white-space:nowrap;border-top:1px solid var(--surface-2);border-right:1px solid var(--border);}
   .compare-card .dot{width:10px;height:10px;border-radius:3px;flex:none;}
   .compare-card .ctype-name{font-weight:700;font-size:calc(14px * var(--fs-mult));overflow:hidden;text-overflow:ellipsis;}
-  .compare-row{display:flex;justify-content:center;align-items:center;height:35px;padding:0 14px;border-top:1px solid var(--surface-2);white-space:nowrap;}
-  .compare-card.lab .compare-row{justify-content:flex-start;}
-  .compare-row .k{color:var(--ink-muted);font-size:calc(12.5px * var(--fs-mult));}
+  .compare-row{display:flex;justify-content:center;align-items:center;min-height:40px;padding:0 14px;border-top:1px solid var(--surface-2);white-space:nowrap;}
+  .compare-card.lab .ctype, .compare-card.lab .compare-row{background:var(--surface-2);border-top:none;}
+  .compare-row .k{color:var(--ink-muted);font-size:calc(12.5px * var(--fs-mult));font-weight:600;}
     /* 값은 칸 가운데(머리글 이름과 같은 줄)에 둔다. 오른쪽에 붙이면 비교할 매체가 둘뿐일 때 칸 왼쪽이 크게 비어 보였다 (2026-11-04 사용자) */
   .compare-row .v{font-weight:500;font-size:calc(13.5px * var(--fs-mult));padding:2px 10px;border-radius:999px;}
-  /* 줄마다 가장 좋은 값: 굵기만 다르면 다른 값과 잘 구분되지 않아 초록 바탕을 깐다 */
+  /* 칸마다 가장 좋은 값: 굵기만 다르면 다른 값과 잘 구분되지 않아 초록 바탕을 깐다 */
   .compare-row .v.best{font-weight:800;color:var(--accent-ink);background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--accent);}
   .compare-row .v.zero{font-weight:400;color:var(--ink-faint);}
   /* 비용이 0원인 캠페인 유형(브랜드검색 등)의 광고비 직접 입력 버튼 */
-  .cost-input-btn{margin:8px 14px 10px;width:calc(100% - 28px);padding:6px 12px;border:1px dashed var(--border);border-radius:999px;background:transparent;
+  .cost-input-btn{margin:6px 0 6px 10px;padding:3px 10px;border:1px dashed var(--border);border-radius:999px;background:transparent;
     color:var(--ink-muted);font-size:calc(12px * var(--fs-mult));font-family:inherit;cursor:pointer;}
   .cost-input-btn:hover{border-color:var(--accent);color:var(--accent-ink);}
   @media print{ .cost-input-btn{display:none;} }
@@ -1507,7 +1507,7 @@
       ['roas', '광고수익률(ROAS)', fmtRoas(o.roas), ''],
     ];
   }
-  // 비교 (캠페인 유형, 기기, 광고상품, 매체): 항목을 가로로 맞춘 표. nameFn: 열 이름, colorFn: 점 색
+  // 비교 (캠페인 유형, 기기, 광고상품, 매체): 비교할 것이 줄, 지표가 칸인 표 (2.047). nameFn: 줄 이름, colorFn: 점 색
   function renderCompareCards(gridId, rows, nameFn, colorFn, L){
     L = L || {};
     const grid = $(gridId);
@@ -1522,7 +1522,7 @@
       ['revenue', L.revenue || '전환매출액', r => fmtWon(r.revenue)],
       ['roas', 'ROAS', r => fmtRoas(r.roas)]
     ].filter(m => isMetricVisible(m[0]));
-    // 줄마다 가장 좋은 값. 통화가 섞인 CPA는 견줄 수 없어 뺀다
+    // 칸(지표)마다 가장 좋은 값. 통화가 섞인 CPA는 견줄 수 없어 뺀다
     const sameCur = rows.every(r => r.currency === rows[0].currency);
     const bestOf = {
       ctr: Math.max(...rows.map(r => r.ctr)),
@@ -1535,7 +1535,8 @@
       const v = key === 'cvr' ? cvrOf(r) : key === 'cpa' ? cpaOf(r) : r[key];
       return v === bestOf[key];
     };
-    grid.style.gridTemplateColumns = 'auto repeat(' + rows.length + ', minmax(112px, 1fr))';
+    // 첫 칸은 비교할 것 이름, 나머지 칸은 지표. .compare-card 하나가 한 줄이다
+    grid.style.gridTemplateColumns = 'auto repeat(' + items.length + ', minmax(96px, 1fr))';
     grid.innerHTML = '<div class="compare-card lab"><div class="ctype"></div>'
       + items.map(m => '<div class="compare-row"><span class="k">' + m[1] + '</span></div>').join('') + '</div>'
       + rows.map((row, i) => '<div class="compare-card" data-i="' + i + '"><div class="ctype"><span class="dot" style="background:' + colorFn(row, i) + '"></span><span class="ctype-name" title="' + escapeHtml(nameFn(row)) + '">' + escapeHtml(nameFn(row)) + '</span></div>'
@@ -2412,7 +2413,7 @@
   $('summary-sub').textContent = typeNames.length ? '해당 기간 전체 캠페인(' + typeNames.join(' + ') + ') 합계' : '해당 기간 전체 합계';
   const manualNames = byCampaignType.filter(t => t.manualCost).map(t => t.type);
   if (manualNames.length) $('summary-sub').textContent += ', ' + manualNames.join(', ') + ' 광고비는 직접 입력한 값';
-  $('compare-sub').textContent = typeNames.join(', ') + ' 비교. 줄마다 가장 좋은 값은 초록 바탕으로 표시했습니다.';
+  $('compare-sub').textContent = typeNames.join(', ') + ' 비교. 칸마다 가장 좋은 값은 초록 바탕으로 표시했습니다.';
 
   if (DATA.overview){
     const ov = DATA.overview;
@@ -2490,7 +2491,7 @@
       setDraft('manualCost', { [row.type]: n > 0 ? n : 0 });   // 0도 기억해야 파일에 저장해 둔 값을 지울 수 있다
       reloadKeepingEdits();
     });
-    card.appendChild(btn);
+    card.querySelector('.ctype').appendChild(btn);   // 줄 묶음은 display:contents라 이름 칸 안에 넣는다 (2.047)
   });
 
   // ---------- 캠페인별 · 전환 유형 · 일별 (문의 전환 광고주, 캠페인 단위 보고서만 넣은 경우, 지면별 없이 검색어 보고서로 만든 경우) ----------
@@ -2748,7 +2749,7 @@
     renderInsights('gm-insights-list', 'gmInsightAddBtn', ins);
 
     if (types.length > 1){   // 한 유형뿐이면 비교할 것이 없다 (2.040)
-      $('gm-compare-sub').textContent = types.map(t=>t.type).join(', ') + ' 비교. 줄마다 가장 좋은 값은 초록 바탕으로 표시했습니다.';
+      $('gm-compare-sub').textContent = types.map(t=>t.type).join(', ') + ' 비교. 칸마다 가장 좋은 값은 초록 바탕으로 표시했습니다.';
       renderCompareCards('gm-compare-grid', types, r => r.type, cycleColor, { cost: '광고비용' });
     } else {
       hideSection('gm-nav-compare', 'gm-compare');
@@ -2861,7 +2862,7 @@
 
     const L = { cost: '광고비용', conversions: '구매수', revenue: '구매금액' };
     if (types.length > 1){   // 한 광고상품뿐이면 비교할 것이 없다 (2.040)
-      $('au-compare-sub').textContent = types.map(t=>t.type).join(', ') + ' 비교. 줄마다 가장 좋은 값은 초록 바탕으로 표시했습니다.';
+      $('au-compare-sub').textContent = types.map(t=>t.type).join(', ') + ' 비교. 칸마다 가장 좋은 값은 초록 바탕으로 표시했습니다.';
       renderCompareCards('au-compare-grid', types, r => r.type, cycleColor, L);
     } else {
       hideSection('au-nav-compare', 'au-compare');
@@ -2923,7 +2924,7 @@
     renderInsights('st-insights-list', 'stInsightAddBtn', ins);
 
     if (types.length){
-      $('st-compare-sub').textContent = typeNamesSt.join(', ') + ' 비교. 줄마다 가장 좋은 값은 초록 바탕으로 표시했습니다.';
+      $('st-compare-sub').textContent = typeNamesSt.join(', ') + ' 비교. 칸마다 가장 좋은 값은 초록 바탕으로 표시했습니다.';
       renderCompareCards('st-compare-grid', types, r => r.type, cycleColor);
     } else {
       hideSection('st-nav-compare', 'st-compare');
@@ -3031,7 +3032,7 @@
       const prodCamps = new Set((OH.byProduct || []).map(r => r.campaign));
       const spentCamps = ch.byCampaign.filter(c => c.cost > 0).length;
       let sub = '캠페인 ' + prodCamps.size + '개' + (spentCamps > prodCamps.size ? '(집행한 캠페인 ' + spentCamps + '개 중)' : '') + ', 상품 ' + prodGroups.length + '개의 성과입니다.';
-      if (compareProds.length) sub += ' 두 캠페인 이상에 등록된 상품은 캠페인끼리 나란히 비교합니다 (줄마다 가장 좋은 값은 초록 바탕으로 표시).';
+      if (compareProds.length) sub += ' 두 캠페인 이상에 등록된 상품은 캠페인끼리 나란히 비교합니다 (칸마다 가장 좋은 값은 초록 바탕으로 표시).';
       $('oh-product-sub').textContent = sub;
       const totalLine = t => [
         ['cost', '광고비 ' + fmtWon(t.cost)], ['conversions', '전환 ' + fmtConv(t.conversions) + '건'],

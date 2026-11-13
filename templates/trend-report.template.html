@@ -103,6 +103,7 @@
   tbody td.txt{text-align:left;color:var(--ink);font-weight:600;}
   tbody tr:last-child td{border-bottom:none;}
   tbody tr.total-row td{background:var(--surface-2);font-weight:700;}
+  tbody td.em{font-weight:700;color:var(--ink);}
   tbody tr:hover td{background:var(--surface-2);}
 
   .footnote{
@@ -110,6 +111,13 @@
     color:var(--ink-faint);font-size:calc(11.5px * var(--fs-mult));line-height:1.7;
   }
   .footnote b{color:var(--ink-muted);}
+  /* 하단 주석(포함된 보고서, 생성 시각)은 기본으로 접어 두고 눌러서 펼친다. 광고 보고서와 같은 모양 (2.046, 사용자: "아래 주석같은거 접어둬") */
+  .footnote-box summary{
+    cursor:pointer;width:max-content;color:var(--ink-muted);font-weight:600;
+    font-size:calc(12px * var(--fs-mult));user-select:none;
+  }
+  .footnote-box summary:hover{color:var(--ink);}
+  .footnote-box[open] summary{margin-bottom:6px;}
 
   #tooltip{
     position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);
@@ -241,7 +249,10 @@
     </div>
   </section>
 
-  <div class="footnote" id="footnote"></div>
+  <details class="footnote footnote-box">
+    <summary>참고 사항 (포함된 보고서)</summary>
+    <div id="footnote"></div>
+  </details>
 </div>
 
 <div id="tooltip" class="hidden"><div class="t-title"></div><div class="t-body"></div></div>
@@ -401,10 +412,8 @@
   if (trendPrintMq && trendPrintMq.addEventListener) trendPrintMq.addEventListener('change', e => onPrintChange(e.matches));
 
   // ---------- Table ----------
+  // 기간이 줄, 지표가 칸 (2.045, 사용자: "컬럼 행, 열 서로 바꿔야 보기가 더 편할 것 같아". 예전엔 지표가 줄이라 기간이 많으면 옆으로 스크롤해야 했다)
   const headRow = document.getElementById('trend-table-head');
-  headRow.innerHTML = '<th class="txt">지표</th>' +
-    months.map(m => `<th>${escapeHtml(m.periodLabel)}</th>`).join('') + '<th>합계 / 평균</th>';
-
   const metricRows = [
     ['노출수', m => fmtInt(m.impressions), () => fmtInt(DATA.total.impressions)],
     ['클릭수', m => fmtInt(m.clicks), () => fmtInt(DATA.total.clicks)],
@@ -419,11 +428,11 @@
     ['달러 매체 전환수', m => fmtConv(m.usdConversions || 0), () => fmtConv(DATA.total.usdConversions)]
   ] : []);
   const bodyEl = document.getElementById('trend-table-body');
-  bodyEl.innerHTML = metricRows.map(([label, cellFn, totalFn], idx) => {
-    const cells = months.map(m => `<td class="num">${cellFn(m)}</td>`).join('');
-    const rowCls = label === '총비용' || label === '전환매출액' ? ' class="total-row"' : '';
-    return `<tr${rowCls}><td class="txt">${label}</td>${cells}<td class="num">${totalFn()}</td></tr>`;
-  }).join('');
+  const emCls = label => label === '총비용' || label === '전환매출액' ? 'num em' : 'num';   // 예전 강조 줄은 이제 강조 칸
+  headRow.innerHTML = '<th class="txt">기간</th>' + metricRows.map(([label]) => `<th>${label}</th>`).join('');
+  bodyEl.innerHTML = months.map(m =>
+    `<tr><td class="txt">${escapeHtml(m.periodLabel)}</td>${metricRows.map(([label, cellFn]) => `<td class="${emCls(label)}">${cellFn(m)}</td>`).join('')}</tr>`
+  ).join('') + `<tr class="total-row"><td class="txt">합계</td>${metricRows.map(([label, , totalFn]) => `<td class="${emCls(label)}">${totalFn()}</td>`).join('')}</tr>`;
 
   // ---------- Footnote ----------
   const sourceList = months.map(m => escapeHtml(m.periodLabel) + ' (' + escapeHtml(m.sourceFile) + ')').join(' · ');
