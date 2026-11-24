@@ -454,11 +454,29 @@
 </style>
 <script>
 // 다크모드: 오른쪽 위 버튼으로 고른 값(이 브라우저에 기억)을 쓰고, 고른 적이 없으면 윈도우 설정을 따른다. 화면을 그리기 전에 정해서 깜빡이지 않게 한다
+// 버튼 누르기도 여기(head)에서 받는다 (2.048). 광고주 발송용 파일은 본문 스크립트가 돌 때 찍어 둔 문서(PRISTINE_HTML)로 만드는데,
+// 그때는 본문 뒤의 스크립트가 아직 읽히지 않아 빠진다. 예전처럼 버튼 코드를 맨 끝에 두면 광고주용 파일에서 버튼이 눌리지 않았다.
 (function(){
-  var t = null;
+  var root = document.documentElement, t = null;
   try { t = localStorage.getItem('reportTheme'); } catch (e) {}
   if (t !== 'dark' && t !== 'light') t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', t);
+  root.setAttribute('data-theme', t);
+  function show(){
+    var btn = document.getElementById('themeBtn');
+    if (!btn) return;
+    var dark = root.getAttribute('data-theme') === 'dark';
+    btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+    btn.title = dark ? '다크모드 끄기' : '다크모드 켜기';
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target && e.target.closest ? e.target.closest('#themeBtn') : null;
+    if (!btn) return;
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('reportTheme', next); } catch (e) {}
+    show();
+  });
+  document.addEventListener('DOMContentLoaded', show);
 })();
 </script>
 </head>
@@ -3785,25 +3803,6 @@
     });
     if (document.fonts.ready) document.fonts.ready.then(updateStickyHeight);
   }
-})();
-</script>
-<script>
-// 다크모드 버튼 (머리의 스크립트가 정한 data-theme를 바꾸고 이 브라우저에 기억한다)
-(function(){
-  var root = document.documentElement, btn = document.getElementById('themeBtn');
-  if (!btn) return;
-  function show(){
-    var dark = root.getAttribute('data-theme') === 'dark';
-    btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
-    btn.title = dark ? '다크모드 끄기' : '다크모드 켜기';
-  }
-  btn.addEventListener('click', function(){
-    var t = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', t);
-    try { localStorage.setItem('reportTheme', t); } catch (e) {}
-    show();
-  });
-  show();
 })();
 </script>
 </body>
