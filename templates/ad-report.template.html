@@ -3167,7 +3167,14 @@
     let sub = ch.period ? formatPeriodWithDays(ch.period) : '';
     if (ch.currency === 'USD') sub += ', 광고비는 보고서의 달러 금액 그대로';
     $(k + '-summary-sub').textContent = sub;
-    renderKpis(k + '-kpi-grid', overviewKpis(o));
+    const kpis = overviewKpis(o);
+    // 구글은 부가세(VAT)를 뺀 광고비를 준다. 총비용 아래에 VAT 10%를 더한 금액을 함께 적는다 (2.049, 사용자 요청). 표와 다른 지표는 보고서 금액 그대로
+    if (k === 'google' && o.cost > 0){
+      const vat = o.currency === 'USD' ? Math.round(o.cost * 110) / 100 : Math.round(o.cost * 1.1);
+      const costRow = kpis.find(r => r[0] === 'cost');
+      if (costRow) costRow[4] = 'VAT 포함 ' + (o.currency === 'USD' ? fmtUsd(vat) : fmtInt(vat) + '원');
+    }
+    renderKpis(k + '-kpi-grid', kpis);
     renderInsights(k + '-insights-list', k + 'InsightAddBtn', campaignInsights([ch], o, false).concat(dayInsights([ch])));
     renderCampaignBlock($(k + '-campaign-body'), k + '-campaign-tbl', [ch]);
     // 날짜 컬럼 없이 받은 보고서(캠페인 단위 월간 보고서 등)는 일별 데이터가 없어서 일별 성과를 숨긴다
